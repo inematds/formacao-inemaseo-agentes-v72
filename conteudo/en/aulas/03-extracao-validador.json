@@ -1,0 +1,280 @@
+{
+  "slug": "extracao-validador",
+  "num": 3,
+  "menu": "Extraction",
+  "titulo": "Extraction through the subscription and the check that discards",
+  "titulo_curto": "Extraction and check",
+  "minutos": 18,
+  "lead": "Listing pages, news article bodies, page summaries: the agent writes from a source, in batches. The risk is that it embellishes and makes things up. Here you call the model through the subscription, in read-only mode, read the first JSON in the reply, and run everything through a check that discards the made-up item.",
+  "objetivo": "call Codex or Claude through the subscription to extract from a source and discard, without fixing, any item that fails the check.",
+  "competencias": [
+    "call-model-through-subscription",
+    "read-first-json",
+    "discard-failed-item"
+  ],
+  "aprende": [
+    {
+      "t": "The Codex call in read-only mode, no API"
+    },
+    {
+      "t": "Why read only the first JSON in the reply"
+    },
+    {
+      "t": "The check: title, words, and numbers in the source"
+    },
+    {
+      "t": "Discarding is not losing: it keeps the batch clean"
+    }
+  ],
+  "hero_alt": "A quality-control technician sorts samples into two steel trays, comparing each one against a reference sheet.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "From the source to an item that can go live",
+      "sub": "Tap each block.",
+      "nos": [
+        {
+          "icone": "arquivo",
+          "titulo": "Source",
+          "sub": "the real page",
+          "detalhe": "The text of the item's page, saved to a file. If the source requires a login or has little text, the item has nowhere to get facts from and is left out."
+        },
+        {
+          "icone": "terminal",
+          "titulo": "Model through the subscription",
+          "sub": "codex exec, read-only",
+          "detalhe": "Codex runs without write permission (read-only sandbox), in a session that isn't kept (ephemeral), and writes only the last message to a file. No API key involved."
+        },
+        {
+          "icone": "chip",
+          "titulo": "First JSON",
+          "sub": "reads just one object",
+          "detalhe": "Sometimes the model returns the JSON twice or with text around it. Reading only the first complete object keeps the batch from breaking because of a single reply."
+        },
+        {
+          "icone": "portao",
+          "titulo": "Check",
+          "sub": "three checks",
+          "forte": true,
+          "itens": [
+            {
+              "icone": "check",
+              "t": "title exists in the source"
+            },
+            {
+              "icone": "check",
+              "t": "sentence reuses the source's words"
+            },
+            {
+              "icone": "check",
+              "t": "every number appears in the source"
+            }
+          ],
+          "detalhe": "validar_extracao.mjs checks each item. A failed item is discarded, not fixed by hand to make it pass."
+        },
+        {
+          "icone": "check",
+          "titulo": "Pass or discard",
+          "sub": "clean batch",
+          "forte": true,
+          "detalhe": "A listing page with 3 or more valid modules becomes enriched. One that doesn't reach that is left out or kept with noindex until the source has text."
+        }
+      ],
+      "legenda": "The model can rewrite and organize; the check ensures it didn't create facts."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "How INEMA does it in batches",
+      "sub": "Tap each step.",
+      "passos": [
+        {
+          "titulo": "The call",
+          "sub": "codex exec",
+          "texto": [
+            "INEMA's news text generator calls Codex with the request through standard input, a read-only sandbox, an ephemeral session, and output to a file. Close the input after sending the request: otherwise the process keeps waiting.",
+            "In Claude Code, the same request runs in the project folder, with AGENTS.md forbidding writes outside the output folder."
+          ]
+        },
+        {
+          "titulo": "The first JSON",
+          "sub": "a real failure",
+          "texto": [
+            "On 10/02/2026, Codex replies with duplicated JSON broke the batch reading. The smallest fix was to read only the first complete object (the primeiroJson function).",
+            "It wasn't switching models or rewriting the generator: a ten-line safeguard."
+          ]
+        },
+        {
+          "titulo": "Discard",
+          "sub": "don't fix",
+          "texto": [
+            "Of the 159 news articles, 113 got a text body. The 46 without text stayed that way because the source requires a login (25), has little text (18), or returned a 404 (1), and they stay with noindex, out of the sitemap.",
+            "Nobody wrote the missing parts by hand: better one page fewer than a page with a made-up fact."
+          ]
+        },
+        {
+          "titulo": "From API to subscription",
+          "sub": "predictable cost",
+          "texto": [
+            "The first round of listing pages used an authorized API: 40 listing pages extracted and validated for US$ 0.031. The following batches moved to Codex through the subscription.",
+            "The check is the same on both paths; what changes is who pays for the call."
+          ]
+        }
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "The call, the first JSON, and the check on the batch",
+      "sub": "pedido.txt = extractive prompt (course 2, lesson 5) + the source text. valida-ficha.mjs is a template that uses the validar_extracao.mjs library.",
+      "blocos": [
+        {
+          "rot": "Calling Codex through the subscription (read-only)",
+          "icone": "terminal",
+          "conteudo": "codex exec --skip-git-repo-check --ephemeral --sandbox read-only -C \"$PWD\" -o saida.txt - < pedido.txt\nnode valida-ficha.mjs fonte.txt saida.txt"
+        },
+        {
+          "rot": "valida-ficha.mjs (template)",
+          "icone": "arquivo",
+          "conteudo": "// passes each item of the listing page through the check (uses validar_extracao.mjs as a library)\nimport fs from 'node:fs'\nimport { apoiada, numerosNaFonte, tituloNaFonte } from './validar_extracao.mjs'\nconst [fonteArq, fichaArq] = process.argv.slice(2)\nconst fonte = fs.readFileSync(fonteArq, 'utf8')\nconst ficha = JSON.parse(fs.readFileSync(fichaArq, 'utf8'))\nlet validos = 0\nfor (const m of ficha.estrutura || []) {\n  const ok = tituloNaFonte(m.titulo, fonte) && numerosNaFonte(m.detalhe || '', fonte)\n  console.log(`${ok ? '✓' : '✗ descarta'}  módulo: ${m.titulo}`)\n  if (ok) validos++\n}\nfor (const campo of ['aprende', 'publico', 'constroi']) {\n  for (const f of ficha[campo] || []) {\n    const ok = apoiada(f, fonte) && numerosNaFonte(f, fonte)\n    console.log(`${ok ? '✓' : '✗ descarta'}  ${campo}: ${f}`)\n  }\n}\nconsole.log(validos >= 3 ? `ficha enriquecida (${validos} módulos válidos)` : `não publica como enriquecida (${validos} módulos válidos)`)"
+        },
+        {
+          "rot": "primeiroJson (from the INEMA text generator)",
+          "icone": "chip",
+          "conteudo": "function primeiroJson(txt) {\n  const ini = txt.indexOf('{')\n  let prof = 0, str = false, esc = false\n  for (let i = ini; i < txt.length; i++) {\n    const c = txt[i]\n    if (str) { if (esc) esc = false; else if (c === '\\\\') esc = true; else if (c === '\"') str = false; continue }\n    if (c === '\"') str = true\n    else if (c === '{') prof++\n    else if (c === '}' && --prof === 0) return JSON.parse(txt.slice(ini, i + 1))\n  }\n  throw new Error('JSON incompleto')\n}"
+        }
+      ],
+      "saida": {
+        "selo": "real",
+        "abas": [
+          {
+            "rot": "Extractive prompt (10/19/2026)",
+            "html": "<pre>$ node valida-ficha.mjs fonte.txt saida.txt\n✓  módulo: Módulo 1: Preparar o barro\n✓  módulo: Módulo 2: Centralizar no torno\n✓  módulo: Módulo 3: Abrir e levantar a peça\n✓  módulo: Módulo 4: Acabamento e secagem\n✓  aprende: Amassar, tirar o ar e pesar as bolas de argila.\n✓  publico: quem nunca sentou num torno e quer fazer as primeiras peças utilitárias.\n✓  constroi: copos e tigelas simples, prontos para esmaltar.\nficha enriquecida (4 módulos válidos)</pre><p>Excerpt. The source was the sample page of a wheel-throwing ceramics course, with 4 modules and \"8 encontros de 3 horas\".</p>"
+          },
+          {
+            "rot": "\"Attractive\" prompt (10/19/2026)",
+            "html": "<pre>$ node valida-ficha.mjs fonte.txt saida-livre.txt\n✗ descarta  módulo: Módulo 1 — Prepare o barro para suas primeiras peças\n✗ descarta  módulo: Módulo 2 — Encontre o centro no torno\n✗ descarta  módulo: Módulo 3 — Dê forma ao seu primeiro copo\n✗ descarta  módulo: Módulo 4 — Cuide do acabamento e da secagem\n✓  aprende: Posicionar mãos e corpo para centralizar o barro no torno.\n✗ descarta  constroi: Seu primeiro copo modelado no torno.\nnão publica como enriquecida (0 módulos válidos)</pre><p>Excerpt. Same source, but the prompt was \"escreva a ementa de forma atraente\". The model rewrote every title and, in module 4, added up \"totalizando 24 horas\": the number is not in the source.</p>"
+          }
+        ]
+      }
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Practice: an extraction with a check",
+      "sub": "Pick an item on your site that has its own page with text.",
+      "exercicios": [
+        {
+          "id": "e1",
+          "titulo": "E1 · Extract through the subscription",
+          "min": "30 min",
+          "texto": "Save the page text in fonte.txt, build the pedido.txt with the extractive prompt, and run the Codex call (or the same request in Claude Code). Repeat with a free-form request, \"de forma atraente\" (in an attractive way), to compare.",
+          "pronto": "you have saida.txt and saida-livre.txt, both in JSON, and no API key was used."
+        },
+        {
+          "id": "e2",
+          "titulo": "E2 · Run the check",
+          "min": "20 min",
+          "texto": "Copy validar_extracao.mjs and valida-ficha.mjs into the folder and run them on both outputs. Write down what was discarded and why.",
+          "pronto": "a note lists each discarded item with the reason (title, words, or number outside the source), and only the listing page with 3 or more valid modules is marked for publishing."
+        }
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Test what you learned",
+      "sub": "The explanation appears after your answer.",
+      "perguntas": [
+        {
+          "p": "What is the read-only sandbox option in the Codex call for?",
+          "opcoes": [
+            "So the answer comes out faster.",
+            "So the agent does not write or delete anything while it extracts.",
+            "To use the API instead of the subscription.",
+            "To keep the session history."
+          ],
+          "certa": 1,
+          "explica": "Extracting is just reading. Without write permission, a model error does not turn into a changed file. The output goes only to the file you name.",
+          "ref": "diagrama",
+          "cert": true
+        },
+        {
+          "p": "In the \"attractive\" prompt, the model wrote \"totalizando 24 horas\". The source said 8 sessions of 3 hours. What does the check do?",
+          "opcoes": [
+            "It accepts it, because the math is right.",
+            "It discards it, because the number 24 does not appear in the source.",
+            "It corrects it to 8.",
+            "It publishes with a warning."
+          ],
+          "certa": 1,
+          "explica": "The check confirms whether the number is in the source, not whether the math adds up. An item with a number outside the source is discarded; fixing it by hand opens the door for the next error to slip through.",
+          "ref": "codigo"
+        },
+        {
+          "p": "The model's responses came back with duplicated JSON and the batch broke. What was the smallest fix?",
+          "opcoes": [
+            "Switch models.",
+            "Read only the first complete JSON object in the response.",
+            "Run without validation.",
+            "Rewrite the whole generator."
+          ],
+          "certa": 1,
+          "explica": "A few-line safeguard (primeiroJson) solved it. The failure log rule is to look for the smallest fix before rebuilding.",
+          "ref": "passos"
+        },
+        {
+          "p": "46 news items were left without body text because the source required login, had little text, or returned a 404. What was done with them?",
+          "opcoes": [
+            "The agent wrote a generic text.",
+            "They stayed noindex and out of the sitemap until they had text.",
+            "They were deleted.",
+            "They were published with the title only."
+          ],
+          "certa": 1,
+          "explica": "No source, no fact. The page stays out of the index instead of getting made-up text or staying a thin page.",
+          "ref": "passos"
+        }
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "To take with you",
+      "itens": [
+        {
+          "t": "Subscription, read-only",
+          "texto": "codex exec with a read-only sandbox, an ephemeral session, and output written to a file."
+        },
+        {
+          "t": "First JSON",
+          "texto": "One bad answer can't bring down the whole batch."
+        },
+        {
+          "t": "Discard, don't fix",
+          "texto": "Title, words, and numbers are checked against the source; anything that fails is dropped."
+        },
+        {
+          "t": "2026 yardstick",
+          "texto": "Non-commodity content comes from the real page's first-hand data, not from a more \"attractive\" text."
+        }
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "Going further",
+      "links": [
+        {
+          "t": "validar_extracao.mjs (anti-fabrication check)",
+          "href": "https://github.com/inematds/inemaseo-metodo/blob/main/tools/validar_extracao.mjs",
+          "icone": "portao"
+        },
+        {
+          "t": "Extractive listing page prompt",
+          "href": "https://github.com/inematds/inemaseo-metodo/blob/main/templates/prompt-ficha-extrativa.md",
+          "icone": "chat"
+        },
+        {
+          "t": "Course 2, lesson 5: listing pages with real data",
+          "href": "https://inematds.github.io/formacao-inemaseo-conteudo-v72/en/aulas/fichas-dado-real/",
+          "icone": "arquivo"
+        }
+      ]
+    }
+  ]
+}

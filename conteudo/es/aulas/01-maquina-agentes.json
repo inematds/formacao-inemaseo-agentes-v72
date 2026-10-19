@@ -1,0 +1,306 @@
+{
+  "slug": "maquina-agentes",
+  "num": 1,
+  "menu": "Máquina",
+  "titulo": "La máquina con agentes: quién hace qué y dónde decides tú",
+  "titulo_curto": "La máquina con agentes",
+  "minutos": 15,
+  "lead": "El agente de IA es bueno en lo repetitivo: investigar, redactar borradores, revisar, avisar, informar. Es malo para decidir qué vale la pena publicar. La máquina del método inemaSEO separa las dos cosas: los agentes trabajan en línea, y dos compuertas lo detienen todo hasta que tú apruebes.",
+  "objetivo": "armar la línea investigador → observador con dos compuertas humanas y un AGENTS.md que dice qué nunca hace el agente por su cuenta.",
+  "competencias": [
+    "desenhar-linha-de-agentes",
+    "definir-portoes-humanos",
+    "escrever-agents-md"
+  ],
+  "aprende": [
+    {
+      "t": "Las siete funciones de la máquina, del investigador al observador"
+    },
+    {
+      "t": "Dónde están las dos compuertas y cuánto tiempo cuestan"
+    },
+    {
+      "t": "Por qué todo corre por la suscripción y no por API"
+    },
+    {
+      "t": "El AGENTS.md: las reglas que el agente lee antes de empezar"
+    }
+  ],
+  "hero_alt": "En una pequeña imprenta, las hojas pasan por estaciones de trabajo y una persona revisa una hoja a contraluz antes de liberarla.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "La línea de agentes y las dos compuertas",
+      "sub": "Toca cada bloque.",
+      "volta": "el observador devuelve lo que subió y lo que se trabó a la compuerta 1",
+      "nos": [
+        {
+          "icone": "usuario",
+          "titulo": "Tú",
+          "sub": "elige el tema del mes",
+          "detalhe": "La máquina empieza con una decisión humana: el tema. El agente no elige de qué va a hablar el sitio; trabaja dentro del tema que tú le diste."
+        },
+        {
+          "icone": "lupa",
+          "titulo": "Investigación",
+          "sub": "investigador y oportunidad",
+          "itens": [
+            {
+              "icone": "lista",
+              "t": "palabras clave con score"
+            },
+            {
+              "icone": "alvo",
+              "t": "5 a 10 GO con la URL y el dato propio"
+            }
+          ],
+          "detalhe": "El investigador junta autocomplete, Trends, Search Console y lo que aparece en la búsqueda, y puntúa. El agente de oportunidad elige de 5 a 10 términos GO y dice qué página y qué activo real aportan el dato propio."
+        },
+        {
+          "icone": "portao",
+          "titulo": "Compuerta 1",
+          "sub": "tú apruebas la lista",
+          "forte": true,
+          "detalhe": "No se escribe nada antes de que apruebes la lista. Aquí se corta el término sin dato propio, el que canibaliza otra página y el que solo sirve para volumen."
+        },
+        {
+          "icone": "caneta",
+          "titulo": "Producción",
+          "sub": "briefing, redactor y QA",
+          "itens": [
+            {
+              "icone": "texto",
+              "t": "briefing con enlaces y escalera"
+            },
+            {
+              "icone": "arquivo",
+              "t": "borrador que lee el activo real"
+            },
+            {
+              "icone": "check",
+              "t": "QA con el checklist de los 16"
+            }
+          ],
+          "detalhe": "El briefing define intención, vacíos, dato propio obligatorio y enlaces internos. El redactor lee el repositorio o la transcripción del activo real. El QA pasa el checklist y la escalera de enlaces."
+        },
+        {
+          "icone": "portao",
+          "titulo": "Compuerta 2",
+          "sub": "tú revisas cada página",
+          "forte": true,
+          "detalhe": "De 10 a 20 minutos por página. Lees como lector, revisas el dato propio y decides. Sin esta compuerta, un error del agente sale al aire en lote."
+        },
+        {
+          "icone": "enviar",
+          "titulo": "Publicación",
+          "sub": "publicador y observador",
+          "itens": [
+            {
+              "icone": "git",
+              "t": "commit, push y aviso a los buscadores"
+            },
+            {
+              "icone": "grafico",
+              "t": "export semanal: subió o se trabó"
+            }
+          ],
+          "detalhe": "El publicador hace commit, push, avisa a los buscadores y revisa la página en vivo. El observador lee el export semanal y devuelve el resultado a la compuerta 1, que decide el próximo mes."
+        }
+      ],
+      "legenda": "Los agentes hacen el volumen de trabajo; las dos decisiones que cuestan caro quedan contigo."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "Cómo corre la máquina en la práctica",
+      "sub": "Toca cada paso.",
+      "passos": [
+        {
+          "titulo": "Por la suscripción",
+          "sub": "Claude Code o Codex",
+          "texto": [
+            "El método manda correr el modelo por la suscripción (Claude Code o Codex CLI) siempre que se pueda. Llamada de API de pago solo con autorización explícita para esa finalidad.",
+            "Así el costo es predecible y ninguna clave se convierte en atajo para que el agente gaste por su cuenta."
+          ]
+        },
+        {
+          "titulo": "Un agente, varias funciones",
+          "sub": "no necesitas siete robots",
+          "texto": [
+            "Las siete funciones pueden ser el mismo agente, con pedidos distintos. Lo que importa es el orden y las compuertas, no cuántos programas corren.",
+            "Empieza con una sola función (el auditor, en la clase 2) y agrega las otras cuando la anterior sea confiable."
+          ]
+        },
+        {
+          "titulo": "La compuerta es una parada de verdad",
+          "sub": "el agente espera",
+          "texto": [
+            "Una compuerta no es \"el agente avisa y sigue\". El agente se detiene, entrega lo que hizo y solo continúa después de tu sí.",
+            "En INEMA, los borradores de los pilares 2 y 3 quedaron detenidos en la compuerta 2 (cerca de 3.150 y 2.450 palabras) y solo se publicaron el 24/09, después de la revisión."
+          ],
+          "exemplo": {
+            "rot": "Regla que funciona",
+            "texto": "Todo lo que sale del sitio (push, aviso a un buscador, correo) o que gasta dinero pasa por una compuerta."
+          }
+        },
+        {
+          "titulo": "El AGENTS.md",
+          "sub": "reglas escritas, leídas siempre",
+          "texto": [
+            "Claude Code y Codex leen un archivo de instrucciones en la raíz del proyecto antes de trabajar (Claude Code lee el CLAUDE.md; Codex, el AGENTS.md). Escribe ahí lo que el agente hace, lo que nunca hace por su cuenta y cómo trabaja en lote.",
+            "Cada falla corregida se convierte en una regla nueva en ese archivo. La clase 8 muestra las fallas reales que se volvieron regla."
+          ]
+        }
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "La máquina y el AGENTS.md de tu proyecto de SEO",
+      "sub": "Copia la máquina al README del proyecto y el AGENTS.md a la raíz. Cambia lo que está entre los signos de menor y mayor.",
+      "blocos": [
+        {
+          "rot": "La máquina (docs/METODO.md de inemaSEO)",
+          "icone": "camadas",
+          "conteudo": "El humano elige el tema del mes\n ├─ Investigador  → lista de palabras clave con score (autocomplete, Trends, Search Console, SERP)\n ├─ Oportunidad   → 5–10 GO con la URL y el activo real que da el dato propio\n │   GATE 1: el humano aprueba la lista\n ├─ Briefing      → intención, vacíos del top 10, dato propio obligatorio, enlaces internos, escalera\n ├─ Redactor      → borrador que lee el repositorio/la transcripción del activo real\n ├─ QA            → checklist (docs/CHECKLIST.md) + pruebas + escalera de enlaces\n │   GATE 2: el humano revisa (10–20 min por página)\n ├─ Publicador    → commit + push, aviso a los buscadores, verificación posdeploy\n └─ Observador    → export semanal, qué subió, qué se trabó → vuelve al GATE 1"
+        },
+        {
+          "rot": "AGENTS.md (modelo; en Claude Code, el mismo texto va en el CLAUDE.md)",
+          "icone": "arquivo",
+          "conteudo": "# AGENTS.md — SEO de <seusite.com>\n\n## Qué haces\n- Investigación, briefing, borrador, QA (docs/CHECKLIST.md) e informe semanal.\n- Todo por la suscripción (Claude Code o Codex). Nada de API sin autorización.\n\n## Lo que nunca haces solo (detente y pregunta)\n- Llamar a una API (Search Console, Bing, IndexNow, modelos) sin autorización escrita para esa finalidad.\n- Commit + push de una página nueva: solo después de la COMPUERTA 2 (yo reviso cada página).\n- Borrar una página, archivo o URL que ya fue indexada.\n- Afirmar que algo no existe sin comprobarlo (ej.: Search Console: mira primero el TXT del DNS).\n\n## Cómo trabajas\n- Lote: dry-run primero; marcador para no duplicar; salta el repositorio con cambios sin commitear.\n- Texto a partir de una fuente: solo hechos de la fuente. El ítem que falla en el control se descarta, no se arregla.\n- Otra sesión puede tocar el mismo repo: haz commit solo de tus archivos; git pull --rebase --autostash antes del push.\n- El secreto va en el .env (que está en el .gitignore). Aquí va solo el NOMBRE de la variable.\n- Una falla corregida se vuelve una línea en FALHAS.md: fecha | qué se rompió | corrección mínima | prompt o infra."
+        }
+      ],
+      "saida": {
+        "selo": "simulacao",
+        "abas": [
+          {
+            "rot": "Quién decide qué",
+            "html": "<ul><li><b>Tú</b>: tema del mes, compuerta 1 (lista), compuerta 2 (cada página), cualquier gasto o API.</li><li><b>Agente</b>: investigación, puntuación, briefing, borrador, checklist, commit preparado, export e informe.</li><li><b>Script</b>: lo que necesita ser igual siempre (auditoría, control, aviso solo con URL 200, enlace de vuelta con marcador).</li></ul>"
+          },
+          {
+            "rot": "Orden de montaje",
+            "html": "<ol><li>Auditor (clase 2)</li><li>Extracción con control (clase 3)</li><li>Lote seguro (clase 4)</li><li>Meta verificable y compuerta (clase 5)</li><li>Observador: informe semanal (clase 6)</li></ol><p>Una función a la vez, solo después de que la anterior sea confiable.</p>"
+          }
+        ]
+      }
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Práctica: tu máquina en papel",
+      "sub": "Usa tu sitio o un sitio de prueba.",
+      "exercicios": [
+        {
+          "id": "e1",
+          "titulo": "E1 · El AGENTS.md del proyecto",
+          "min": "30 min",
+          "texto": "Crea la carpeta del proyecto de SEO, copia el modelo de AGENTS.md (o CLAUDE.md) y adáptalo a tu sitio. Abre Claude Code o Codex en la carpeta y pregunta: \"¿qué acciones no puedes hacer sin preguntarme?\".",
+          "pronto": "el archivo está en la raíz del proyecto y el agente responde citando al menos las reglas de API, de push y de borrar."
+        },
+        {
+          "id": "e2",
+          "titulo": "E2 · Una vuelta en papel",
+          "min": "25 min",
+          "texto": "Elige un tema del mes y escribe, para cada función de la máquina, qué entrega y dónde queda el resultado (archivo, carpeta, hoja de cálculo).",
+          "pronto": "tienes las siete funciones con la entrega de cada una, y las dos compuertas marcadas con quién aprueba y en qué archivo queda registrada la aprobación."
+        }
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Prueba lo que aprendiste",
+      "sub": "La explicación aparece después de tu respuesta.",
+      "perguntas": [
+        {
+          "p": "¿Dónde están las dos compuertas humanas de la máquina?",
+          "opcoes": [
+            "Al comienzo y al final del mes.",
+            "Después de la lista de oportunidades y después del QA, antes de publicar.",
+            "Solo antes del push.",
+            "Después del informe semanal."
+          ],
+          "certa": 1,
+          "explica": "Compuerta 1: tú apruebas la lista antes de cualquier texto. Compuerta 2: tú revisas cada página antes de publicar. El error común es dejar solo la compuerta del push y descubrir tarde que el tema era malo.",
+          "ref": "diagrama",
+          "cert": true
+        },
+        {
+          "p": "El agente encontró una clave de API en el proyecto. ¿Puede usarla para avisar a los buscadores?",
+          "opcoes": [
+            "Puede, la clave está ahí para eso.",
+            "Solo si la API es gratis.",
+            "No: la API solo con autorización explícita para esa finalidad.",
+            "Se puede, siempre que lo registres en FALHAS.md."
+          ],
+          "certa": 2,
+          "explica": "Tener la clave no es un permiso. El método corre por la suscripción y solo llama a una API de pago con autorización para esa finalidad. La clase 8 simula esa conversación.",
+          "ref": "passos"
+        },
+        {
+          "p": "¿Cuánto tiempo prevé el método para la compuerta 2?",
+          "opcoes": [
+            "Ninguno: el QA del agente basta.",
+            "De 10 a 20 minutos por página.",
+            "Una hora por lote.",
+            "Solo una muestra de 1 de cada 10."
+          ],
+          "certa": 1,
+          "explica": "El QA automático revisa el checklist, pero la lectura humana (opinión, dato propio, que suene como el autor) es lo que el agente no garantiza.",
+          "ref": "diagrama"
+        },
+        {
+          "p": "¿Para qué sirve el AGENTS.md (o CLAUDE.md) en la raíz del proyecto?",
+          "opcoes": [
+            "Para que Google lea las reglas del sitio.",
+            "Para que el agente lea, antes de trabajar, qué hace y qué nunca hace solo.",
+            "Para guardar las claves de API.",
+            "Para listar las páginas del sitemap."
+          ],
+          "certa": 1,
+          "explica": "Es el archivo de instrucciones que el agente lee al abrir el proyecto. La clave de API nunca va ahí: solo el nombre de la variable.",
+          "ref": "codigo"
+        }
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "Para llevar",
+      "itens": [
+        {
+          "t": "Línea con compuertas",
+          "texto": "Agentes en secuencia; tú apruebas la lista y cada página."
+        },
+        {
+          "t": "Por la suscripción",
+          "texto": "Claude Code o Codex. API solo con autorización para esa finalidad."
+        },
+        {
+          "t": "Reglas escritas",
+          "texto": "AGENTS.md en la raíz: qué hace, qué nunca hace solo, cómo trabaja."
+        },
+        {
+          "t": "La vara de 2026",
+          "texto": "Google evalúa el valor de la página, no la herramienta. Un agente que solo aumenta el volumen sin dato propio produce contenido a escala."
+        }
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "Para ir más allá",
+      "links": [
+        {
+          "t": "Método inemaSEO: la máquina con agentes",
+          "href": "https://github.com/inematds/inemaseo-metodo/blob/main/docs/METODO.md",
+          "icone": "camadas"
+        },
+        {
+          "t": "Checklist de calidad (16 ítems)",
+          "href": "https://github.com/inematds/inemaseo-metodo/blob/main/docs/CHECKLIST.md",
+          "icone": "check"
+        },
+        {
+          "t": "Google: contenido generado con IA (inglés)",
+          "href": "https://developers.google.com/search/docs/fundamentals/using-gen-ai-content",
+          "icone": "robo"
+        }
+      ]
+    }
+  ]
+}

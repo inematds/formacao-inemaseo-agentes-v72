@@ -1,0 +1,306 @@
+{
+  "slug": "maquina-agentes",
+  "num": 1,
+  "menu": "Machine",
+  "titulo": "The machine with agents: who does what and where you decide",
+  "titulo_curto": "The machine with agents",
+  "minutos": 15,
+  "lead": "An AI agent is good at repetitive work: researching, drafting, checking, alerting, reporting. It is bad at deciding what is worth publishing. The inemaSEO method's machine keeps the two apart: the agents work in a line, and two gates stop everything until you approve.",
+  "objetivo": "build the researcher → observer line with two human gates and an AGENTS.md that says what the agent never does on its own.",
+  "competencias": [
+    "desenhar-linha-de-agentes",
+    "definir-portoes-humanos",
+    "escrever-agents-md"
+  ],
+  "aprende": [
+    {
+      "t": "The machine's seven roles, from researcher to observer"
+    },
+    {
+      "t": "Where the two gates sit and how much time they cost"
+    },
+    {
+      "t": "Why everything runs through the subscription, not through an API"
+    },
+    {
+      "t": "The AGENTS.md: the rules the agent reads before it starts"
+    }
+  ],
+  "hero_alt": "In a small print shop, sheets move through work stations and one person checks a sheet against the light before releasing it.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "The agent line and the two gates",
+      "sub": "Tap each block.",
+      "volta": "the observer sends what went live and what got stuck back to gate 1",
+      "nos": [
+        {
+          "icone": "usuario",
+          "titulo": "You",
+          "sub": "picks the topic of the month",
+          "detalhe": "The machine starts with a human decision: the topic. The agent doesn't choose what the site talks about; it works inside the topic you gave it."
+        },
+        {
+          "icone": "lupa",
+          "titulo": "Research",
+          "sub": "researcher and opportunity",
+          "itens": [
+            {
+              "icone": "lista",
+              "t": "keywords with a score"
+            },
+            {
+              "icone": "alvo",
+              "t": "5 to 10 GO with the URL and the first-hand data"
+            }
+          ],
+          "detalhe": "The researcher gathers autocomplete, Trends, Search Console and what shows up in search, and scores it. The opportunity agent picks 5 to 10 GO terms and says which page and which real asset provide the first-hand data."
+        },
+        {
+          "icone": "portao",
+          "titulo": "Gate 1",
+          "sub": "you approve the list",
+          "forte": true,
+          "detalhe": "Nothing is written before you approve the list. This is where you cut the term with no first-hand data, the one that cannibalizes another page, and the one that only serves volume."
+        },
+        {
+          "icone": "caneta",
+          "titulo": "Production",
+          "sub": "brief, writer and QA",
+          "itens": [
+            {
+              "icone": "texto",
+              "t": "brief with links and link ladder"
+            },
+            {
+              "icone": "arquivo",
+              "t": "draft that reads the real asset"
+            },
+            {
+              "icone": "check",
+              "t": "QA with the 16-item checklist"
+            }
+          ],
+          "detalhe": "The brief defines intent, gaps, required first-hand data and internal links. The writer reads the repository or the transcript of the real asset. QA runs the checklist and the link ladder."
+        },
+        {
+          "icone": "portao",
+          "titulo": "Gate 2",
+          "sub": "you review each page",
+          "forte": true,
+          "detalhe": "10 to 20 minutes per page. You read as a reader, check the first-hand data and decide. Without this gate, an agent's mistake goes live in bulk."
+        },
+        {
+          "icone": "enviar",
+          "titulo": "Publishing",
+          "sub": "publisher and observer",
+          "itens": [
+            {
+              "icone": "git",
+              "t": "commit, push and notice to search engines"
+            },
+            {
+              "icone": "grafico",
+              "t": "weekly export: went live or got stuck"
+            }
+          ],
+          "detalhe": "The publisher does the commit, push, notifies the search engines and checks the live page. The observer reads the weekly export and sends the result back to gate 1, which decides the next month."
+        }
+      ],
+      "legenda": "The agents do the volume of work; the two decisions that cost the most stay with you."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "How the machine runs in practice",
+      "sub": "Tap each step.",
+      "passos": [
+        {
+          "titulo": "Through the subscription",
+          "sub": "Claude Code or Codex",
+          "texto": [
+            "The method says to run the model through the subscription (Claude Code or Codex CLI) whenever possible. A paid API call only with explicit authorization for that purpose.",
+            "That way the cost is predictable, and no key becomes a shortcut for the agent to spend on its own."
+          ]
+        },
+        {
+          "titulo": "One agent, several roles",
+          "sub": "you don't need seven robots",
+          "texto": [
+            "The seven roles can be the same agent, given different requests. What matters is the order and the gates, not how many programs are running.",
+            "Start with a single role (the auditor, in lesson 2) and add the others once the previous one is reliable."
+          ]
+        },
+        {
+          "titulo": "A gate is a real stop",
+          "sub": "the agent waits",
+          "texto": [
+            "A gate is not \"the agent tells you and keeps going.\" The agent stops, hands over what it did, and only continues after your yes.",
+            "At INEMA, the drafts for pillar pages 2 and 3 sat at gate 2 (about 3,150 and 2,450 words) and were only published on 9/24, after review."
+          ],
+          "exemplo": {
+            "rot": "A rule that works",
+            "texto": "Anything that leaves the site (push, notice to a search engine, email) or that spends money goes through a gate."
+          }
+        },
+        {
+          "titulo": "The AGENTS.md",
+          "sub": "written rules, always read",
+          "texto": [
+            "Claude Code and Codex read an instructions file at the root of the project before they work (Claude Code reads CLAUDE.md; Codex reads AGENTS.md). Write down there what the agent does, what it never does on its own, and how it works in batches.",
+            "Every fixed failure becomes a new rule in that file. Lesson 8 shows the real failures that became rules."
+          ]
+        }
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "The machine and the AGENTS.md for your SEO project",
+      "sub": "Copy the machine into the project README and the AGENTS.md into the root. Replace whatever is between the angle brackets.",
+      "blocos": [
+        {
+          "rot": "The machine (docs/METODO.md from inemaSEO)",
+          "icone": "camadas",
+          "conteudo": "Human picks the topic of the month\n ├─ Researcher     → keyword list with score (autocomplete, Trends, Search Console, SERP)\n ├─ Opportunity    → 5–10 GO with the URL and the real asset that provides the first-hand data\n │   GATE 1: human approves the list\n ├─ Briefing       → intent, top 10 gaps, required first-hand data, internal links, link ladder\n ├─ Writer         → draft that reads the repository/the transcript of the real asset\n ├─ QA             → checklist (docs/CHECKLIST.md) + tests + link ladder\n │   GATE 2: human reviews (10–20 min per page)\n ├─ Publisher      → commit + push, notice to search engines, post-deploy check\n └─ Observer       → weekly export, what went up, what got stuck → back to GATE 1"
+        },
+        {
+          "rot": "AGENTS.md (template; in Claude Code, the same text goes in CLAUDE.md)",
+          "icone": "arquivo",
+          "conteudo": "# AGENTS.md — SEO for <yoursite.com>\n\n## What you do\n- Research, briefing, draft, QA (docs/CHECKLIST.md) and weekly report.\n- Everything through the subscription (Claude Code or Codex). No API without authorization.\n\n## What you never do on your own (stop and ask)\n- Call an API (Search Console, Bing, IndexNow, models) without written authorization for that purpose.\n- Commit + push a new page: only after GATE 2 (I review every page).\n- Delete a page, file or URL that has already been indexed.\n- State that something does not exist without checking (e.g., Search Console: look at the DNS TXT record first).\n\n## How you work\n- Batch: dry-run first; marker to avoid duplicates; skip a repository with uncommitted changes.\n- Text from a source: only facts from the source. An item that fails the check is discarded, not fixed.\n- Another session may touch the same repo: commit only your own files; git pull --rebase --autostash before the push.\n- Secrets stay in .env (which is in .gitignore). Only the variable NAME goes here.\n- A fixed failure becomes one line in FALHAS.md: date | what broke | smallest fix | prompt or infra."
+        }
+      ],
+      "saida": {
+        "selo": "simulacao",
+        "abas": [
+          {
+            "rot": "Who decides what",
+            "html": "<ul><li><b>You</b>: topic of the month, gate 1 (list), gate 2 (each page), any spending or API.</li><li><b>Agent</b>: research, scoring, briefing, draft, checklist, prepared commit, export and report.</li><li><b>Script</b>: whatever has to be the same every time (audit, check, notice only with a 200 URL, link back with a marker).</li></ul>"
+          },
+          {
+            "rot": "Build order",
+            "html": "<ol><li>Auditor (lesson 2)</li><li>Extraction with a check (lesson 3)</li><li>Safe batch (lesson 4)</li><li>Verifiable goal and gate (lesson 5)</li><li>Observer: weekly report (lesson 6)</li></ol><p>One role at a time, only after the previous one is reliable.</p>"
+          }
+        ]
+      }
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Practice: your machine on paper",
+      "sub": "Use your own site or a test site.",
+      "exercicios": [
+        {
+          "id": "e1",
+          "titulo": "E1 · The project's AGENTS.md",
+          "min": "30 min",
+          "texto": "Create the SEO project folder, copy the AGENTS.md (or CLAUDE.md) template and adapt it to your site. Open Claude Code or Codex in the folder and ask: \"which actions can you not take without asking me?\".",
+          "pronto": "the file is at the root of the project and the agent answers citing at least the rules about API, push and delete."
+        },
+        {
+          "id": "e2",
+          "titulo": "E2 · One round on paper",
+          "min": "25 min",
+          "texto": "Pick a topic of the month and write, for each role in the machine, what it delivers and where the result is kept (file, folder, spreadsheet).",
+          "pronto": "you have the seven roles with what each one delivers, and the two gates marked with who approves and in which file the approval is recorded."
+        }
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Test what you learned",
+      "sub": "The explanation appears after your answer.",
+      "perguntas": [
+        {
+          "p": "Where are the two human gates of the machine?",
+          "opcoes": [
+            "At the start and at the end of the month.",
+            "After the list of opportunities and after QA, before publishing.",
+            "Only before the push.",
+            "After the weekly report."
+          ],
+          "certa": 1,
+          "explica": "Gate 1: you approve the list before any text. Gate 2: you review each page before publishing. The common mistake is keeping only the push gate and finding out late that the topic was bad.",
+          "ref": "diagrama",
+          "cert": true
+        },
+        {
+          "p": "The agent found an API key in the project. Can it use it to notify the search engines?",
+          "opcoes": [
+            "It can, the key is there for that.",
+            "Only if the API is free.",
+            "No: API only with explicit authorization for that specific purpose.",
+            "You can, as long as you log it in FALHAS.md."
+          ],
+          "certa": 2,
+          "explica": "Having the key is not permission. The method runs through the subscription and only calls a paid API with authorization for that specific purpose. Lesson 8 simulates that conversation.",
+          "ref": "passos"
+        },
+        {
+          "p": "How much time does the method expect for gate 2?",
+          "opcoes": [
+            "None: the agent's QA is enough.",
+            "10 to 20 minutes per page.",
+            "One hour per batch.",
+            "Only a sample of 1 in 10."
+          ],
+          "certa": 1,
+          "explica": "Automated QA checks the checklist, but the human read (opinion, first-hand data, sounds like the author) is what the agent can't guarantee.",
+          "ref": "diagrama"
+        },
+        {
+          "p": "What is AGENTS.md (or CLAUDE.md) at the project root for?",
+          "opcoes": [
+            "For Google to read the site's rules.",
+            "For the agent to read, before working, what it does and what it never does on its own.",
+            "To store API keys.",
+            "To list the sitemap pages."
+          ],
+          "certa": 1,
+          "explica": "It's the instructions file the agent reads when it opens the project. An API key never goes in it: only the variable name.",
+          "ref": "codigo"
+        }
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "To take with you",
+      "itens": [
+        {
+          "t": "A line with gates",
+          "texto": "Agents in sequence; you approve the list and each page."
+        },
+        {
+          "t": "Through the subscription",
+          "texto": "Claude Code or Codex. API only with authorization for that specific purpose."
+        },
+        {
+          "t": "Written rules",
+          "texto": "AGENTS.md at the root: what it does, what it never does on its own, how it works."
+        },
+        {
+          "t": "2026 yardstick",
+          "texto": "Google evaluates the page's value, not the tool. An agent that only increases volume without first-hand data produces scaled content."
+        }
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "Going further",
+      "links": [
+        {
+          "t": "inemaSEO method: the machine with agents",
+          "href": "https://github.com/inematds/inemaseo-metodo/blob/main/docs/METODO.md",
+          "icone": "camadas"
+        },
+        {
+          "t": "Quality checklist (16 items)",
+          "href": "https://github.com/inematds/inemaseo-metodo/blob/main/docs/CHECKLIST.md",
+          "icone": "check"
+        },
+        {
+          "t": "Google: AI-generated content (English)",
+          "href": "https://developers.google.com/search/docs/fundamentals/using-gen-ai-content",
+          "icone": "robo"
+        }
+      ]
+    }
+  ]
+}

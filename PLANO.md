@@ -42,3 +42,13 @@ Somas: direto 2+2+2 = 6; desvio 1+1+2+2 = 6 (não passa do direto). Máximo = 6.
 - Aula 5 usa o `goal.md` do repo aberto `execucao-longa` (INEMA) como formato da meta; "legibilidade > 70" do material de terceiros não entra.
 - Aula 7 cita `inemaseo-sistemas` e o curso 7 como aprofundamento, sem ensinar os comandos deles. Preços só do README do claude-seo (DataForSEO) e das páginas lidas em 19/10 (Firecrawl, Apify), com "confira no site".
 - Números das FALHAS fora da lista "Casos reais" (548, 65, 205/204) não entram; a falha é contada sem o número.
+- Aula 6: o `gsc_relatorio_semanal.py` está no repo privado `inemaseo`; o curso ensina o `gsc_semanal.py` público + o relatório montado pelo agente, e mostra trecho do relatório real (só números da lista).
+
+## Resultado (19/10/2026)
+- Portão: `validar.py` OK em PT/EN/ES (`--links`: só o curso 6 falha, ainda não publicado); `conferir-tela.cjs` 27 páginas × 2 larguras OK, simconversa percorrida (máx. 6), simfila na aula 4.
+- Imagens: 10/10 pelo Codex na 1ª tentativa (~10 min, disparadas logo após fixar os slugs); nenhuma reserva flux.
+- Tradução: 1058 textos por idioma (Sonnet 5.5 pela assinatura); 1ª rodada deixou 1 texto EN sem tradução (lote com JSON extra), 2ª rodada pelo cache completou.
+
+## Lições para os próximos cursos
+- Saída "real" de extração por LLM: rode o pedido extrativo E um pedido livre ("atraente") na mesma fonte; o contraste (0 × 4 módulos válidos, número inventado) ensina mais que qualquer texto.
+- Script de fonte privada (repo `inemaseo`): mostre a saída real, mas ensine o caminho público equivalente.

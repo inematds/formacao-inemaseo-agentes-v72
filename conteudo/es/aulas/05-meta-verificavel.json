@@ -1,0 +1,271 @@
+{
+  "slug": "meta-verificavel",
+  "num": 5,
+  "menu": "Meta",
+  "titulo": "Meta verificable en loop y la compuerta antes del push",
+  "titulo_curto": "Meta y compuerta",
+  "minutos": 17,
+  "lead": "\"Deja la página bien\" no es una meta: el agente decide solo que terminó. Una meta verificable es un comando con la salida esperada, y un control que impide cumplirla por atajo. El agente corre en loop hasta que pase. Después, lo que ningún comando prueba (dato propio, voz, utilidad) queda para la compuerta humana, antes del push.",
+  "objetivo": "escribir la meta del agente como comando → salida esperada, con control contra atajos, y hacer push solo después de la compuerta humana.",
+  "competencias": [
+    "escribir-criterio-verificable",
+    "trabar-contra-atajo",
+    "separar-maquina-de-compuerta"
+  ],
+  "aprende": [
+    {
+      "t": "La escala de 0 a 4: de meta vaga a meta protegida"
+    },
+    {
+      "t": "Función, regresión y límite: las tres capas del listo"
+    },
+    {
+      "t": "Lo que el comando prueba y lo que solo tú pruebas"
+    },
+    {
+      "t": "El loop hasta pasar y la parada en la compuerta"
+    }
+  ],
+  "hero_alt": "El piloto y el copiloto de una cabina de avión pequeño revisan juntos la lista de verificación antes del despegue.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "De la meta vaga al push con compuerta",
+      "sub": "Toca cada bloque.",
+      "volta": "¿falló? el agente corrige y vuelve a ejecutar los comandos",
+      "nos": [
+        {
+          "icone": "x",
+          "titulo": "Meta vaga",
+          "sub": "nivel 0 y 1",
+          "detalhe": "\"Mejorar la página\", \"revisada y limpia\". El agente se autoaprueba. Reescríbela hasta que sea un comando."
+        },
+        {
+          "icone": "terminal",
+          "titulo": "Comando y salida",
+          "sub": "nivel 2",
+          "detalhe": "\"El build pasa con 0 fallas.\" Ya se puede comprobar, pero es burlable: el agente puede borrar la prueba que falla."
+        },
+        {
+          "icone": "cadeado",
+          "titulo": "Control",
+          "sub": "nivel 3: el mínimo",
+          "forte": true,
+          "itens": [
+            {
+              "icone": "check",
+              "t": "conteo mínimo"
+            },
+            {
+              "icone": "cadeado",
+              "t": "archivo de prueba congelado"
+            },
+            {
+              "icone": "portao",
+              "t": "validador del contenido"
+            }
+          ],
+          "detalhe": "Comando + control que hace imposible cumplir sin hacer el trabajo: \"build sin error y la carpeta de pruebas intacta y un solo H1\"."
+        },
+        {
+          "icone": "fila",
+          "titulo": "Loop",
+          "sub": "corre hasta pasar",
+          "detalhe": "El agente ejecuta la prueba rápida en cada ciclo y solo se detiene cuando todos los comandos muestran la salida esperada. La prueba tiene que aparecer en la salida, no en la palabra del agente."
+        },
+        {
+          "icone": "portao",
+          "titulo": "Compuerta 2",
+          "sub": "nivel 4: tú",
+          "forte": true,
+          "detalhe": "El dato propio, la lectura humana y la prueba del cambio no tienen comando. Tú los revisas. Solo entonces, el push."
+        }
+      ],
+      "legenda": "El comando prueba lo mecánico; la compuerta prueba lo que tiene valor."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "Cómo escribir la meta",
+      "sub": "Toca cada paso.",
+      "passos": [
+        {
+          "titulo": "Las cinco preguntas",
+          "sub": "cada no baja el nivel",
+          "texto": [
+            "¿Se puede comprobar con un comando? ¿La respuesta es sí o no? ¿Es imposible cumplir sin hacer el trabajo? ¿La prueba aparece en la salida? ¿Función, regresión y límite están cubiertos?",
+            "Son las preguntas de la plantilla goal.md del kit Execução Longa (kit de ejecución larga) (abierto, de INEMA)."
+          ]
+        },
+        {
+          "titulo": "Tres capas",
+          "sub": "función, regresión, límite",
+          "texto": [
+            "Función: la página hace lo que debía (un H1, canónico correcto, JSON-LD presente). Regresión: el resto del sitio no se rompió (pruebas y build). Límite: el agente no tocó donde no debía.",
+            "En el portal de INEMA, la regla es ejecutar las pruebas y el build antes del push: el main ya se rompió por causa de una traducción."
+          ]
+        },
+        {
+          "titulo": "Lo que va a la compuerta",
+          "sub": "la checklist dividida",
+          "texto": [
+            "De la checklist de los 16, una parte es mecánica (un H1, título de 50 a 60 caracteres, enlaces que responden 200, JSON-LD válido) y se vuelve comando.",
+            "Otra parte es criterio: dato propio verificable, lectura humana, prueba del cambio. Esa va a la compuerta 2, de 10 a 20 minutos por página."
+          ]
+        },
+        {
+          "titulo": "El loop",
+          "sub": "/goal",
+          "texto": [
+            "Codex y Claude Code tienen el comando /goal: el agente trabaja hasta que la condición aparezca cumplida en la salida. En Claude Code, el evaluador solo lee la conversación, así que la prueba tiene que imprimirse.",
+            "Detente e interviene si hay 3 ciclos sin avance o si el agente reabre un ítem ya hecho."
+          ]
+        }
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "Una meta de nivel 3 para una página nueva",
+      "sub": "Cambia las rutas por las de tu proyecto. Lo que está entre signos de menor y mayor es para completar.",
+      "blocos": [
+        {
+          "rot": "goal.md (adaptado del kit Execução Longa)",
+          "icone": "arquivo",
+          "conteudo": "# Goal — página nueva: <slug>\n\n## Resultado\nLa página /<slug>/ lista para la compuerta 2, sin romper el resto del sitio.\n\n## Criterios de listo (comando → salida esperada)\n**Función**\n- [ ] grep -c '<h1' dist/<slug>/index.html → 1\n- [ ] grep -o 'rel=\"canonical\" href=\"[^\"]*\"' dist/<slug>/index.html → https://www.seusite.com/<slug>/\n- [ ] grep -c 'application/ld+json' dist/<slug>/index.html → 1 o más\n\n**Regresión**\n- [ ] npm test && npm run build → sin error\n\n**Límite**\n- [ ] git diff --stat -- tests/ docs/CHECKLIST.md → vacío\n- [ ] git status --porcelain → solo la página nueva y las 2–3 páginas de la escalera de enlaces\n\n## Compuerta humana (el comando no lo prueba)\n- dato propio con enlace a la evidencia (checklist 2)\n- lectura humana: opinión, qué salió mal, voz del autor (checklist 9)\n- prueba del cambio (checklist 10)\n\n## Restricciones\n- solo por la suscripción; nada de API sin autorización\n- sin push: el push es mío, después de la compuerta"
+        },
+        {
+          "rot": "Pedido de loop (/goal en Claude Code)",
+          "icone": "chat",
+          "conteudo": "/goal La salida del terminal muestra cada comando del goal.md con la salida esperada, y el goal.md tiene todos los criterios marcados. No hagas push. Al terminar, detente y muéstrame el diff."
+        }
+      ],
+      "saida": {
+        "selo": "simulacao",
+        "abas": [
+          {
+            "rot": "La misma meta, cinco niveles",
+            "html": "<ul><li><b>0 vago</b>: \"mejora la página nueva\".</li><li><b>1 subjetivo</b>: \"página revisada y limpia\" (el agente se aprueba a sí mismo).</li><li><b>2 burlable</b>: \"build con 0 fallas\" (se puede borrar la prueba).</li><li><b>3 protegido</b>: build sin error <b>y</b> pruebas intactas <b>y</b> un H1 <b>y</b> canónico igual a la URL.</li><li><b>4 independiente</b>: nivel 3 + tú en la compuerta 2 leyendo como lector.</li></ul>"
+          },
+          {
+            "rot": "Señales de un criterio malo",
+            "html": "<ul><li>Palabras como bueno, limpio, adecuado, completo.</li><li>Depende de que el agente diga que terminó.</li><li>Solo conteo, sin revisar el contenido.</li><li>No dice qué no se puede cambiar.</li></ul>"
+          }
+        ]
+      }
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Práctica: una página por el loop y por la compuerta",
+      "sub": "Usa una página nueva (o una reescrita) de tu sitio.",
+      "exercicios": [
+        {
+          "id": "e1",
+          "titulo": "E1 · El goal.md",
+          "min": "30 min",
+          "texto": "Escribe el goal.md de la página con al menos un criterio de función, uno de regresión y uno de límite, y pasa las cinco preguntas en cada uno.",
+          "pronto": "cada criterio tiene un comando y la salida esperada, hay al menos un control (archivo congelado o conteo con contenido) y la sección de compuerta humana lista lo que el comando no prueba."
+        },
+        {
+          "id": "e2",
+          "titulo": "E2 · Loop y compuerta",
+          "min": "40 min",
+          "texto": "Ejecuta el agente con el pedido de loop. Cuando se detenga, lee la página como lector, decide y solo entonces haz tú mismo el push.",
+          "pronto": "la conversación muestra cada comando con la salida esperada, el goal.md tiene tu aprobación de la compuerta 2 con fecha, y el push salió después de ella."
+        }
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Prueba lo que aprendiste",
+      "sub": "La explicación aparece después de tu respuesta.",
+      "perguntas": [
+        {
+          "p": "\"El build pasa con 0 fallas\" es una meta de qué nivel?",
+          "opcoes": [
+            "Nivel 0: vaga.",
+            "Nivel 2: verificable, pero burlable.",
+            "Nivel 3: protegida.",
+            "Nivel 4: independiente."
+          ],
+          "certa": 1,
+          "explica": "Se puede comprobar, pero el agente puede cumplirla borrando la prueba que falla. El control (carpeta de pruebas intacta) lleva al nivel 3.",
+          "ref": "diagrama",
+          "cert": true
+        },
+        {
+          "p": "¿Cuál de estos ítems del checklist NO se convierte en comando y queda para la compuerta humana?",
+          "opcoes": [
+            "Un solo H1.",
+            "Enlaces que responden 200.",
+            "Dato propio verificable y lectura humana.",
+            "JSON-LD presente."
+          ],
+          "certa": 2,
+          "explica": "Los mecánicos se convierten en comando. Dato propio, voz del autor y prueba del cambio exigen criterio: son de la compuerta 2.",
+          "ref": "passos"
+        },
+        {
+          "p": "¿Por qué la prueba tiene que aparecer impresa en la salida cuando se usa /goal en Claude Code?",
+          "opcoes": [
+            "Para gastar menos.",
+            "Porque el evaluador solo lee la conversación.",
+            "Porque Google lee la conversación.",
+            "No necesita aparecer."
+          ],
+          "certa": 1,
+          "explica": "Si el comando pasó pero la salida no se mostró, el evaluador no tiene cómo saberlo. La meta escrita pide la salida en la conversación.",
+          "ref": "passos"
+        },
+        {
+          "p": "El criterio de límite \"git diff --stat -- tests/ → vacío\" protege contra qué?",
+          "opcoes": [
+            "Contra una página lenta.",
+            "Contra que el agente cumpla la meta tocando las pruebas.",
+            "Contra un canónico equivocado.",
+            "Contra un robot de IA."
+          ],
+          "certa": 1,
+          "explica": "Es el control típico del nivel 3: el atajo más común para \"0 fallas\" es modificar o borrar la prueba.",
+          "ref": "codigo"
+        }
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "Para llevar",
+      "itens": [
+        {
+          "t": "Comando y salida",
+          "texto": "Una meta que el agente no puede aprobar solo."
+        },
+        {
+          "t": "Control",
+          "texto": "Nivel 3 como mínimo: imposible de cumplir sin hacer el trabajo."
+        },
+        {
+          "t": "Compuerta antes del push",
+          "texto": "Lo que es juicio (dato propio, voz, utilidad) es tuyo."
+        },
+        {
+          "t": "La vara de 2026",
+          "texto": "La respuesta directa arriba es claridad para el lector, no un factor de IA: no conviertas en meta lo que no tiene fuente."
+        }
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "Para ir más allá",
+      "links": [
+        {
+          "t": "Kit Execução Longa: goal.md y reglas de parada",
+          "href": "https://inematds.github.io/execucao-longa/guia/",
+          "icone": "relogio"
+        },
+        {
+          "t": "Checklist de calidad de inemaSEO",
+          "href": "https://github.com/inematds/inemaseo-metodo/blob/main/docs/CHECKLIST.md",
+          "icone": "check"
+        }
+      ]
+    }
+  ]
+}

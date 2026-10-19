@@ -1,0 +1,301 @@
+{
+  "slug": "lote-seguro",
+  "num": 4,
+  "menu": "Lote",
+  "titulo": "Operaciones en lote seguras: dry-run, marcador y repositorio sucio",
+  "titulo_curto": "Lote seguro",
+  "minutos": 17,
+  "lead": "Poner un enlace de vuelta en cuarenta repositorios, cambiar un pie de página en cien páginas, corregir un canónico en todo el sitio: aquí es donde el agente ahorra horas y también donde un error se esparce. Tres protecciones resuelven casi todo: mostrar antes de hacer, no duplicar y no tocar lo que otra persona está tocando.",
+  "objetivo": "ejecutar una operación en varios repositorios con dry-run, marcador contra duplicar y salto de repositorio sucio, verificando por muestra.",
+  "competencias": [
+    "rodar-dry-run",
+    "usar-marcador-idempotente",
+    "conferir-por-amostra"
+  ],
+  "aprende": [
+    {
+      "t": "Dry-run por defecto: ver lo que haría antes de hacerlo"
+    },
+    {
+      "t": "Marcador: ejecutar dos veces no duplica"
+    },
+    {
+      "t": "Saltar el repositorio con trabajo sin guardar"
+    },
+    {
+      "t": "Verificar en vivo por muestra después del push"
+    }
+  ],
+  "hero_alt": "Una empleada organiza fajos de hojas en casilleros de madera, con una caja aparte a un lado sobre la mesa.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "El camino de un lote seguro",
+      "sub": "Toca cada bloque.",
+      "nos": [
+        {
+          "icone": "lista",
+          "titulo": "Mapa",
+          "sub": "mapa.json",
+          "detalhe": "Una lista de lo que va a cambiar y dónde: repositorio, destino del enlace, etiqueta. El agente la arma; tú la lees. Es el alcance del lote por escrito."
+        },
+        {
+          "icone": "lupa",
+          "titulo": "Dry-run",
+          "sub": "el valor por defecto",
+          "forte": true,
+          "detalhe": "Sin ninguna opción, el script solo dice lo que haría en cada repositorio: DRY (entraría), PULA (con el motivo) u OK (ya lo tenía). No se graba nada."
+        },
+        {
+          "icone": "usuario",
+          "titulo": "Revisión",
+          "sub": "tú lees la lista",
+          "detalhe": "Revisa los PULA y los archivos de destino. Un repositorio saltado por árbol de trabajo sucio es de otra sesión: no lo fuerces."
+        },
+        {
+          "icone": "caneta",
+          "titulo": "Aplicar",
+          "sub": "--apply y --commit",
+          "itens": [
+            {
+              "icone": "arquivo",
+              "t": "--apply graba el bloque"
+            },
+            {
+              "icone": "git",
+              "t": "--commit también hace commit y push"
+            }
+          ],
+          "detalhe": "--apply graba en el archivo; --commit también hace commit y push. El push es publicación: pasa por la compuerta antes de usar --commit."
+        },
+        {
+          "icone": "check",
+          "titulo": "Muestra en vivo",
+          "sub": "verifica después",
+          "detalhe": "Abre algunas páginas publicadas y confirma el bloque en el HTML. En INEMA, el lote del 05/10 se verificó en GitHub Pages por muestra: 8 de 8."
+        }
+      ],
+      "legenda": "Tres protecciones: dry-run, marcador y salto de repositorio sucio."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "Las protecciones, una por una",
+      "sub": "Toca cada paso.",
+      "passos": [
+        {
+          "titulo": "Dry-run",
+          "sub": "mostrar antes",
+          "texto": [
+            "El comportamiento predeterminado del script es no escribir. Escribir exige pedirlo: --apply. Así un error en el mapa aparece en la lista, no en el sitio.",
+            "Pídele lo mismo a cualquier agente: primero la lista de lo que haría, después la ejecución."
+          ]
+        },
+        {
+          "titulo": "Marcador",
+          "sub": "no duplica",
+          "texto": [
+            "El bloque escrito va entre dos comentarios con el marcador link-de-volta:v1. Antes de escribir, el script busca el marcador: si ya existe, responde \"OK: já tinha\".",
+            "Es lo que permite volver a ejecutar después de una falla sin crear dos enlaces en la misma página."
+          ]
+        },
+        {
+          "titulo": "Repositorio sucio",
+          "sub": "salta y avisa",
+          "texto": [
+            "Si el repositorio tiene un cambio sin commit, el script lo salta. Casi siempre es otra sesión (tuya o de otro agente) trabajando en él.",
+            "También salta el repositorio que está fuera de la rama esperada y el que no tiene HTML. En INEMA, los repositorios saltados por árbol de trabajo sucio quedaron para la ronda siguiente."
+          ]
+        },
+        {
+          "titulo": "Dónde va el enlace",
+          "sub": "el archivo correcto",
+          "texto": [
+            "Si el index.html es solo una redirección (meta refresh), el enlace va en la página de destino. Si el HTML lo genera un script, el enlace va en el generador; si no, desaparece en el próximo build.",
+            "En INEMA: 35 de 40 repositorios el 24/09, otros 25 el 02/10 y otros 21 el 05/10."
+          ]
+        }
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "El enlace de vuelta en lote",
+      "sub": "Cambia las rutas y los destinos por los tuyos.",
+      "blocos": [
+        {
+          "rot": "mapa.json",
+          "icone": "arquivo",
+          "conteudo": "[{\"repo\": \"repos/curso-pao\", \"destino\": \"https://www.seusite.com/cursos/pao/\", \"rotulo\": \"Ficha completa\"},\n {\"repo\": \"repos/curso-cafe\", \"destino\": \"https://www.seusite.com/cursos/cafe/\", \"rotulo\": \"Ficha completa\"},\n {\"repo\": \"repos/curso-queijo\", \"destino\": \"https://www.seusite.com/cursos/queijo/\", \"rotulo\": \"Ficha completa\"},\n {\"repo\": \"repos/curso-vinho\", \"destino\": \"https://www.seusite.com/cursos/vinho/\", \"rotulo\": \"Ficha completa\"}]"
+        },
+        {
+          "rot": "Dry-run, aplicar y (después de la compuerta) hacer commit",
+          "icone": "terminal",
+          "conteudo": "python3 tools/link_de_volta.py mapa.json             # dry-run: só mostra\npython3 tools/link_de_volta.py mapa.json --apply     # grava, sem commit\npython3 tools/link_de_volta.py mapa.json --apply --commit   # grava, commita e faz push"
+        },
+        {
+          "rot": "Pedido al agente",
+          "icone": "chat",
+          "conteudo": "Arma el mapa.json con los repositorios de la lista y ejecuta link_de_volta.py SIN opciones (dry-run).\nMuéstrame la salida completa y detente.\nNo uses --apply ni --commit hasta que yo responda \"aplica\".\nRepositorio con PULA: no fuerces, no hagas stash, no hagas commit por él. Solo dime cuál es."
+        }
+      ],
+      "saida": {
+        "selo": "real",
+        "abas": [
+          {
+            "rot": "Salida capturada (19/10/2026)",
+            "html": "<pre>$ python3 tools/link_de_volta.py mapa.json\nrepos/curso-pao: DRY: entraria em index.html\nrepos/curso-cafe: PULA: alterações não commitadas\nrepos/curso-queijo: OK: já tinha\nrepos/curso-vinho: DRY: entraria em landing.html\n\n$ python3 tools/link_de_volta.py mapa.json --apply\nrepos/curso-pao: APLICADO em index.html\nrepos/curso-cafe: PULA: alterações não commitadas\nrepos/curso-queijo: OK: já tinha\nrepos/curso-vinho: APLICADO em landing.html</pre><p>Cuatro repositorios de prueba armados para la clase.</p>"
+          },
+          {
+            "rot": "Cómo leerlo",
+            "html": "<ul><li><b>curso-pao</b>: limpio, recibe el bloque en el index.html.</li><li><b>curso-cafe</b>: tiene un cambio sin guardar; saltado en las dos rondas.</li><li><b>curso-queijo</b>: el marcador ya estaba ahí; no cambia nada.</li><li><b>curso-vinho</b>: el index.html es solo una redirección, así que el bloque va en la landing.html.</li></ul><p>Después del --apply sin --commit, curso-pao y curso-vinho quedan con cambios sin commit: volver a ejecutar sin hacer commit hace que el script salte a los dos. Haz commit o descarta los cambios antes de la próxima ronda.</p>"
+          }
+        ]
+      }
+    },
+    {
+      "tipo": "simfila",
+      "titulo": "Mira el lote con interrupción y reanudación",
+      "sub": "Ejecuta, interrumpe a la mitad y ejecuta de nuevo. Lo que ya se hizo no se rehace.",
+      "tarefas": [
+        "curso-pao: enlace de vuelta en el index.html",
+        "curso-vinho: enlace de vuelta en la landing.html",
+        "curso-cafe: enlace de vuelta en el index.html",
+        "curso-queijo: enlace de vuelta en el index.html",
+        "curso-mel: enlace de vuelta en el index.html"
+      ],
+      "falha": 2,
+      "rot": {
+        "entrada": "por hacer/",
+        "rodando": "aplicando/",
+        "feito": "hecho (con marcador)/",
+        "falhou": "saltado/",
+        "rodar": "Ejecutar el lote",
+        "parar": "Interrumpir (Ctrl+C)",
+        "zerar": "Reiniciar"
+      },
+      "msg": {
+        "inicio": "5 repositorios en el lote. Haz clic en \"Ejecutar el lote\".",
+        "rodando": "Aplicando un repositorio a la vez. El bloque entra con el marcador link-de-volta:v1.",
+        "parou": "Interrumpido. El repositorio del medio quedó en aplicando/. Ejecuta de nuevo para ver la reanudación.",
+        "retoma": "Reanudación: lo que estaba en aplicando/ volvió a la cola. Lo que ya tiene el marcador responde \"OK: já tinha\" y no se rehace.",
+        "fim": "Lote completo: todos con el marcador.",
+        "fimfalha": "Lote completo, con un repositorio saltado: cambios sin commit. Es de otra sesión; lo resuelves con quien está trabajando en él."
+      },
+      "legenda": "Simulación ilustrativa en el navegador: no se escribe nada de verdad. El salto es intencional, para mostrar el repositorio sucio."
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Práctica: un lote de verdad, con red",
+      "sub": "Usa 3 o más repositorios tuyos (o crea repositorios de prueba con un index.html simple).",
+      "exercicios": [
+        {
+          "id": "e1",
+          "titulo": "E1 · El dry-run",
+          "min": "25 min",
+          "texto": "Pídele al agente el mapa.json y el dry-run, con el pedido de arriba. Deja a propósito un repositorio con un cambio sin commitear.",
+          "pronto": "la salida muestra al menos un DRY y un PULA con el motivo, y el git status de los repositorios no cambió."
+        },
+        {
+          "id": "e2",
+          "titulo": "E2 · Aplicar y verificar",
+          "min": "25 min",
+          "texto": "Responde \"aplica\", ejecuta con --apply, revisa el diff de cada repositorio, haz commit (o usa --commit) y ejecuta el dry-run de nuevo.",
+          "pronto": "la segunda ronda responde \"OK: já tinha\" en los repositorios aplicados, y abriste al menos 2 páginas publicadas y viste el enlace en el HTML."
+        }
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Prueba lo que aprendiste",
+      "sub": "La explicación aparece después de tu respuesta.",
+      "perguntas": [
+        {
+          "p": "¿Qué hace link_de_volta.py cuando lo ejecutas sin ninguna opción?",
+          "opcoes": [
+            "Escribe en todos los repositorios.",
+            "Muestra lo que haría en cada uno, sin escribir nada.",
+            "Hace commit y push.",
+            "Borra los enlaces antiguos."
+          ],
+          "certa": 1,
+          "explica": "El dry-run es lo predeterminado. Escribir exige --apply; publicar exige --commit. El error común es invertirlo: un script que escribe por defecto y pide una opción para simular.",
+          "ref": "diagrama",
+          "cert": true
+        },
+        {
+          "p": "Un repositorio aparece como \"PULA: alterações não commitadas\". ¿Qué haces?",
+          "opcoes": [
+            "Hacer stash y ejecutar de nuevo.",
+            "Hacer commit de todo lo que hay ahí.",
+            "Dejarlo para después: probablemente es otra sesión trabajando en él.",
+            "Borrar los cambios."
+          ],
+          "certa": 2,
+          "explica": "Un cambio sin guardar es trabajo de alguien. Forzar mezcla tu commit con el de esa persona. En INEMA, los omitidos quedaron para la ronda siguiente.",
+          "ref": "passos"
+        },
+        {
+          "p": "¿Para qué sirve el marcador link-de-volta:v1?",
+          "opcoes": [
+            "Para que Google cuente el enlace.",
+            "Para ejecutar de nuevo sin duplicar el bloque.",
+            "Para esconder el enlace.",
+            "Para que el script encuentre el pie de página."
+          ],
+          "certa": 1,
+          "explica": "Antes de escribir, el script busca el marcador. Si ya existe, responde \"OK: já tinha\". Eso es lo que hace segura la reanudación.",
+          "ref": "simfila"
+        },
+        {
+          "p": "El index.html de un curso es solo una redirección. ¿Dónde debe entrar el enlace?",
+          "opcoes": [
+            "En el index.html mismo.",
+            "En la página de destino de la redirección.",
+            "En el README.",
+            "En ningún lugar."
+          ],
+          "certa": 1,
+          "explica": "El buscador sigue la redirección y lee el destino. Un enlace en el archivo de redirección no se ve. Si el HTML se genera, el enlace va en el generador.",
+          "ref": "codigo"
+        }
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "Para llevar",
+      "itens": [
+        {
+          "t": "Dry-run por defecto",
+          "texto": "Ver la lista antes; escribir solo con --apply."
+        },
+        {
+          "t": "Marcador",
+          "texto": "Ejecutar dos veces no duplica; la reanudación es segura."
+        },
+        {
+          "t": "Lo sucio es de otro",
+          "texto": "Un repositorio con cambios sin guardar se omite, no se fuerza."
+        },
+        {
+          "t": "Push es publicación",
+          "texto": "--commit hace push: pasa por la compuerta antes y verifica por muestreo después."
+        }
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "Para ir más allá",
+      "links": [
+        {
+          "t": "link_de_volta.py en el método inemaSEO",
+          "href": "https://github.com/inematds/inemaseo-metodo/blob/main/tools/link_de_volta.py",
+          "icone": "terminal"
+        },
+        {
+          "t": "Método inemaSEO, etapa 8: autoridad que ya tienes",
+          "href": "https://github.com/inematds/inemaseo-metodo/blob/main/docs/METODO.md",
+          "icone": "camadas"
+        }
+      ]
+    }
+  ]
+}

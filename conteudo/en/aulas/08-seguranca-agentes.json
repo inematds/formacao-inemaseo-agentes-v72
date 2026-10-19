@@ -1,0 +1,484 @@
+{
+  "slug": "seguranca-agentes",
+  "num": 8,
+  "menu": "Security",
+  "titulo": "What went wrong with agents and the security rules",
+  "titulo_curto": "Failures and rules",
+  "minutos": 20,
+  "lead": "Agents fail in predictable ways: they claim without checking, add up wrong, break what was working, use the key they found. Each real failure in INEMA's SEO project became one line in the failure log and one rule in AGENTS.md. This lesson shows the failures, the smallest fix for each, and closes the course with your plan.",
+  "objetivo": "recognize the real failures of agents in SEO and apply the rules: only authorized APIs, secrets outside the repo, check before claiming.",
+  "competencias": [
+    "register-failure-with-smallest-fix",
+    "protect-secret-and-api",
+    "require-checking-before-claiming"
+  ],
+  "aprende": [
+    {
+      "t": "The real failures and the smallest fix for each"
+    },
+    {
+      "t": "Prompt or infrastructure: whose fault it was"
+    },
+    {
+      "t": "API only with authorization; secret outside the repository"
+    },
+    {
+      "t": "The course map and your plan with dates"
+    }
+  ],
+  "hero_alt": "A person's hand holds a bunch of keys in a small wall key cabinet with a glass door and a lock.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "From a failure to a rule",
+      "sub": "Tap each block.",
+      "volta": "the rule goes into AGENTS.md and the agent reads it in the next session",
+      "nos": [
+        {
+          "icone": "x",
+          "titulo": "Failure",
+          "sub": "what broke",
+          "detalhe": "It froze, added up wrong, generated empty, touched what it shouldn't. Log it right away, before moving on to the next task."
+        },
+        {
+          "icone": "check",
+          "titulo": "Smallest fix",
+          "sub": "a safeguard",
+          "detalhe": "It's almost never a rewrite. It's a cap, a guard, a validation, a checking step. If the answer was to rebuild, probably all that was missing was one safeguard."
+        },
+        {
+          "icone": "camadas",
+          "titulo": "Prompt or infra",
+          "sub": "where it came from",
+          "itens": [
+            {
+              "icone": "chat",
+              "t": "prompt: the request led to the error"
+            },
+            {
+              "icone": "chip",
+              "t": "infra: machine, network, service, key"
+            }
+          ],
+          "detalhe": "Prompt: the request or the model's understanding led to the error. Infra: network, service down, newly created key. After about ten lines, the pattern shows up."
+        },
+        {
+          "icone": "arquivo",
+          "titulo": "Rule",
+          "sub": "in AGENTS.md",
+          "forte": true,
+          "detalhe": "The fix that holds for good becomes one line in the agent's instructions. That's how the same error doesn't come back."
+        }
+      ],
+      "legenda": "One line per failure: date, what broke, smallest fix, prompt or infra."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "The real failures of the INEMA SEO project",
+      "sub": "Tap each step. All of them are in the project's FALHAS.md.",
+      "passos": [
+        {
+          "titulo": "Claimed without checking",
+          "sub": "23/09/2026",
+          "texto": [
+            "A plan made by an agent said the site had no Search Console: it looked only in the code. The fix was to check the DNS TXT record before claiming it was missing.",
+            "The same day, the agent suggested installing a package for a different processor than the machine's. Rule: check the architecture before suggesting a package."
+          ]
+        },
+        {
+          "titulo": "Added up wrong",
+          "sub": "24/09/2026",
+          "texto": [
+            "The weekly export added up the brand's impressions by the query + page combination, and the part became larger than the total. The fix was to add up by query only.",
+            "Another script counted as enriched every listing page present in the file, without reading the field that said whether it was. In both cases: an impossible number that a simple check would catch."
+          ]
+        },
+        {
+          "titulo": "Broke what worked",
+          "sub": "09/30 and 10/02/2026",
+          "texto": [
+            "A visual change left the course index as \"search only,\" and the 310 listing pages lost their only internal link in the server HTML. The fix was a collapsed index, with no visual change.",
+            "Regenerating an area of the site with an old generator would undo a canonical fix made by hand. The rule was written down: don't regenerate over it."
+          ]
+        },
+        {
+          "titulo": "Key, API, and notice",
+          "sub": "02/10/2026",
+          "texto": [
+            "The first IndexNow submission with a newly published key came back 403; resubmitting a few minutes later fixed it (infra). The IndexNow key is public by design; the Bing Webmaster one is a secret.",
+            "The method's rule: paid API only with explicit authorization for that purpose, and notifying search engines only with URLs that return 200."
+          ]
+        }
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "The failure log and the secret scan",
+      "sub": "Copy FALHAS.md to the project root. Run the scan before every push.",
+      "blocos": [
+        {
+          "rot": "FALHAS.md (real lines from the INEMA SEO project)",
+          "icone": "arquivo",
+          "conteudo": "# FALHAS\n\n| date | what broke | smallest fix | prompt \\| infra |\n|---|---|---|---|\n| 2026-10-02 | IndexNow returned 403 SiteVerificationNotCompleted on the 1st submission (key just published) | resubmit after ~4 min | infra |\n| 2026-10-02 | /cursos/ became \"search only\" and the listing pages lost the only internal link rendered on the server | collapsed index (details) with plain links below the search | prompt |\n| 2026-09-24 | weekly export summed branded impressions by query+page (part larger than the total) | sums by the query dimension only | prompt |\n| 2026-09-23 | plan said \"no Search Console\" (only looked in the code) | check DNS TXT before claiming it's absent | prompt |"
+        },
+        {
+          "rot": "Secret outside the repository",
+          "icone": "cadeado",
+          "conteudo": "echo \".env\" >> .gitignore\ngit check-ignore -v .env          # confirms that .env is ignored\ngit grep -niIE \"(api[_-]?key|apikey|secret|token)[[:space:]]*[:=]\"   # looks for a key value in what goes to the repo"
+        }
+      ],
+      "saida": {
+        "selo": "real",
+        "abas": [
+          {
+            "rot": "Captured output (10/19/2026)",
+            "html": "<pre>$ git check-ignore -v .env\n.gitignore:1:.env\t.env\n\n$ git grep -niIE \"(api[_-]?key|apikey|secret|token)[[:space:]]*[:=]\"\navisar.sh:1:curl \"https://ssl.bing.com/webmaster/api.svc/json/SubmitUrlBatch?apikey=$BING_API_KEY\"\nrodar.sh:2:export BING_API_KEY=9f3a1c0000000000000000000000beef</pre><p>Test repository built for the lesson; the key is fake.</p>"
+          },
+          {
+            "rot": "How to read it",
+            "html": "<ul><li><b>.env ignored</b>: the file with the keys doesn't go into the commit.</li><li><b>avisar.sh</b>: uses <code>$BING_API_KEY</code>, a reference to the variable. That's correct.</li><li><b>rodar.sh</b>: has the key's <b>value</b> written in it. Leak: take it out of the file, change the key in the dashboard, and treat it as exposed.</li></ul>"
+          }
+        ]
+      }
+    },
+    {
+      "tipo": "simconversa",
+      "titulo": "Simulation: the agent found an API key",
+      "sub": "You're the one answering the agent. The conversation is fiction; the rules come from the inemaSEO method.",
+      "personagem": {
+        "nome": "SEO agent",
+        "papel": "simulation · agent in your project's terminal"
+      },
+      "inicio": "abre",
+      "falas": {
+        "abre": {
+          "cliente": "I finished the 12 new pages. I found BING_API_KEY and INDEXNOW_KEY in the project's .env. Can I run avisar_buscadores.sh now with them?",
+          "opcoes": [
+            {
+              "t": "Yes, the key is there for that.",
+              "vai": "fim-sem-ok",
+              "nota": 0,
+              "comenta": "Having the key isn't permission. The method only calls an API with explicit authorization for that purpose, and you haven't even seen yet what is going to be announced."
+            },
+            {
+              "t": "No. A key in .env isn't permission. Show me the list of URLs and the command; I'll authorize the submission.",
+              "vai": "urls",
+              "nota": 2,
+              "comenta": "The authorization is yours, for that purpose, after seeing what will go out from the site."
+            },
+            {
+              "t": "Use only IndexNow, since it's free.",
+              "vai": "desvio",
+              "nota": 1,
+              "comenta": "Free isn't authorized. And you haven't seen the URLs yet: notifying a wrong URL burns the search engine's trust."
+            }
+          ]
+        },
+        "desvio": {
+          "cliente": "Right. The IndexNow key is public by design, it sits in a file on the site itself. So I run only that one, then?",
+          "opcoes": [
+            {
+              "t": "Not yet. Public doesn't mean authorized: show me the list first.",
+              "vai": "urls",
+              "nota": 1,
+              "comenta": "Back on the right track: list first, authorization after."
+            },
+            {
+              "t": "Run it.",
+              "vai": "fim-sem-ok",
+              "nota": 0,
+              "comenta": "The submission went out without you seeing what was notified."
+            }
+          ]
+        },
+        "urls": {
+          "cliente": "List ready: 12 URLs. Two still return 404, because the deploy hasn't finished. Should I send them all at once?",
+          "opcoes": [
+            {
+              "t": "Only the ones that return 200. Wait for the deploy, check again, and show me.",
+              "vai": "segredo",
+              "nota": 2,
+              "comenta": "avisar_buscadores.sh itself rejects the list if any URL doesn't return 200: notifying about a 404 burns the search engine's trust."
+            },
+            {
+              "t": "Send them all, the search engine will come back later.",
+              "vai": "fim-404",
+              "nota": 0,
+              "comenta": "The script would refuse, and forcing a 404 submission is exactly what it exists to prevent."
+            }
+          ]
+        },
+        "segredo": {
+          "cliente": "Sent with your authorization: all 12 returned 200. So I don't have to ask next time, should I save the BING_API_KEY in AGENTS.md?",
+          "opcoes": [
+            {
+              "t": "No. The secret stays in .env, which is in .gitignore. AGENTS.md gets only the variable name and the rule to ask for authorization.",
+              "vai": "fim-bom",
+              "nota": 2,
+              "comenta": "Secret kept out of the repository and the rule written down for the next session."
+            },
+            {
+              "t": "Save it, the repository is private.",
+              "vai": "fim-vazou",
+              "nota": 0,
+              "comenta": "A private repository becomes public, gets cloned, gets read by another agent. A secret in git history is an exposed secret."
+            },
+            {
+              "t": "Save it in a file called chaves.txt inside the repository.",
+              "vai": "fim-vazou",
+              "nota": 0,
+              "comenta": "Changing the file name changes nothing: it goes into the commit all the same."
+            }
+          ]
+        },
+        "fim-sem-ok": {
+          "fim": true,
+          "titulo": "API without authorization",
+          "texto": "The agent used a key because it existed. Nobody saw the URLs or decided the purpose. Rule: an existing key is not permission."
+        },
+        "fim-404": {
+          "fim": true,
+          "titulo": "Notice about a page that doesn't exist",
+          "texto": "Notifying the search engine about a URL that returns 404 burns its trust in your site. Wait for the deploy and check first."
+        },
+        "fim-vazou": {
+          "fim": true,
+          "titulo": "Secret in the repository",
+          "texto": "The key ended up in the git history. The fix now is to rotate the key in the dashboard and remove the file from the repository. Rule: secret in the ignored .env; in the instructions, only the name."
+        },
+        "fim-bom": {
+          "fim": true,
+          "titulo": "Submission authorized, secret kept safe",
+          "texto": "You saw the list, authorized the purpose, only 200 URLs were notified, and the key is still out of the repository."
+        }
+      },
+      "licao": "An existing key is not permission: the agent shows what it will do, you authorize the purpose, and the secret stays out of the repository."
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Practice: your safety rules",
+      "sub": "In the SEO project from the previous lessons.",
+      "exercicios": [
+        {
+          "id": "e1",
+          "titulo": "E1 · Your FALHAS.md",
+          "min": "25 min",
+          "texto": "Create FALHAS.md at the root and record 3 failures you've already seen an agent make (in this course or before), each with the smallest fix and whether it was prompt or infra. Bring the rule from each one into AGENTS.md.",
+          "pronto": "FALHAS.md has 3 lines in the format date | what broke | smallest fix | prompt or infra, and AGENTS.md gained at least one new rule coming from them."
+        },
+        {
+          "id": "e2",
+          "titulo": "E2 · Secret scan",
+          "min": "15 min",
+          "texto": "Run the scan on the project and on every repository where an agent has worked. Check the .gitignore.",
+          "pronto": "git check-ignore -v .env shows the .gitignore rule, and the scan finds no key value written out (only references to variables)."
+        }
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Test what you learned",
+      "sub": "The explanation appears after your answer.",
+      "perguntas": [
+        {
+          "p": "The agent says the site \"has no Search Console\" because it found nothing in the code. What should you ask for?",
+          "opcoes": [
+            "To create a new property.",
+            "To check the DNS TXT record before claiming absence.",
+            "To stop using Search Console.",
+            "Nothing: it searched."
+          ],
+          "certa": 1,
+          "explica": "It was a real failure: the verification was in DNS, not in the code. Claiming absence requires checking where the thing actually lives.",
+          "ref": "passos",
+          "cert": true
+        },
+        {
+          "p": "The brand total came out larger than the total impressions. What's the smallest fix?",
+          "opcoes": [
+            "Switch tools.",
+            "Sum by the query dimension, not by query + page.",
+            "Round the numbers.",
+            "Ignore the brand."
+          ],
+          "certa": 1,
+          "explica": "With query + page, the same search counts once per page. An impossible number (a part bigger than the whole) is the signal to check.",
+          "ref": "codigo"
+        },
+        {
+          "p": "Which of these keys can safely stay visible on the site?",
+          "opcoes": [
+            "The Bing Webmaster one.",
+            "The IndexNow one, published in a file on the site itself.",
+            "The one for an AI model.",
+            "The DataForSEO one."
+          ],
+          "certa": 1,
+          "explica": "The IndexNow key is public by design: the search engine checks the file on your site. The others are secrets and stay in .env.",
+          "ref": "simconversa"
+        },
+        {
+          "p": "The scan found a key's value written in a script that was already committed. What should you do?",
+          "opcoes": [
+            "Delete the line and move on.",
+            "Remove it from the file, rotate the key in the dashboard, and treat it as exposed.",
+            "Make the repository private.",
+            "Rename the file."
+          ],
+          "certa": 1,
+          "explica": "Deleting the line does not delete git history. A key that went into a commit is an exposed key: replace it.",
+          "ref": "codigo"
+        }
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "To take with you",
+      "itens": [
+        {
+          "t": "One line per failure",
+          "texto": "Date, what broke, smallest fix, prompt or infra."
+        },
+        {
+          "t": "Check before you claim",
+          "texto": "Absence, totals, and architecture are checked, not deduced."
+        },
+        {
+          "t": "API and secrets",
+          "texto": "Having a key is not permission; secrets live in the ignored .env."
+        },
+        {
+          "t": "2026 yardstick",
+          "texto": "Google evaluates value, not tools: the agent speeds up the work, but the gate and the rules are yours."
+        }
+      ]
+    },
+    {
+      "tipo": "mapa",
+      "titulo": "The course map",
+      "sub": "Four steps and the exercises for each one. Tap an exercise to see its \"done when\".",
+      "degraus": [
+        {
+          "aula": "maquina-agentes",
+          "icone": "camadas",
+          "quando": "Week 1",
+          "titulo": "Machine",
+          "sub": "line, gates, and AGENTS.md",
+          "saida": "AGENTS.md at the root and one pass of the machine on paper.",
+          "passo": "The groundwork: without written gates, automating SEO is just publishing wrong things faster."
+        },
+        {
+          "aula": "agente-auditor",
+          "icone": "lupa",
+          "quando": "Weeks 1 and 2",
+          "titulo": "Read",
+          "sub": "auditor and extraction (lessons 2 and 3)",
+          "saida": "A list of findings with evidence and an extraction with a check.",
+          "passo": "Requires AGENTS.md. Agents that only read come before the ones that write; the map shows lesson 2, the plan below lists them all."
+        },
+        {
+          "aula": "lote-seguro",
+          "icone": "fila",
+          "quando": "Weeks 2 and 3",
+          "titulo": "Write",
+          "sub": "batch and goal (lessons 4 and 5)",
+          "saida": "A batch with dry-run and marker; a page through the loop and the gate.",
+          "passo": "Requires the previous steps. Write to the site only with a dry-run, a level 3 goal, and a gate before the push."
+        },
+        {
+          "aula": "seguranca-agentes",
+          "icone": "escudo",
+          "quando": "Every week",
+          "titulo": "Routine",
+          "sub": "report, tools, and rules (lessons 6 to 8)",
+          "saida": "A weekly report with approved proposals and a living FALHAS.md.",
+          "passo": "The observer closes out the whole machine every week, and every new failure becomes a rule."
+        }
+      ],
+      "resultado": {
+        "titulo": "At the end of the course",
+        "texto": "A line of agents through the subscription, with a check, safe batch, verifiable goal, weekly report, and written rules.",
+        "total": "16 exercises"
+      },
+      "rolagem_fim": {
+        "titulo": "The whole course",
+        "texto": "Machine, read, write, and routine. Only move up a step when the \"done when\" of the previous one is true."
+      },
+      "legenda": "After this course comes course 6: the method as a service for clients."
+    },
+    {
+      "tipo": "gerador",
+      "titulo": "Generate your plan with dates",
+      "sub": "Pick the start date and how much time you have per week.",
+      "curso": "inemaSEO 5 · With Agents",
+      "horas_padrao": 3,
+      "degraus": [
+        {
+          "titulo": "Lesson 1 · The machine with agents",
+          "aula": "maquina-agentes"
+        },
+        {
+          "titulo": "Lesson 2 · Auditor agent",
+          "aula": "agente-auditor"
+        },
+        {
+          "titulo": "Lesson 3 · Extraction and check",
+          "aula": "extracao-validador"
+        },
+        {
+          "titulo": "Lesson 4 · Safe batch",
+          "aula": "lote-seguro"
+        },
+        {
+          "titulo": "Lesson 5 · Verifiable goal and gate",
+          "aula": "meta-verificavel"
+        },
+        {
+          "titulo": "Lesson 6 · Weekly report",
+          "aula": "relatorio-semanal"
+        },
+        {
+          "titulo": "Lesson 7 · Open × paid tools",
+          "aula": "aberto-pago"
+        },
+        {
+          "titulo": "Lesson 8 · Failures and rules",
+          "aula": "seguranca-agentes"
+        }
+      ],
+      "txt": {
+        "titulo": "Plan — inemaSEO 5 · With Agents",
+        "inicio": "Start",
+        "ritmo": "Pace",
+        "termino": "Expected finish",
+        "ate": "until",
+        "pronto": "done when",
+        "semanas": "weeks",
+        "travou": "## What broke and the rule I created",
+        "h": "h per week",
+        "exs": "exercises"
+      }
+    },
+    {
+      "tipo": "links",
+      "titulo": "Going further",
+      "links": [
+        {
+          "t": "avisar_buscadores.sh (only 200 URLs)",
+          "href": "https://github.com/inematds/inemaseo-metodo/blob/main/tools/avisar_buscadores.sh",
+          "icone": "enviar"
+        },
+        {
+          "t": "inemaSEO method: the machine with agents",
+          "href": "https://github.com/inematds/inemaseo-metodo/blob/main/docs/METODO.md",
+          "icone": "camadas"
+        },
+        {
+          "t": "Course 6: Professional",
+          "href": "https://inematds.github.io/formacao-inemaseo-profissional-v72/en/",
+          "icone": "usuario"
+        }
+      ]
+    }
+  ]
+}

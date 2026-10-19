@@ -1,0 +1,275 @@
+{
+  "slug": "relatorio-semanal",
+  "num": 6,
+  "menu": "Report",
+  "titulo": "Automatic weekly report and the agent that reads it and proposes",
+  "titulo_curto": "Weekly report",
+  "minutos": 16,
+  "lead": "The observer closes the machine: every week, a script gathers non-branded Search Console data, the indexing of the key pages, and the position of the target queries into one report. An agent reads it and proposes three actions, each with the line that justifies it. You approve what becomes a task.",
+  "objetivo": "generate the non-branded weekly report and ask the agent for 3 proposals with evidence, which you approve before they become tasks.",
+  "competencias": [
+    "gerar-relatorio-semanal",
+    "pedir-proposta-com-evidencia",
+    "aprovar-tarefa-da-semana"
+  ],
+  "aprende": [
+    {
+      "t": "What goes into the report and where each number comes from"
+    },
+    {
+      "t": "Schedule it without losing control: cron generates, you commit"
+    },
+    {
+      "t": "The request to the agent: three proposals, each with evidence"
+    },
+    {
+      "t": "Reading a real INEMA week"
+    }
+  ],
+  "hero_alt": "A small business owner reads a printed report with simple charts, pen in hand, at a table with coffee.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "From Search Console to the approved task",
+      "sub": "Tap each block.",
+      "volta": "the approved task goes into gate 1 of the month",
+      "nos": [
+        {
+          "icone": "grafico",
+          "titulo": "Inputs",
+          "sub": "three sources",
+          "itens": [
+            {
+              "icone": "lupa",
+              "t": "non-branded export"
+            },
+            {
+              "icone": "check",
+              "t": "URL Inspection of the key URLs"
+            },
+            {
+              "icone": "alvo",
+              "t": "target queries"
+            }
+          ],
+          "detalhe": "The week's export separating out the brand, the indexing status of the pages that matter (list in a file), and the position of the queries the plan wants to win (another list)."
+        },
+        {
+          "icone": "terminal",
+          "titulo": "Report",
+          "sub": "semana-[fim].md",
+          "detalhe": "One Markdown file per week: totals per site, target queries, the 15 non-branded queries with the most impressions, and indexing, all compared with the previous week."
+        },
+        {
+          "icone": "robo",
+          "titulo": "Agent reads",
+          "sub": "and proposes three",
+          "forte": true,
+          "detalhe": "The agent reads the report and proposes three actions. Each proposal cites the report line that justifies it. No line, no proposal."
+        },
+        {
+          "icone": "usuario",
+          "titulo": "You approve",
+          "sub": "it becomes a task",
+          "forte": true,
+          "detalhe": "An approved proposal becomes a task with a gate (rewrite a title, create a page for a query, request indexing). A rejected one is noted with the reason why."
+        }
+      ],
+      "legenda": "The script measures; the agent suggests; you choose what to do this week."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "How INEMA runs the observer",
+      "sub": "Tap each step.",
+      "passos": [
+        {
+          "titulo": "The script",
+          "sub": "one run per week",
+          "texto": [
+            "In INEMA's SEO project, a script runs the non-branded export, inspects the key URLs, reads the positions of the target queries, and writes the report compared with the previous week. With the no-API option, it only rebuilds the report from what is already saved.",
+            "The public version of the export is the method's gsc_semanal.py; the report around it fits in a short script that the agent can build for you."
+          ]
+        },
+        {
+          "titulo": "The schedule",
+          "sub": "Tuesday at 9 a.m.",
+          "texto": [
+            "Cron runs every Tuesday at 9 a.m. and only generates the files. The commit stays manual: you look before you save.",
+            "Using the Search Console API for this measurement was authorized on 10/05/2026. It's your own data, but the authorization applies to that purpose."
+          ]
+        },
+        {
+          "titulo": "What the agent looks for",
+          "sub": "three types of proposals",
+          "texto": [
+            "A non-branded query that grew; a page with impressions and no clicks (rewrite the title and description); a query with impressions and no dedicated page (a content plan validated for free).",
+            "If nothing changed for weeks, the method's Plan B tells you what to look at: crawling, demand, title, or authority."
+          ]
+        },
+        {
+          "titulo": "A real week",
+          "sub": "Oct 5 to 11, 2026",
+          "texto": [
+            "inema.club: 157 non-branded impressions across 51 queries, still with 0 non-branded clicks. inema.pro: the first 2 non-branded clicks, driven by \"curso jev\". Indexed: 13 of 14 key URLs; /eventos/ is missing.",
+            "The Spanish page, indexed on Oct 3, was already showing up for queries like \"aprender ia\" and \"cómo aprender ia\", at positions 29 to 61."
+          ]
+        }
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "The export, the schedule, and the request to the agent",
+      "sub": "gsc_semanal.py needs your Search Console credential (free, see the script header).",
+      "blocos": [
+        {
+          "rot": "Weekly non-branded export (public, inemaSEO method)",
+          "icone": "terminal",
+          "conteudo": "export GSC_SITES=\"sc-domain:seusite.com\"\nexport GSC_MARCA=\"seusite|seu nome|erro comum de digitação\"\nexport GSC_QUOTA_PROJ=\"<seu projeto no Google Cloud>\"\npython3 tools/gsc_semanal.py --dias 7 --saida dados/gsc"
+        },
+        {
+          "rot": "Schedule (crontab template: Tuesday at 9 a.m.)",
+          "icone": "relogio",
+          "conteudo": "0 9 * * 2 cd ~/projetos/seo-seusite && python3 tools/gsc_semanal.py --dias 7 --saida dados/gsc >> dados/gsc/cron.log 2>&1"
+        },
+        {
+          "rot": "Request to the observer agent",
+          "icone": "chat",
+          "conteudo": "Read this week's report (the most recent reports/semana-*.md) and the one from the previous week.\nPropose at most 3 actions for this week. For each one:\n- the report line that justifies it (copied);\n- the type: title/description, new page for a query, indexing, internal link;\n- what changes and where;\n- how we will know next week whether it worked.\nDo not change anything, do not call any API. If the week shows nothing new, say so instead of inventing an action."
+        }
+      ],
+      "saida": {
+        "selo": "real",
+        "abas": [
+          {
+            "rot": "Report for Oct 5 to 11, 2026",
+            "html": "<pre># Relatório semanal de SEO — semana até 2026-10-11\n\nGerado em 2026-10-13 por `scripts/gsc_relatorio_semanal.py`.\n\n## Totais (cliques / impressões)\n\n| site       | total     | marca    | sem marca | consultas sem marca | vs semana anterior (impr. sem marca) |\n| inema.club | 114 / 702 | 87 / 238 | 0 / 157   | 51                  | ▲ +110 |\n| inema.pro  | 11 / 761  | 5 / 116  | 2 / 293   | 52                  | ▲ +279 |\n\n## Indexação das URLs-chave (inspeção de 2026-10-13)\n| /eventos/ | URL is unknown to Google | - | = |\n\nIndexadas: 13 de 14.</pre><p>Excerpt from the real report; the query tables were omitted.</p>"
+          },
+          {
+            "rot": "Three possible proposals",
+            "html": "<ol><li><b>Indexing</b>: /eventos/ is still unknown to Google. Request indexing in the panel and check whether any indexed page links to it.</li><li><b>Spanish</b>: non-branded impressions on Spanish queries for the ES page. Check the Spanish title and description against those queries.</li><li><b>inema.pro</b>: 2 non-branded clicks from \"curso jev\". Check whether an owner page exists for that query.</li></ol><p>Illustration of how the agent should answer: each proposal points to a line in the report.</p>"
+          }
+        ]
+      }
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Practice: one week of your site",
+      "sub": "If you don't have the API credential yet, export the week's queries from the Search Console panel (Performance → Export) and use the CSV.",
+      "exercicios": [
+        {
+          "id": "e1",
+          "titulo": "E1 · The week's report",
+          "min": "40 min",
+          "texto": "Run the non-branded export for the last week (or export from the panel) and ask the agent for a Markdown report with totals, branded, non-branded, and the 15 non-branded queries with the most impressions.",
+          "pronto": "a file reports/semana-[date].md exists with totals split into branded and non-branded, and the numbers match the Search Console panel."
+        },
+        {
+          "id": "e2",
+          "titulo": "E2 · Three proposals and your decision",
+          "min": "20 min",
+          "texto": "Give the observer request to the agent. Check each line cited in the report and decide.",
+          "pronto": "you have up to 3 proposals, each with the line copied from the report and your decision (approved, with the task created, or rejected, with the reason)."
+        }
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Test what you learned",
+      "sub": "The explanation appears after your answer.",
+      "perguntas": [
+        {
+          "p": "The cron generates the report every Tuesday. Who makes the commit?",
+          "opcoes": [
+            "The cron, automatically.",
+            "The agent, without asking.",
+            "You, after looking it over.",
+            "No one: reports aren't saved."
+          ],
+          "certa": 2,
+          "explica": "The cron only generates the files. Saving is your decision, after you see whether the run came out right.",
+          "ref": "passos",
+          "cert": true
+        },
+        {
+          "p": "In the week of Oct 5 to 11, inema.club had 157 non-branded impressions and how many non-branded clicks?",
+          "opcoes": [
+            "157.",
+            "51.",
+            "0.",
+            "114."
+          ],
+          "certa": 2,
+          "explica": "Non-branded impressions grew, but the club's non-branded clicks were still at 0. The first 2 non-branded clicks showed up on inema.pro.",
+          "ref": "codigo"
+        },
+        {
+          "p": "The agent proposes \"publish 10 new articles\" without citing any line from the report. What should you do?",
+          "opcoes": [
+            "Approve: more content is better.",
+            "Reject: a proposal without evidence doesn't go in, and volume without first-hand data is a scaled content risk.",
+            "Approve only 5.",
+            "Ask it to publish and measure later."
+          ],
+          "certa": 1,
+          "explica": "The request requires the line that justifies it. And the yardstick: Google evaluates value, not volume.",
+          "ref": "diagrama"
+        },
+        {
+          "p": "What is a sign of a content plan validated for free in the report?",
+          "opcoes": [
+            "A branded query with many clicks.",
+            "A non-branded query with impressions and no dedicated page.",
+            "A page with 0 impressions.",
+            "A new robot in the log."
+          ],
+          "certa": 1,
+          "explica": "If Google already shows your site for a query and you have no page of its own for it, there is real demand. It is a content plan item that costs zero to validate.",
+          "ref": "passos"
+        }
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "To take with you",
+      "itens": [
+        {
+          "t": "One round per week",
+          "texto": "Non-branded, indexing and target queries, compared with the previous week."
+        },
+        {
+          "t": "Cron generates, you keep",
+          "texto": "The schedule produces files; the commit is yours."
+        },
+        {
+          "t": "Three proposals with evidence",
+          "texto": "The agent suggests; each suggestion cites the line; you approve."
+        },
+        {
+          "t": "2026 yardstick",
+          "texto": "The number that shows whether SEO is working is non-branded searches."
+        }
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "Going further",
+      "links": [
+        {
+          "t": "gsc_semanal.py in the inemaSEO method",
+          "href": "https://github.com/inematds/inemaseo-metodo/blob/main/tools/gsc_semanal.py",
+          "icone": "grafico"
+        },
+        {
+          "t": "Course 3: Measurement",
+          "href": "https://inematds.github.io/formacao-inemaseo-medicao-v72/en/",
+          "icone": "alvo"
+        },
+        {
+          "t": "inemaSEO systems: Search Console history beyond 16 months",
+          "href": "https://github.com/inematds/inemaseo-sistemas",
+          "icone": "terminal"
+        }
+      ]
+    }
+  ]
+}

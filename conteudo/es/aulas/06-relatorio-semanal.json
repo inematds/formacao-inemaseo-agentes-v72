@@ -1,0 +1,275 @@
+{
+  "slug": "relatorio-semanal",
+  "num": 6,
+  "menu": "Informe",
+  "titulo": "Informe semanal automático y el agente que lo lee y propone",
+  "titulo_curto": "Informe semanal",
+  "minutos": 16,
+  "lead": "El observador cierra la máquina: cada semana, un script junta Search Console sin la marca, la indexación de las páginas clave y la posición de las consultas objetivo en un informe. Un agente lo lee y propone tres acciones, cada una con la línea que la justifica. Tú apruebas lo que se convierte en tarea.",
+  "objetivo": "generar el informe semanal sin marca y pedirle al agente 3 propuestas con evidencia, que tú apruebas antes de que se conviertan en tarea.",
+  "competencias": [
+    "gerar-relatorio-semanal",
+    "pedir-proposta-com-evidencia",
+    "aprovar-tarefa-da-semana"
+  ],
+  "aprende": [
+    {
+      "t": "Qué entra en el informe y de dónde viene cada número"
+    },
+    {
+      "t": "Programar sin perder el control: el cron genera, tú haces el commit"
+    },
+    {
+      "t": "El pedido al agente: tres propuestas, cada una con evidencia"
+    },
+    {
+      "t": "Leer una semana real de INEMA"
+    }
+  ],
+  "hero_alt": "Dueña de un pequeño negocio lee con un bolígrafo en la mano un informe impreso con gráficos simples, en una mesa con café.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "De Search Console a la tarea aprobada",
+      "sub": "Toca cada bloque.",
+      "volta": "la tarea aprobada entra en la compuerta 1 del mes",
+      "nos": [
+        {
+          "icone": "grafico",
+          "titulo": "Entradas",
+          "sub": "tres fuentes",
+          "itens": [
+            {
+              "icone": "lupa",
+              "t": "export sin marca"
+            },
+            {
+              "icone": "check",
+              "t": "inspección de URL de las páginas clave"
+            },
+            {
+              "icone": "alvo",
+              "t": "consultas objetivo"
+            }
+          ],
+          "detalhe": "El export de la semana separando la marca, el estado de indexación de las páginas que importan (lista en un archivo) y la posición de las consultas que el plan quiere ganar (otra lista)."
+        },
+        {
+          "icone": "terminal",
+          "titulo": "Informe",
+          "sub": "semana-[fim].md",
+          "detalhe": "Un archivo Markdown por semana: totales por sitio, consultas objetivo, las 15 consultas sin marca con más impresiones y la indexación, todo comparado con la semana anterior."
+        },
+        {
+          "icone": "robo",
+          "titulo": "El agente lee",
+          "sub": "y propone tres",
+          "forte": true,
+          "detalhe": "El agente lee el informe y propone tres acciones. Cada propuesta cita la línea del informe que la justifica. Sin línea, no es propuesta."
+        },
+        {
+          "icone": "usuario",
+          "titulo": "Tú apruebas",
+          "sub": "se convierte en tarea",
+          "forte": true,
+          "detalhe": "La propuesta aprobada se convierte en tarea con compuerta (reescribir un título, crear una página para una consulta, pedir indexación). La rechazada queda anotada con el porqué."
+        }
+      ],
+      "legenda": "El script mide; el agente sugiere; tú eliges qué hacer en la semana."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "Cómo INEMA ejecuta el observador",
+      "sub": "Toca cada paso.",
+      "passos": [
+        {
+          "titulo": "El script",
+          "sub": "una ronda por semana",
+          "texto": [
+            "En el proyecto de SEO de INEMA, un script ejecuta el export sin marca, inspecciona las URLs clave, lee las posiciones de las consultas objetivo y escribe el informe comparado con la semana anterior. Con la opción sin API, solo rearma el informe con lo que ya está guardado.",
+            "La versión pública del export es el gsc_semanal.py del método; el informe alrededor de él cabe en un script corto que el agente puede armar por ti."
+          ]
+        },
+        {
+          "titulo": "La programación",
+          "sub": "martes a las 9 h",
+          "texto": [
+            "El cron se ejecuta todos los martes a las 9 h y solo genera los archivos. El commit sigue siendo manual: tú revisas antes de guardar.",
+            "El uso de la API de Search Console para esa medición fue autorizado el 05/10/2026. Son tus propios datos, pero la autorización vale para esa finalidad."
+          ]
+        },
+        {
+          "titulo": "Lo que busca el agente",
+          "sub": "tres tipos de propuesta",
+          "texto": [
+            "Consulta sin marca que creció; página con impresión y sin clic (reescribir título y descripción); consulta con impresión y sin página dedicada (pauta validada gratis).",
+            "Si nada cambió en semanas, el Plan B del método te dice qué mirar: rastreo, demanda, título o autoridad."
+          ]
+        },
+        {
+          "titulo": "Una semana real",
+          "sub": "05 a 11/10/2026",
+          "texto": [
+            "inema.club: 157 impresiones sin marca en 51 consultas, aún con 0 clics sin marca. inema.pro: los 2 primeros clics sin marca, traídos por \"curso jev\". Indexadas: 13 de 14 URLs clave; falta /eventos/.",
+            "La página en español, indexada el 03/10, ya aparecía en consultas como \"aprender ia\" y \"cómo aprender ia\", en las posiciones 29 a 61."
+          ]
+        }
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "El export, la programación y el pedido al agente",
+      "sub": "El gsc_semanal.py necesita tu credencial de Search Console (gratuita, ver el encabezado del script).",
+      "blocos": [
+        {
+          "rot": "Export semanal sin marca (público, método inemaSEO)",
+          "icone": "terminal",
+          "conteudo": "export GSC_SITES=\"sc-domain:seusite.com\"\nexport GSC_MARCA=\"seusite|seu nombre|error común de tipeo\"\nexport GSC_QUOTA_PROJ=\"<tu proyecto en Google Cloud>\"\npython3 tools/gsc_semanal.py --dias 7 --saida dados/gsc"
+        },
+        {
+          "rot": "Programación (modelo de crontab: martes a las 9 h)",
+          "icone": "relogio",
+          "conteudo": "0 9 * * 2 cd ~/projetos/seo-seusite && python3 tools/gsc_semanal.py --dias 7 --saida dados/gsc >> dados/gsc/cron.log 2>&1"
+        },
+        {
+          "rot": "Pedido al agente observador",
+          "icone": "chat",
+          "conteudo": "Lee el reporte de esta semana (el reports/semana-*.md más reciente) y el de la semana anterior.\nPropón como máximo 3 acciones para esta semana. Para cada una:\n- la línea del reporte que la justifica (copiada);\n- el tipo: título/descripción, página nueva para consulta, indexación, enlace interno;\n- qué cambia y dónde;\n- cómo vamos a saber la semana que viene si funcionó.\nNo cambies nada, no llames a ninguna API. Si la semana no muestra nada nuevo, dilo en vez de inventar una acción."
+        }
+      ],
+      "saida": {
+        "selo": "real",
+        "abas": [
+          {
+            "rot": "Reporte del 05 al 11/10/2026",
+            "html": "<pre># Relatório semanal de SEO — semana até 2026-10-11\n\nGerado em 2026-10-13 por `scripts/gsc_relatorio_semanal.py`.\n\n## Totais (cliques / impressões)\n\n| site       | total     | marca    | sem marca | consultas sem marca | vs semana anterior (impr. sem marca) |\n| inema.club | 114 / 702 | 87 / 238 | 0 / 157   | 51                  | ▲ +110 |\n| inema.pro  | 11 / 761  | 5 / 116  | 2 / 293   | 52                  | ▲ +279 |\n\n## Indexação das URLs-chave (inspeção de 2026-10-13)\n| /eventos/ | URL is unknown to Google | - | = |\n\nIndexadas: 13 de 14.</pre><p>Fragmento del reporte real; se omitieron las tablas de consultas.</p>"
+          },
+          {
+            "rot": "Tres propuestas posibles",
+            "html": "<ol><li><b>Indexación</b>: /eventos/ sigue desconocida para Google. Pide la indexación en el panel y revisa si alguna página indexada enlaza a ella.</li><li><b>Español</b>: impresiones sin marca en consultas en español en la página ES. Revisa el título y la descripción en español para esas consultas.</li><li><b>inema.pro</b>: 2 clics sin marca venidos de \"curso jev\". Revisa si existe una página dueña para esa consulta.</li></ol><p>Ilustración de cómo debe responder el agente: cada propuesta señala una línea del reporte.</p>"
+          }
+        ]
+      }
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Práctica: una semana de tu sitio",
+      "sub": "Si todavía no tienes la credencial de la API, exporta las consultas de la semana desde el panel de Search Console (Rendimiento → Exportar) y usa el CSV.",
+      "exercicios": [
+        {
+          "id": "e1",
+          "titulo": "E1 · El reporte de la semana",
+          "min": "40 min",
+          "texto": "Ejecuta el export sin marca de la última semana (o expórtalo desde el panel) y pídele al agente un reporte en Markdown con totales, marca, sin marca y las 15 consultas sin marca con más impresiones.",
+          "pronto": "existe un archivo reports/semana-[data].md con los totales separados por marca y sin marca, y los números coinciden con el panel de Search Console."
+        },
+        {
+          "id": "e2",
+          "titulo": "E2 · Tres propuestas y tu decisión",
+          "min": "20 min",
+          "texto": "Pásale al agente el pedido del observador. Revisa cada línea citada en el reporte y decide.",
+          "pronto": "tienes hasta 3 propuestas, cada una con la línea copiada del reporte y tu decisión (aprobada, con la tarea creada, o rechazada, con el porqué)."
+        }
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Prueba lo que aprendiste",
+      "sub": "La explicación aparece después de tu respuesta.",
+      "perguntas": [
+        {
+          "p": "El cron genera el reporte todos los martes. ¿Quién hace el commit?",
+          "opcoes": [
+            "El cron, automáticamente.",
+            "El agente, sin preguntar.",
+            "Tú, después de revisar.",
+            "Nadie: el reporte no se guarda."
+          ],
+          "certa": 2,
+          "explica": "El cron solo genera los archivos. Guardar es decisión tuya, después de ver si la ronda salió bien.",
+          "ref": "passos",
+          "cert": true
+        },
+        {
+          "p": "En la semana del 05 al 11/10, inema.club tuvo 157 impresiones sin marca y ¿cuántos clics sin marca?",
+          "opcoes": [
+            "157.",
+            "51.",
+            "0.",
+            "114."
+          ],
+          "certa": 2,
+          "explica": "Las impresiones sin marca crecieron, pero los clics sin marca del club seguían en 0. Los 2 primeros clics sin marca aparecieron en inema.pro.",
+          "ref": "codigo"
+        },
+        {
+          "p": "El agente propone \"publicar 10 artículos nuevos\" sin citar ninguna línea del reporte. ¿Qué hacer?",
+          "opcoes": [
+            "Aprobar: más contenido es mejor.",
+            "Rechazar: una propuesta sin evidencia no entra, y volumen sin dato propio es riesgo de contenido a escala.",
+            "Aprobar solo 5.",
+            "Pedirle que publique y mida después."
+          ],
+          "certa": 1,
+          "explica": "El pedido exige la línea que lo justifica. Y la vara: Google evalúa valor, no volumen.",
+          "ref": "diagrama"
+        },
+        {
+          "p": "¿Cuál es una señal de pauta validada gratis en el reporte?",
+          "opcoes": [
+            "Consulta de marca con muchos clics.",
+            "Consulta sin marca con impresión y sin página dedicada.",
+            "Página con 0 impresiones.",
+            "Un robot nuevo en el log."
+          ],
+          "certa": 1,
+          "explica": "Si Google ya muestra el sitio para una consulta sin que tengas una página propia para ella, hay demanda real. Es una pauta que cuesta cero validar.",
+          "ref": "passos"
+        }
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "Para llevar",
+      "itens": [
+        {
+          "t": "Una ronda por semana",
+          "texto": "Sin marca, indexación y consultas objetivo, comparados con la semana anterior."
+        },
+        {
+          "t": "Cron genera, tú guardas",
+          "texto": "La programación produce archivos; el commit es tuyo."
+        },
+        {
+          "t": "Tres propuestas con evidencia",
+          "texto": "El agente sugiere; cada sugerencia cita la línea; tú apruebas."
+        },
+        {
+          "t": "La vara de 2026",
+          "texto": "El número que muestra si el SEO funciona es el de búsquedas sin tu marca."
+        }
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "Para ir más allá",
+      "links": [
+        {
+          "t": "gsc_semanal.py en el método inemaSEO",
+          "href": "https://github.com/inematds/inemaseo-metodo/blob/main/tools/gsc_semanal.py",
+          "icone": "grafico"
+        },
+        {
+          "t": "Curso 3: Medición",
+          "href": "https://inematds.github.io/formacao-inemaseo-medicao-v72/es/",
+          "icone": "alvo"
+        },
+        {
+          "t": "inemaSEO sistemas: historial de Search Console más allá de 16 meses",
+          "href": "https://github.com/inematds/inemaseo-sistemas",
+          "icone": "terminal"
+        }
+      ]
+    }
+  ]
+}

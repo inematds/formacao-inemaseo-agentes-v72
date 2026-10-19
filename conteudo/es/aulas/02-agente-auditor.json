@@ -1,0 +1,283 @@
+{
+  "slug": "agente-auditor",
+  "num": 2,
+  "menu": "Auditor",
+  "titulo": "Agente auditor: la radiografía, el claude-seo y la lista con evidencia",
+  "titulo_curto": "Agente auditor",
+  "minutos": 18,
+  "lead": "El primer agente que vale la pena montar es el que solo lee. Corre la radiografía, corre el claude-seo y devuelve una lista de problemas, cada uno con la línea que lo prueba. No corrige nada: quien decide qué tocar eres tú, y la vara de 2026 filtra lo que es moda.",
+  "objetivo": "correr la radiografía de solo lectura y el claude-seo, y hacer que el agente liste problemas con evidencia, sin alterar nada.",
+  "competencias": [
+    "rodar-auditoria-so-leitura",
+    "pedir-achado-com-evidencia",
+    "filtrar-recomendacao-pela-regua"
+  ],
+  "aprende": [
+    {
+      "t": "La radiografía en texto: auditoria.sh, solo lectura"
+    },
+    {
+      "t": "El claude-seo: qué es gratis y qué es de pago"
+    },
+    {
+      "t": "El pedido correcto: hallazgo, evidencia, ninguna alteración"
+    },
+    {
+      "t": "Pasar cada recomendación por la vara de 2026"
+    }
+  ],
+  "hero_alt": "Inspectora de edificios con tablilla y linterna examina el tablero eléctrico de una casa y anota lo que encuentra.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "De la radiografía a la lista que tú decides",
+      "sub": "Toca cada bloque.",
+      "nos": [
+        {
+          "icone": "terminal",
+          "titulo": "Radiografía",
+          "sub": "auditoria.sh, solo lectura",
+          "detalhe": "Un script de curl que mira el sitio como el buscador: redirecciones, robots.txt, sitemaps y, por página, estado, título, canónico, hreflang, robots, JSON-LD y enlaces internos en el HTML. No escribe nada en el sitio."
+        },
+        {
+          "icone": "robo",
+          "titulo": "claude-seo",
+          "sub": "skill de Claude Code",
+          "detalhe": "Colección abierta (MIT) de comandos /seo para Claude Code: auditoría completa, técnica, contenido, schema, sitemap, hreflang y GEO. El núcleo es gratis; la extensión DataForSEO es de pago."
+        },
+        {
+          "icone": "lista",
+          "titulo": "Lista con evidencia",
+          "sub": "el agente lee y señala",
+          "forte": true,
+          "itens": [
+            {
+              "icone": "check",
+              "t": "hallazgo"
+            },
+            {
+              "icone": "arquivo",
+              "t": "línea copiada que lo prueba"
+            },
+            {
+              "icone": "alvo",
+              "t": "corrección propuesta"
+            }
+          ],
+          "detalhe": "Cada hallazgo viene con la línea exacta de la salida. Un hallazgo sin evidencia no entra: es el agente dando su opinión."
+        },
+        {
+          "icone": "escudo",
+          "titulo": "La vara de 2026",
+          "sub": "¿fundamento o moda?",
+          "detalhe": "Las herramientas de SEO con IA todavía recomiendan llms.txt como palanca y FAQ como vitrina. La vara separa: llms.txt es opcional y barato; el rich result de FAQ terminó el 07/05/2026."
+        },
+        {
+          "icone": "usuario",
+          "titulo": "Tú decides",
+          "sub": "corregir, ignorar o investigar",
+          "detalhe": "El agente no conoce el contexto del sitio. Una anotación que parece un error puede ser una decisión tuya. La decisión de tocar algo queda contigo, y la corrección se vuelve una tarea con compuerta."
+        }
+      ],
+      "legenda": "El auditor solo lee. Quien escribe en el sitio pasa por una compuerta."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "Cómo armar el auditor",
+      "sub": "Toca cada paso.",
+      "passos": [
+        {
+          "titulo": "Radiografía en un archivo",
+          "sub": "auditoria.sh",
+          "texto": [
+            "Ejecuta el auditoria.sh del método con la home y las páginas que importan, y guarda la salida en un archivo. Es la evidencia que el agente va a leer.",
+            "El script solo hace pedidos de lectura (curl). Puede correr en cualquier sitio público, incluso el de la competencia."
+          ]
+        },
+        {
+          "titulo": "claude-seo",
+          "sub": "núcleo gratis",
+          "texto": [
+            "claude-seo requiere Python 3.10 o superior y Claude Code. Los comandos /seo audit, /seo technical y /seo geo funcionan sin pagar nada más que tu suscripción.",
+            "La extensión DataForSEO (volumen de búsqueda, SERP, backlinks) exige una cuenta de pago: el README habla de una recarga mínima de US$ 50 y US$ 1 de prueba (README del 06/03/2026; confírmalo en el sitio)."
+          ],
+          "exemplo": {
+            "rot": "Instala leyendo antes",
+            "texto": "Mejor clona y lee el install.sh antes de ejecutarlo. Un script descargado directo al bash corre sin que veas lo que hace."
+          }
+        },
+        {
+          "titulo": "El pedido",
+          "sub": "hallazgo + evidencia",
+          "texto": [
+            "Pide una tabla: hallazgo, línea de evidencia copiada del archivo, gravedad y corrección propuesta. Y dile lo que no puede hacer: modificar archivos, ejecutar comandos que escriban, llamar a una API.",
+            "Un hallazgo sin línea de evidencia se descarta, como en el control de la clase 3."
+          ]
+        },
+        {
+          "titulo": "La vara",
+          "sub": "lo que es moda",
+          "texto": [
+            "El módulo de GEO de claude-seo trata llms.txt como un estándar emergente, y su referencia de schema sobre FAQ es de 2023. Marca esos puntos como [vara] y decide según lo que vale en 2026.",
+            "Bloquear al robot de entrenamiento no bloquea al robot de búsqueda: robots.txt se decide por finalidad (curso 1, clase 6)."
+          ]
+        }
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "La radiografía, claude-seo y el pedido al agente",
+      "sub": "Cambia la dirección por la de tu sitio.",
+      "blocos": [
+        {
+          "rot": "Radiografía de solo lectura (auditoria.sh)",
+          "icone": "terminal",
+          "conteudo": "git clone https://github.com/inematds/inemaseo-metodo.git\ncd inemaseo-metodo\ntools/auditoria.sh https://www.seusite.com /pagina-1/ /pagina-2/ > auditoria.txt"
+        },
+        {
+          "rot": "claude-seo (instalación manual y comandos)",
+          "icone": "robo",
+          "conteudo": "git clone https://github.com/AgriciDaniel/claude-seo.git\ncd claude-seo\nless install.sh        # lee antes de ejecutar\n./install.sh\n\nclaude                 # abre Claude Code\n/seo audit https://www.seusite.com\n/seo technical https://www.seusite.com\n/seo geo https://www.seusite.com"
+        },
+        {
+          "rot": "Pedido al agente auditor",
+          "icone": "chat",
+          "conteudo": "Lee auditoria.txt (y el informe de /seo audit, si lo hay).\nDevuelve una tabla con hasta 10 hallazgos: hallazgo | línea de evidencia copiada del archivo | gravedad (alta/media/baja) | corrección propuesta.\nReglas:\n- Un hallazgo sin línea de evidencia no entra.\n- No modifiques ningún archivo, no ejecutes comandos que escriban, no llames a ninguna API.\n- Marca con [vara] toda recomendación sobre llms.txt, FAQ u \"optimizar para IA\".\n- Robots en robots.txt: separa búsqueda, acción del usuario y entrenamiento."
+        }
+      ],
+      "saida": {
+        "selo": "real",
+        "abas": [
+          {
+            "rot": "Salida capturada (19/10/2026)",
+            "html": "<pre>$ tools/auditoria.sh https://www.inema.club\n== Redirecionamentos\n  http://www.inema.club/ -&gt; 308 https://www.inema.club/\n  https://inema.club/ -&gt; 308 https://www.inema.club/\n  https://www.inema.club/ -&gt; 200\n== robots.txt\n  User-Agent: *\n  Allow: /\n\n  User-Agent: OAI-SearchBot\n  User-Agent: Claude-SearchBot\n  User-Agent: ClaudeBot\n  User-Agent: PerplexityBot\n  User-Agent: Googlebot\n  User-Agent: Bingbot\n  Allow: /\n\n  Host: https://www.inema.club\n  Sitemap: https://www.inema.club/sitemap.xml\n  Sitemap: https://www.inema.club/courses-sitemap.xml\n== Sitemaps\n  https://www.inema.club/sitemap.xml: 83 URLs, 60 anotações hreflang\n  https://www.inema.club/courses-sitemap.xml: 100 URLs, 0 anotações hreflang\n== llms.txt: 200\n== Páginas\n-- /  [200]\n   title:     Aprender Inteligência Artificial na prática | INEMA.club\n   canonical: https://www.inema.club/\n   hreflang:  hrefLang=\"en\" hrefLang=\"es\" hrefLang=\"pt-BR\" hrefLang=\"x-default\"\n   links internos no HTML: 27</pre><p>Fragmento: se omitió el bloque de JSON-LD.</p>"
+          },
+          {
+            "rot": "Lo que el agente debe señalar",
+            "html": "<ul><li><b>Redirección</b>: http y sin www van a una sola dirección (308). Nada que hacer.</li><li><b>robots.txt</b>: ClaudeBot está en el mismo grupo que los robots de búsqueda, pero es un robot de <b>entrenamiento</b>. Decidir por finalidad.</li><li><b>courses-sitemap</b>: 0 anotaciones hreflang. El agente lo señala; tú conoces el contexto (las fichas son solo en portugués y la versión traducida es otro sitio).</li><li><b>llms.txt 200</b>: [vara] opcional y barato, no es una palanca de citación.</li></ul>"
+          }
+        ]
+      }
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Práctica: el primer auditor",
+      "sub": "Usa tu sitio. Si no tienes uno, usa un sitio público que conozcas bien.",
+      "exercicios": [
+        {
+          "id": "e1",
+          "titulo": "E1 · Radiografía en archivo",
+          "min": "20 min",
+          "texto": "Ejecuta auditoria.sh con la home y 3 páginas importantes más, y guarda el resultado en auditoria.txt. Si tienes Claude Code, ejecuta también /seo technical en la home.",
+          "pronto": "auditoria.txt existe con las 4 páginas, cada una con status, title, canonical y el conteo de enlaces internos."
+        },
+        {
+          "id": "e2",
+          "titulo": "E2 · La lista con evidencia",
+          "min": "30 min",
+          "texto": "Pásale el pedido del auditor al agente. Revisa cada línea de evidencia en el archivo y escribe, junto a cada hallazgo, tu decisión: corregir, ignorar (con el porqué) o [régua].",
+          "pronto": "tienes 5 hallazgos, cada uno con una línea que de verdad existe en auditoria.txt y tu decisión, y el git status del proyecto muestra que el agente no modificó nada."
+        }
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Prueba lo que aprendiste",
+      "sub": "La explicación aparece después de tu respuesta.",
+      "perguntas": [
+        {
+          "p": "El agente auditor señaló un problema, pero no copió ninguna línea de la salida. ¿Qué haces?",
+          "opcoes": [
+            "Aceptarlo: el agente sabe de SEO.",
+            "Descartar el hallazgo o pedir la evidencia.",
+            "Corregirlo en el sitio por si acaso.",
+            "Ejecutar /seo audit de nuevo hasta que esté de acuerdo."
+          ],
+          "certa": 1,
+          "explica": "Un hallazgo sin evidencia es una opinión. El pedido exige la línea copiada de la salida; sin ella, el hallazgo no entra en la lista.",
+          "ref": "diagrama",
+          "cert": true
+        },
+        {
+          "p": "¿Qué parte de claude-seo exige una cuenta de pago?",
+          "opcoes": [
+            "/seo audit.",
+            "/seo technical.",
+            "La extensión DataForSEO (volumen, SERP, backlinks).",
+            "La instalación."
+          ],
+          "certa": 2,
+          "explica": "El núcleo funciona con Claude Code y Python. Los datos de mercado (volumen exacto, SERP, backlinks) vienen de DataForSEO, que es de pago. La clase 7 muestra cuándo vale la pena.",
+          "ref": "passos"
+        },
+        {
+          "p": "En la salida real, ClaudeBot aparece en el grupo con OAI-SearchBot y Claude-SearchBot. ¿Cuál es el hallazgo?",
+          "opcoes": [
+            "Ninguno: todos son robots de IA.",
+            "ClaudeBot es un robot de entrenamiento; la decisión de permitirlo debe tomarse por finalidad.",
+            "Hay que bloquearlos todos.",
+            "Falta el llms.txt."
+          ],
+          "certa": 1,
+          "explica": "Búsqueda, acción del usuario y entrenamiento son finalidades distintas. Permitir o bloquear el entrenamiento es una decisión aparte, que no afecta la búsqueda.",
+          "ref": "codigo"
+        },
+        {
+          "p": "El módulo de GEO sugiere crear llms.txt para aparecer más en las IAs. ¿Cómo lo tratas?",
+          "opcoes": [
+            "Prioridad alta: es el nuevo estándar.",
+            "Marcarlo [régua]: es opcional y barato, sin pruebas de que mejore las citas.",
+            "Ignorar claude-seo por completo.",
+            "Pedirle al agente que lo publique de inmediato."
+          ],
+          "certa": 1,
+          "explica": "Un estudio de Ahrefs (137 mil dominios, 15/06/2026) vio que el 97% de los archivos no recibe ninguna solicitud. Puede existir, pero no como palanca.",
+          "ref": "passos"
+        }
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "Para llevar",
+      "itens": [
+        {
+          "t": "Solo lectura",
+          "texto": "El auditor lee y señala. Escribir en el sitio pasa por una compuerta."
+        },
+        {
+          "t": "Evidencia",
+          "texto": "Cada hallazgo con la línea que lo prueba; sin línea, no entra."
+        },
+        {
+          "t": "Primero lo gratis",
+          "texto": "auditoria.sh y el núcleo de claude-seo. DataForSEO es opcional y de pago."
+        },
+        {
+          "t": "La vara de 2026",
+          "texto": "llms.txt opcional; rich result de FAQ cerrado el 07/05/2026; robots por finalidad."
+        }
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "Para ir más allá",
+      "links": [
+        {
+          "t": "auditoria.sh en el método inemaSEO",
+          "href": "https://github.com/inematds/inemaseo-metodo/blob/main/tools/auditoria.sh",
+          "icone": "terminal"
+        },
+        {
+          "t": "claude-seo (repositorio original, MIT)",
+          "href": "https://github.com/AgriciDaniel/claude-seo",
+          "icone": "robo"
+        },
+        {
+          "t": "Guía de claude-seo en portugués (INEMA)",
+          "href": "https://inematds.github.io/claude-seo/guia/",
+          "icone": "lupa"
+        }
+      ]
+    }
+  ]
+}

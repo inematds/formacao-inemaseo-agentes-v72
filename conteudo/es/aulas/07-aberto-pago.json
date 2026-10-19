@@ -1,0 +1,288 @@
+{
+  "slug": "aberto-pago",
+  "num": 7,
+  "menu": "Herramientas",
+  "titulo": "Herramientas abiertas × pagadas: qué se puede armar gratis y cuándo pagar",
+  "titulo_curto": "Abiertas × pagadas",
+  "minutos": 16,
+  "lead": "Una herramienta de SEO de pago vende datos: volumen de búsqueda, SERP de la competencia, backlinks, monitor de IA. Para tu propio sitio, casi todo lo del día a día sale de fuentes gratuitas: Search Console, Bing Webmaster, el log del servidor, un rastreador local y el grafo abierto de Common Crawl. Esta clase te enseña a separar las dos cosas y a decidir cuándo pagar.",
+  "objetivo": "armar el núcleo gratuito por función y decidir, con el límite honesto de cada una, cuándo una herramienta de pago se justifica.",
+  "competencias": [
+    "mapear-funcao-e-fonte",
+    "reconhecer-limite-do-gratis",
+    "decidir-pago-com-data"
+  ],
+  "aprende": [
+    {
+      "t": "Función por función: de dónde viene el dato"
+    },
+    {
+      "t": "Lo que no existe gratis (y no sirve buscarlo)"
+    },
+    {
+      "t": "open-seo, DataForSEO, Firecrawl y Apify: qué vende cada uno"
+    },
+    {
+      "t": "Dónde profundizar: el repositorio inemaseo-sistemas y el curso 7"
+    }
+  ],
+  "hero_alt": "Un carpintero evalúa, en el banco de trabajo, entre herramientas manuales ordenadas en la pared y una máquina profesional grande.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "De la función a la decisión de pagar",
+      "sub": "Toca cada bloque.",
+      "nos": [
+        {
+          "icone": "alvo",
+          "titulo": "Función",
+          "sub": "lo que necesitas saber",
+          "detalhe": "Desempeño del sitio, citación en IA, salud técnica, quién lee el sitio, quién te enlaza, palabra clave. Empieza por la pregunta, no por la herramienta."
+        },
+        {
+          "icone": "check",
+          "titulo": "Fuente gratuita",
+          "sub": "el núcleo",
+          "forte": true,
+          "itens": [
+            {
+              "icone": "grafico",
+              "t": "Search Console y Bing Webmaster"
+            },
+            {
+              "icone": "arquivo",
+              "t": "log del servidor"
+            },
+            {
+              "icone": "lupa",
+              "t": "rastreador local"
+            },
+            {
+              "icone": "nuvem",
+              "t": "Common Crawl"
+            }
+          ],
+          "detalhe": "Search Console (desempeño real, solo de tu sitio), Bing AI Performance (citas oficiales en Copilot, por CSV), log del servidor (robots de IA), rastreador local (auditoría) y el grafo de Common Crawl (quién enlaza, por dominio)."
+        },
+        {
+          "icone": "escudo",
+          "titulo": "Límite honesto",
+          "sub": "lo que lo gratis no da",
+          "detalhe": "El volumen exacto de búsqueda no existe gratis. Los backlinks abiertos son por dominio, sin la página ni el ancla, con meses de retraso. La SERP de la competencia exige raspado, que viola los términos de Google."
+        },
+        {
+          "icone": "cadeado",
+          "titulo": "De pago opcional",
+          "sub": "desactivado por defecto",
+          "detalhe": "DataForSEO, Firecrawl, Apify, Semrush, Ahrefs. Entran cuando el límite de lo gratis frena una decisión que vale más que el costo, y solo con tu clave y tu autorización."
+        },
+        {
+          "icone": "usuario",
+          "titulo": "Decisión",
+          "sub": "escrita, con fecha",
+          "detalhe": "Qué decisión desbloquea el dato de pago, cuánto cuesta (con la fecha en que confirmaste el precio) y cuándo reevaluar."
+        }
+      ],
+      "legenda": "Para tu sitio, empieza gratis. Paga cuando el límite frene una decisión que vale más que el precio."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "Lo que entrega cada camino",
+      "sub": "Haz clic en cada paso. Precios leídos en las páginas de los proveedores el 19/10/2026: confírmalos en el sitio antes de decidir.",
+      "passos": [
+        {
+          "titulo": "El núcleo gratis",
+          "sub": "tu sitio",
+          "texto": [
+            "Rendimiento, citación oficial en IA, auditoría técnica, robots de IA en el log y backlinks aproximados salen de fuentes gratis. Para palabra clave, autocompletado, Google Trends (índice relativo) y las consultas reales de Search Console.",
+            "Es suficiente para el trabajo de las clases 2 a 6."
+          ]
+        },
+        {
+          "titulo": "open-seo",
+          "sub": "MIT, sobre datos de pago",
+          "texto": [
+            "open-seo es una alternativa abierta (MIT) con interfaz, servidor MCP y skills para agentes. Pero los datos vienen de DataForSEO: el README dice que necesitas una clave de ellos, y el servicio alojado cobra 28% más por solicitud.",
+            "Sirve como referencia de cómo empaquetar SEO para un agente; no es una fuente de datos propia."
+          ]
+        },
+        {
+          "titulo": "Firecrawl y Apify",
+          "sub": "recolección de pago",
+          "texto": [
+            "Firecrawl convierte páginas en texto para LLM (map, crawl, scrape, search): plan gratis con 1.000 créditos al mes, Hobby a US$ 16 en el plan anual. Apify ejecuta robots de recolección listos: gratis con US$ 5 de crédito, Starter a US$ 19 al mes.",
+            "Un robot de terceros que raspa Google viola los términos de uso de Google, y el riesgo es de quien ejecuta el robot."
+          ]
+        },
+        {
+          "titulo": "Abiertos para recolección",
+          "sub": "sin pagar",
+          "texto": [
+            "Para tu propio sitio: crawl4ai (Apache-2.0), Scrapy y Crawlee rastrean y convierten a texto. Scrapling (BSD-3) sortea protecciones antirrobot; úsalo solo en tu sitio o con autorización.",
+            "Las herramientas abiertas de INEMA para tu sitio están en el repositorio inemaseo-sistemas, enseñadas en el curso 7."
+          ]
+        }
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "Tu tabla de funciones y la decisión de pagar",
+      "sub": "Copia en un archivo del proyecto y completa. El agente puede armar el borrador; el precio lo confirmas tú en el sitio.",
+      "blocos": [
+        {
+          "rot": "ferramentas.md: función, fuente, límite",
+          "icone": "lista",
+          "conteudo": "| función | fuente gratis | límite honesto | de pago (si lo necesitas) |\n|---|---|---|---|\n| rendimiento del sitio | Search Console (export semanal) | solo tu sitio; 16 meses | — |\n| citación en IA (oficial) | Bing Webmaster: AI Performance (CSV) | sin clics; sin API | monitor de IA de pago |\n| auditoría técnica | auditoria.sh / rastreador local | sin JS a escala | Screaming Frog |\n| robots de IA | log del servidor | verificar la IP, el user-agent se puede falsificar | — |\n| backlinks | Common Crawl (dominio) + Search Console (Links) | sin página ni ancla; con retraso | DataForSEO / Ahrefs |\n| palabra clave | autocompletado, Trends, Search Console | sin volumen exacto | DataForSEO / Semrush |\n| SERP de competidor | — | raspar Google viola los términos | DataForSEO / Apify |"
+        },
+        {
+          "rot": "decisao-pago.md (modelo)",
+          "icone": "arquivo",
+          "conteudo": "# Decisión: <herramienta de pago>\nFecha: <AAAA-MM-DD>\nDecisión que el dato destraba: <ej.: elegir entre 3 temas con volumen parecido>\nLo gratis ya intentado y el límite que frenó: <...>\nPrecio confirmado en el sitio el <fecha>: <valor y plan>\nClave: en el .env (fuera del repo), usada solo para <finalidad>\nReevaluar el: <fecha>\nResultado: <¿pagó? ¿valió la pena? ¿qué cambió>"
+        }
+      ],
+      "saida": {
+        "selo": "simulacao",
+        "abas": [
+          {
+            "rot": "Ejemplo de decisión",
+            "html": "<p><b>Situación</b>: tienda de café con tres temas para el mes y ninguna consulta de ellos en Search Console todavía.</p><ul><li><b>Gratis intentado</b>: autocompletado y Trends muestran un interés relativo parecido en los tres.</li><li><b>Límite</b>: sin volumen exacto no se puede desempatar.</li><li><b>Decisión</b>: una consulta puntual de volumen en un proveedor de pago, con la clave en el .env y autorización para esa finalidad; reevaluar el mes siguiente.</li></ul>"
+          },
+          {
+            "rot": "Cuándo NO pagar",
+            "html": "<ul><li>Para \"ver si aparece en las IA\": la citación oficial está en Bing AI Performance, gratis.</li><li>Para auditar tu propio sitio: un rastreador local lo resuelve.</li><li>Para \"posicionar rápido\": ninguna herramienta entrega posición.</li></ul>"
+          }
+        ]
+      }
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Práctica: tu mapa de herramientas",
+      "sub": "Usa las funciones que realmente necesitas en tu sitio.",
+      "exercicios": [
+        {
+          "id": "e1",
+          "titulo": "E1 · Tabla de funciones",
+          "min": "30 min",
+          "texto": "Copia el ferramentas.md y deja solo las funciones que usas. Para cada una, confirma que la fuente gratis funciona en tu sitio (abre el panel, ejecuta el script, descarga el CSV).",
+          "pronto": "cada fila de la tabla tiene una fuente gratis probada por ti o un guion justificado, y el límite escrito con tus palabras."
+        },
+        {
+          "id": "e2",
+          "titulo": "E2 · Una decisión de pago",
+          "min": "20 min",
+          "texto": "Elige la función en la que lo gratis más frena y completa el decisao-pago.md, confirmando el precio en el sitio del proveedor.",
+          "pronto": "el archivo tiene la decisión que el dato destraba, el precio con la fecha en que lo confirmaste y la fecha para reevaluar, o la conclusión escrita de que no vale la pena pagar ahora."
+        }
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Prueba lo que aprendiste",
+      "sub": "La explicación aparece después de tu respuesta.",
+      "perguntas": [
+        {
+          "p": "¿Qué no existe gratis en ninguna fuente?",
+          "opcoes": [
+            "Las consultas reales de tu sitio.",
+            "El volumen exacto de búsqueda de una palabra clave.",
+            "Los robots de IA que leen tu sitio.",
+            "Las citaciones oficiales de Copilot."
+          ],
+          "certa": 1,
+          "explica": "Search Console, log y Bing AI Performance son gratis. El volumen exacto viene de modelado y recolección de pago; Trends da solo interés relativo.",
+          "ref": "diagrama",
+          "cert": true
+        },
+        {
+          "p": "open-seo es MIT. ¿Se puede usar sin pagar nada?",
+          "opcoes": [
+            "Sí, es abierto.",
+            "No: el dato viene de DataForSEO, que exige una clave de pago.",
+            "Sí, en Docker.",
+            "Solo en Cloudflare."
+          ],
+          "certa": 1,
+          "explica": "Código abierto no es dato gratis. open-seo es interfaz, MCP y skills sobre DataForSEO.",
+          "ref": "passos"
+        },
+        {
+          "p": "¿Por qué no usar un robot de recolección para raspar Google a escala?",
+          "opcoes": [
+            "Porque es lento.",
+            "Porque viola los términos de uso de Google, y el riesgo es de quien lo ejecuta.",
+            "Porque Google no tiene SERP.",
+            "Porque lo prohíbe la LGPD."
+          ],
+          "certa": 1,
+          "explica": "Los robots listos que raspan Google funcionan, pero la violación de los términos recae en el operador. Para datos de SERP, usa un proveedor de pago que asuma ese riesgo, o quédate con tu propio dato.",
+          "ref": "passos"
+        },
+        {
+          "p": "¿Dónde va la clave de un proveedor de pago que decidiste usar?",
+          "opcoes": [
+            "En el README.",
+            "En el AGENTS.md, para que el agente la encuentre.",
+            "En el .env, fuera del repositorio, usada solo para la finalidad autorizada.",
+            "En el código del script."
+          ],
+          "certa": 2,
+          "explica": "El secreto queda fuera del repo y la autorización vale para una sola finalidad. La lección 8 muestra qué pasa cuando el agente encuentra una clave.",
+          "ref": "codigo"
+        }
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "Para llevar",
+      "itens": [
+        {
+          "t": "Primero lo gratis",
+          "texto": "Search Console, Bing Webmaster, log, rastreador local y Common Crawl cubren tu sitio."
+        },
+        {
+          "t": "Límite honesto",
+          "texto": "El volumen exacto, la SERP de la competencia y los backlinks completos son de pago."
+        },
+        {
+          "t": "Abierto no es gratis",
+          "texto": "open-seo es MIT, pero el dato es de DataForSEO."
+        },
+        {
+          "t": "La vara de 2026",
+          "texto": "El share of voice de una herramienta de pago no es una nota oficial; las citas oficiales están en Bing AI Performance."
+        }
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "Para ir más allá",
+      "links": [
+        {
+          "t": "inemaSEO sistemas: herramientas abiertas para tu sitio",
+          "href": "https://github.com/inematds/inemaseo-sistemas",
+          "icone": "terminal"
+        },
+        {
+          "t": "Curso 7: Sistemas, arma tu Semrush abierto",
+          "href": "https://inematds.github.io/formacao-inemaseo-sistemas-v72/es/",
+          "icone": "camadas"
+        },
+        {
+          "t": "open-seo (MIT, sobre DataForSEO)",
+          "href": "https://github.com/every-app/open-seo",
+          "icone": "robo"
+        },
+        {
+          "t": "Firecrawl: precios",
+          "href": "https://www.firecrawl.dev/pricing",
+          "icone": "nuvem"
+        },
+        {
+          "t": "Apify: precios",
+          "href": "https://apify.com/pricing",
+          "icone": "nuvem"
+        }
+      ]
+    }
+  ]
+}

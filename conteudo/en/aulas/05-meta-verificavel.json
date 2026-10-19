@@ -1,0 +1,271 @@
+{
+  "slug": "meta-verificavel",
+  "num": 5,
+  "menu": "Goal",
+  "titulo": "Verifiable goal in a loop, and the gate before the push",
+  "titulo_curto": "Goal and gate",
+  "minutos": 17,
+  "lead": "\"Make the page good\" is not a goal: the agent decides on its own that it is done. A verifiable goal is a command with the expected output, plus a check that stops it from being met by a shortcut. The agent runs in a loop until it passes. After that, what no command can prove (first-hand data, voice, usefulness) is left for the human gate, before the push.",
+  "objetivo": "write the agent's goal as command → expected output, with a check against shortcuts, and only push after the human gate.",
+  "competencias": [
+    "write-a-verifiable-criterion",
+    "lock-against-shortcuts",
+    "separate-machine-from-gate"
+  ],
+  "aprende": [
+    {
+      "t": "The 0 to 4 scale: from vague goal to protected goal"
+    },
+    {
+      "t": "Function, regression and limit: the three layers of done"
+    },
+    {
+      "t": "What the command proves and what only you can prove"
+    },
+    {
+      "t": "The loop until it passes and the stop at the gate"
+    }
+  ],
+  "hero_alt": "Pilot and copilot in a small airplane cockpit go over the preflight checklist together before takeoff.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "From vague goal to push with a gate",
+      "sub": "Tap each block.",
+      "volta": "failed? the agent fixes it and runs the commands again",
+      "nos": [
+        {
+          "icone": "x",
+          "titulo": "Vague goal",
+          "sub": "level 0 and 1",
+          "detalhe": "\"Improve the page,\" \"reviewed and clean.\" The agent approves itself. Rewrite until it becomes a command."
+        },
+        {
+          "icone": "terminal",
+          "titulo": "Command and output",
+          "sub": "level 2",
+          "detalhe": "\"The build passes with 0 failures.\" You can already check it, but it can be gamed: the agent can delete the test that fails."
+        },
+        {
+          "icone": "cadeado",
+          "titulo": "Check",
+          "sub": "level 3: the minimum",
+          "forte": true,
+          "itens": [
+            {
+              "icone": "check",
+              "t": "minimum count"
+            },
+            {
+              "icone": "cadeado",
+              "t": "frozen test file"
+            },
+            {
+              "icone": "portao",
+              "t": "content validator"
+            }
+          ],
+          "detalhe": "Command + a check that makes it impossible to meet the goal without doing the work: \"build with no errors and the tests folder untouched and only one H1\"."
+        },
+        {
+          "icone": "fila",
+          "titulo": "Loop",
+          "sub": "runs until it passes",
+          "detalhe": "The agent runs the quick test every cycle and only stops when all the commands show the expected output. The proof has to appear in the output, not in the agent's word."
+        },
+        {
+          "icone": "portao",
+          "titulo": "Gate 2",
+          "sub": "level 4: you",
+          "forte": true,
+          "detalhe": "First-hand data, human reading and the swap test have no command. You review. Only then the push."
+        }
+      ],
+      "legenda": "The command proves what is mechanical; the gate proves what is valuable."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "How to write the goal",
+      "sub": "Tap each step.",
+      "passos": [
+        {
+          "titulo": "The five questions",
+          "sub": "each no drops the level",
+          "texto": [
+            "Can you check it with a command? Is the answer yes or no? Is it impossible to meet without doing the work? Does the proof appear in the output? Are function, regression and limit covered?",
+            "These are the questions from the goal.md template in the Execução Longa (Long Run kit) (open, from INEMA)."
+          ]
+        },
+        {
+          "titulo": "Three layers",
+          "sub": "function, regression, limit",
+          "texto": [
+            "Function: the page does what it should (one H1, right canonical, JSON-LD present). Regression: the rest of the site didn't break (tests and build). Limit: the agent didn't touch where it shouldn't.",
+            "On the INEMA portal, the rule is to run the tests and the build before the push: main has already broken because of a translation."
+          ]
+        },
+        {
+          "titulo": "What goes to the gate",
+          "sub": "the split checklist",
+          "texto": [
+            "Of the 16-item checklist, part is mechanical (one H1, title of 50 to 60 characters, links that return 200, valid JSON-LD) and becomes a command.",
+            "Another part is judgment: verifiable first-hand data, human reading, swap test. That goes to gate 2, 10 to 20 minutes per page."
+          ]
+        },
+        {
+          "titulo": "The loop",
+          "sub": "/goal",
+          "texto": [
+            "Codex and Claude Code have the /goal command: the agent works until the condition shows as met in the output. In Claude Code, the evaluator only reads the conversation, so the proof has to be printed.",
+            "Stop and step in if there are 3 cycles with no progress or if the agent reopens an item that is already done."
+          ]
+        }
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "A level 3 goal for a new page",
+      "sub": "Swap the paths for the ones in your project. Anything between less-than and greater-than signs is for you to fill in.",
+      "blocos": [
+        {
+          "rot": "goal.md (adapted from the Execução Longa kit)",
+          "icone": "arquivo",
+          "conteudo": "# Goal — new page: <slug>\n\n## Result\nThe page /<slug>/ ready for gate 2, without breaking the rest of the site.\n\n## Done criteria (command → expected output)\n**Function**\n- [ ] grep -c '<h1' dist/<slug>/index.html → 1\n- [ ] grep -o 'rel=\"canonical\" href=\"[^\"]*\"' dist/<slug>/index.html → https://www.seusite.com/<slug>/\n- [ ] grep -c 'application/ld+json' dist/<slug>/index.html → 1 or more\n\n**Regression**\n- [ ] npm test && npm run build → no errors\n\n**Limit**\n- [ ] git diff --stat -- tests/ docs/CHECKLIST.md → empty\n- [ ] git status --porcelain → only the new page and the 2–3 pages of the link ladder\n\n## Human gate (the command does not prove it)\n- first-hand data with a link to the evidence (checklist 2)\n- human reading: opinion, what went wrong, the author's voice (checklist 9)\n- swap test (checklist 10)\n\n## Constraints\n- through the subscription only; no API without authorization\n- no push: the push is mine, after the gate"
+        },
+        {
+          "rot": "Loop request (/goal in Claude Code)",
+          "icone": "chat",
+          "conteudo": "/goal The terminal output shows each command from goal.md with the expected output, and goal.md has all criteria checked off. Do not push. When you finish, stop and show me the diff."
+        }
+      ],
+      "saida": {
+        "selo": "simulacao",
+        "abas": [
+          {
+            "rot": "Same goal, five levels",
+            "html": "<ul><li><b>0 vague</b>: \"improve the new page\".</li><li><b>1 subjective</b>: \"page reviewed and clean\" (the agent approves itself).</li><li><b>2 gameable</b>: \"build with 0 failures\" (you can delete the test).</li><li><b>3 protected</b>: build without errors <b>and</b> tests untouched <b>and</b> one H1 <b>and</b> canonical equal to the URL.</li><li><b>4 independent</b>: level 3 + you at gate 2 reading as a reader.</li></ul>"
+          },
+          {
+            "rot": "Signs of a bad criterion",
+            "html": "<ul><li>Words like good, clean, adequate, complete.</li><li>Depends on the agent saying it is done.</li><li>Only a count, with no check of the content.</li><li>Does not say what must not change.</li></ul>"
+          }
+        ]
+      }
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Practice: one page through the loop and the gate",
+      "sub": "Use a new page (or a rewrite) from your site.",
+      "exercicios": [
+        {
+          "id": "e1",
+          "titulo": "S1 · The goal.md",
+          "min": "30 min",
+          "texto": "Write the page's goal.md with at least one function criterion, one regression criterion, and one limit criterion, and run the five questions on each one.",
+          "pronto": "each criterion has a command and the expected output, there is at least one check (a frozen file or a count with content) and the human gate section lists what the command does not prove."
+        },
+        {
+          "id": "e2",
+          "titulo": "S2 · Loop and gate",
+          "min": "40 min",
+          "texto": "Run the agent with the loop request. When it stops, read the page as a reader, decide, and only then do the push yourself.",
+          "pronto": "the conversation shows each command with the expected output, goal.md has your gate 2 approval with a date, and the push went out after it."
+        }
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Test what you learned",
+      "sub": "The explanation appears after your answer.",
+      "perguntas": [
+        {
+          "p": "\"The build passes with 0 failures\" is a goal of which level?",
+          "opcoes": [
+            "Level 0: vague.",
+            "Level 2: verifiable, but gameable.",
+            "Level 3: protected.",
+            "Level 4: independent."
+          ],
+          "certa": 1,
+          "explica": "You can check it, but the agent can meet it by deleting the failing test. The check (tests folder untouched) takes it to level 3.",
+          "ref": "diagrama",
+          "cert": true
+        },
+        {
+          "p": "Which of these checklist items does NOT become a command and is left for the human gate?",
+          "opcoes": [
+            "Just one H1.",
+            "Links that return 200.",
+            "Verifiable first-hand data and human reading.",
+            "JSON-LD present."
+          ],
+          "certa": 2,
+          "explica": "The mechanical ones become commands. First-hand data, the author's voice, and the swap test require judgment: they belong to gate 2.",
+          "ref": "passos"
+        },
+        {
+          "p": "Why does the proof have to appear printed in the output when you use /goal in Claude Code?",
+          "opcoes": [
+            "To spend less.",
+            "Because the evaluator only reads the conversation.",
+            "Because Google reads the conversation.",
+            "It doesn't need to appear."
+          ],
+          "certa": 1,
+          "explica": "If the command passed but the output was not shown, the evaluator has no way to know. The written goal asks for the output in the conversation.",
+          "ref": "passos"
+        },
+        {
+          "p": "The limit criterion \"git diff --stat -- tests/ → empty\" protects against what?",
+          "opcoes": [
+            "Against a slow page.",
+            "Against the agent meeting the goal by changing the tests.",
+            "Against a wrong canonical.",
+            "Against an AI bot."
+          ],
+          "certa": 1,
+          "explica": "It is the typical level 3 check: the most common shortcut to \"0 failures\" is to alter or delete the test.",
+          "ref": "codigo"
+        }
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "To take with you",
+      "itens": [
+        {
+          "t": "Command and output",
+          "texto": "A goal the agent cannot approve on its own."
+        },
+        {
+          "t": "Check",
+          "texto": "Level 3 at minimum: impossible to meet without doing the work."
+        },
+        {
+          "t": "Gate before the push",
+          "texto": "Judgment (first-hand data, voice, usefulness) is yours."
+        },
+        {
+          "t": "2026 yardstick",
+          "texto": "A direct answer at the top is clarity for the reader, not an AI factor: don't turn into a goal something that has no source."
+        }
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "Going further",
+      "links": [
+        {
+          "t": "Execução Longa (Long Run kit): goal.md and stop rules",
+          "href": "https://inematds.github.io/execucao-longa/guia/",
+          "icone": "relogio"
+        },
+        {
+          "t": "inemaSEO quality checklist",
+          "href": "https://github.com/inematds/inemaseo-metodo/blob/main/docs/CHECKLIST.md",
+          "icone": "check"
+        }
+      ]
+    }
+  ]
+}

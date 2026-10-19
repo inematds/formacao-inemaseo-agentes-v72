@@ -1,0 +1,186 @@
+{
+  "id": "formacao-inemaseo-agentes-v72",
+  "lang": "en",
+  "url": "https://inematds.github.io/formacao-inemaseo-agentes-v72/en/",
+  "nome": "inemaSEO 5 — With Agents: Claude Code and Codex Doing the Repetitive Work",
+  "sub": "inemaSEO Program · course 5 of 6",
+  "icone": "lupa",
+  "volta": {
+    "t": "inemaSEO Area",
+    "href": "https://eventos.inema.pro/inemaseo/"
+  },
+  "lado_card": {
+    "rot": "inemaSEO Program",
+    "t": "Course 5 of 6",
+    "texto": "With agents doing the repetitive work and gates in place, course 6 teaches you to take the method to clients: diagnosis, plan, delivery, and report.",
+    "link": "Go to course 6",
+    "href": "https://inematds.github.io/formacao-inemaseo-profissional-v72/en/"
+  },
+  "rodape": "INEMA.CLUB · open and free content · INEMA Learning v7.2 format · <a href=\"https://eventos.inema.pro/inemaseo/\">eventos.inema.pro/inemaseo</a> · <a href=\"https://github.com/inematds/inemaseo-metodo\">inemaSEO method (MIT)</a> · <a href=\"https://inema.club/\">inema.club</a>",
+  "videos": {},
+  "inicio": {
+    "kicker": "inemaSEO Program · course 5 of 6 · 8 lessons",
+    "titulo": "With Agents: Claude Code and Codex Doing the Repetitive Work",
+    "lead": "Audit, extract, apply in batches, check, and report: the repetitive part of SEO fits in an agent that runs through your subscription. In eight lessons, you build that line with the method's open scripts, an anti-fabrication check that discards what the AI made up, and two gates where only you decide.",
+    "cta": "Start with lesson 1",
+    "cta2": {
+      "t": "See the inemaSEO Area",
+      "href": "https://eventos.inema.pro/inemaseo/"
+    },
+    "capa_alt": "A developer at a wooden desk jots a checklist in a notebook next to a laptop with the terminal open.",
+    "numeros": [
+      {
+        "v": "8",
+        "t": "short lessons"
+      },
+      {
+        "v": "16",
+        "t": "exercises with \"done when\""
+      },
+      {
+        "v": "2",
+        "t": "human gates"
+      },
+      {
+        "v": "0",
+        "t": "API calls without authorization"
+      }
+    ],
+    "aulas_titulo": "The lessons",
+    "aulas_sub": "In the order of the work: build the line, audit, extract, apply in batches, check, report, choose tools, and keep a record of what went wrong.",
+    "blocos": [
+      {
+        "t": "Who it's for",
+        "itens": [
+          "People who finished courses 1 to 3 of the program and want to take the repetitive work off their hands.",
+          "Technical people or devs who already use the terminal and want Claude Code or Codex to do SEO safely.",
+          "People who have already tried leaving an AI \"doing SEO on its own\" and watched it make things up, duplicate, or touch things it shouldn't."
+        ]
+      },
+      {
+        "t": "What you'll be able to do",
+        "itens": [
+          "A line of agents with two human gates and an AGENTS.md with the project's rules.",
+          "Audit and extraction through the subscription, with an anti-fabrication check that discards the made-up item.",
+          "Batch operations with dry-run, marker, and skipping a dirty repository, and push only after the gate.",
+          "A weekly report read by an agent that proposes, and you approve."
+        ]
+      },
+      {
+        "t": "Where this course fits in the inemaSEO Program",
+        "itens": [
+          "<b>1 Foundation</b>, <b>2 Content</b>, and <b>3 Measurement</b>: the groundwork, pages with first-hand data, and the number that matters. This course automates what they teach you to do by hand.",
+          "<b>4 In the AIs</b>: official AI dashboards and the question battery.",
+          "<b>5 With Agents</b> (this course): agents doing the repetitive work, with gates. <b>6 Professional</b>: the method as a service for clients.",
+          "All of them follow the <a href=\"https://github.com/inematds/inemaseo-metodo\">inemaSEO method</a>, open (MIT), applied on the INEMA portal, news site, and events site."
+        ]
+      }
+    ]
+  },
+  "ui": {
+    "pular": "Skip to content",
+    "aulas": "Lessons",
+    "concluido": "completed",
+    "aula": "Lesson",
+    "nesta_aula": "In this lesson, you'll learn:",
+    "objetivo": "Goal:",
+    "proxima_aula": "Next lesson",
+    "aula_anterior": "Previous lesson",
+    "voltar_inicio": "Back to the start of the course",
+    "marcar_concluida": "Mark lesson as completed",
+    "dg_dica": "Click each block in the diagram to see what it does.",
+    "copiar": "Copy",
+    "copiado": "Copied",
+    "selo_simulacao": "Simulation: illustrative example",
+    "selo_real": "Example from the repository",
+    "pronto_quando": "Done when:",
+    "fiz": "I did this exercise",
+    "video_pagina": "Video page with script",
+    "pergunta": "Question",
+    "de": "of",
+    "cert_tag": "skill",
+    "correto": "Correct",
+    "errado": "Not this one",
+    "quiz_aguarda": "Choose an option. The explanation appears after your attempt.",
+    "proxima_pergunta": "Next question",
+    "quiz_ver": "See result",
+    "quiz_fim": "Quiz complete",
+    "quiz_total": "You got {a} of {n} right. Get them all right and the lesson is marked as complete.",
+    "aparencia": "Appearance",
+    "tamanho_texto": "Text size",
+    "tema": "Theme",
+    "tema_escuro": "Dark",
+    "tema_papel": "Light paper",
+    "role_dica": "Scroll the page: each step below lights up its part of the diagram.",
+    "pre_requisito": "requires",
+    "ver_aula": "See the lesson",
+    "mapa_dica": "Click an exercise to see what to do and the \"done when\".",
+    "etapas": "Steps",
+    "exercicios": "exercises",
+    "rever": "Review:",
+    "revisar_erradas": "Review the wrong ones",
+    "refazer": "Retake the quiz",
+    "h_semana": "h per week",
+    "data_inicio": "Start date",
+    "ritmo": "Time available",
+    "gerar_plano": "Generate my plan",
+    "baixar_md": "Download plan.md",
+    "baixar_ics": "Download to calendar (.ics)",
+    "ind_estudo": "Study (lessons)",
+    "ind_pratica": "Declared practice",
+    "ind_nota": "Practice = exercises you marked as done. The proof comes in the certification exam.",
+    "estudo": {
+      "titulo": "Your study",
+      "continuar": "Pick up where I left off",
+      "comecar": "Start with lesson 1",
+      "cta_continuar": "Continue lesson {n}",
+      "hoje": "today",
+      "ontem": "yesterday",
+      "ha_dias": "{n} days ago",
+      "desempenho": "Quiz performance",
+      "notas": "My notes",
+      "dados": "Copy my data",
+      "sem_testes": "No quiz taken yet. The quiz is at the end of each lesson.",
+      "nao_fez": "quiz not taken yet",
+      "ultimo": "Latest",
+      "melhor": "Best",
+      "tentativas": "attempts",
+      "tentativa": "attempt",
+      "tudo_certo": "You got everything right on the last quiz.",
+      "rever": "To review",
+      "resposta": "Correct answer:",
+      "ir_teste": "Retake the quiz",
+      "sem_notas": "No notes yet. In the lesson, select a passage of text and tap Highlight or Note.",
+      "so_marcado": "(highlight only)",
+      "marcar": "Highlight",
+      "anotar": "Note",
+      "salvar": "Save",
+      "apagar": "Remove highlight",
+      "fechar": "Close",
+      "nota_ph": "Write your note about this passage…",
+      "um_bloco": "Highlight within a single paragraph only.",
+      "nao_marca": "This passage can't be highlighted.",
+      "dados_exp": "Your progress, your notes, and your quiz scores stay only in this browser. Download a copy (.json) to keep it or to continue on another computer or browser; there, load the copy. Loading adds to what already exists and doesn't erase anything.",
+      "exportar": "Download copy",
+      "importar": "Load copy",
+      "import_ok": "Copy loaded ({n} items). Refreshing the page…",
+      "import_erro": "File not recognized. Nothing was changed.",
+      "import_outro": "This copy is from a different course. Nothing was changed.",
+      "export_ok": "Copy downloaded."
+    },
+    "conv_dica": "Choose your answer. The feedback appears right after, and the conversation continues based on your choice.",
+    "conv_voce": "You",
+    "conv_escolha": "Your answer",
+    "conv_boa": "Good choice",
+    "conv_meio": "Could be better",
+    "conv_ruim": "Weak choice",
+    "conv_fim": "End of the conversation",
+    "conv_placar": "You scored {p} out of {m} possible points.",
+    "conv_licao": "Lesson:",
+    "conv_recomecar": "Restart the conversation",
+    "conv_feita": "Your best score: {p} out of {m} points.",
+    "comecar": "Start the lesson",
+    "nesta_vai": "In this lesson you will",
+    "trocar_tema": "Switch light/dark theme"
+  }
+}

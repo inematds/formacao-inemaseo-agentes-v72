@@ -1,0 +1,288 @@
+{
+  "slug": "aberto-pago",
+  "num": 7,
+  "menu": "Tools",
+  "titulo": "Open vs. paid tools: what you can build for free and when to pay",
+  "titulo_curto": "Open vs. paid",
+  "minutos": 16,
+  "lead": "A paid SEO tool sells data: search volume, competitor SERPs, backlinks, AI monitoring. For your own site, almost everything you need day to day comes from free sources: Search Console, Bing Webmaster, the server log, a local crawler, and the open Common Crawl graph. This lesson teaches you to tell the two apart and to decide when to pay.",
+  "objetivo": "build the free core by function and decide, given the honest limit of each one, when a paid tool pays for itself.",
+  "competencias": [
+    "mapear-funcao-e-fonte",
+    "reconhecer-limite-do-gratis",
+    "decidir-pago-com-data"
+  ],
+  "aprende": [
+    {
+      "t": "Function by function: where the data comes from"
+    },
+    {
+      "t": "What doesn't exist for free (and isn't worth looking for)"
+    },
+    {
+      "t": "open-seo, DataForSEO, Firecrawl, and Apify: what each one sells"
+    },
+    {
+      "t": "Going deeper: the inemaseo-sistemas repository and course 7"
+    }
+  ],
+  "hero_alt": "A carpenter weighs, at the workbench, organized hand tools on the wall against a large professional machine.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "From function to the decision to pay",
+      "sub": "Tap each block.",
+      "nos": [
+        {
+          "icone": "alvo",
+          "titulo": "Function",
+          "sub": "what you need to know",
+          "detalhe": "Site performance, AI citation, technical health, who reads the site, who links to you, keyword. Start with the question, not the tool."
+        },
+        {
+          "icone": "check",
+          "titulo": "Free source",
+          "sub": "the core",
+          "forte": true,
+          "itens": [
+            {
+              "icone": "grafico",
+              "t": "Search Console and Bing Webmaster"
+            },
+            {
+              "icone": "arquivo",
+              "t": "server log"
+            },
+            {
+              "icone": "lupa",
+              "t": "local crawler"
+            },
+            {
+              "icone": "nuvem",
+              "t": "Common Crawl"
+            }
+          ],
+          "detalhe": "Search Console (real performance, your site only), Bing AI Performance (official Copilot citations, by CSV), server log (AI robots), local crawler (audit), and the Common Crawl graph (who links to you, by domain)."
+        },
+        {
+          "icone": "escudo",
+          "titulo": "Honest limit",
+          "sub": "what free doesn't give",
+          "detalhe": "Exact search volume doesn't exist for free. Open backlinks are by domain, without the page and the anchor, with months of delay. Competitor SERP requires scraping, which violates Google's terms."
+        },
+        {
+          "icone": "cadeado",
+          "titulo": "Optional paid",
+          "sub": "off by default",
+          "detalhe": "DataForSEO, Firecrawl, Apify, Semrush, Ahrefs. They come in when the limit of the free option blocks a decision that is worth more than the cost, and only with your key and your authorization."
+        },
+        {
+          "icone": "usuario",
+          "titulo": "Decision",
+          "sub": "written, with a date",
+          "detalhe": "Which decision the paid data unlocks, how much it costs (with the date you checked the price), and when to reassess."
+        }
+      ],
+      "legenda": "For your site, start free. Pay when a limit blocks a decision that is worth more than the price."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "What each path delivers",
+      "sub": "Click each step. Prices read from the vendors' pages on 10/19/2026: check the site before you decide.",
+      "passos": [
+        {
+          "titulo": "The free core",
+          "sub": "your site",
+          "texto": [
+            "Performance, official AI citation, technical audit, AI bots in the log, and approximate backlinks all come from free sources. For keywords, autocomplete, Google Trends (relative index), and the real queries from Search Console.",
+            "That is enough for the work in lessons 2 to 6."
+          ]
+        },
+        {
+          "titulo": "open-seo",
+          "sub": "MIT, on paid data",
+          "texto": [
+            "open-seo is an open alternative (MIT) with an interface, an MCP server, and skills for agents. But the data comes from DataForSEO: the README says you need a key from them, and the hosted service charges 28% more per request.",
+            "It works as a reference for how to package SEO for an agent; it is not a data source of its own."
+          ]
+        },
+        {
+          "titulo": "Firecrawl and Apify",
+          "sub": "paid collection",
+          "texto": [
+            "Firecrawl turns pages into text for an LLM (map, crawl, scrape, search): free plan with 1,000 credits per month, Hobby at US$ 16 on the annual plan. Apify runs ready-made collection bots: free with US$ 5 in credit, Starter at US$ 19 per month.",
+            "A third-party bot that scrapes Google violates Google's terms of service, and the risk falls on whoever runs the bot."
+          ]
+        },
+        {
+          "titulo": "Open tools for collection",
+          "sub": "without paying",
+          "texto": [
+            "For your own site: crawl4ai (Apache-2.0), Scrapy, and Crawlee crawl and convert to text. Scrapling (BSD-3) gets around anti-bot protections; use it only on your own site or with permission.",
+            "INEMA's open tools for your site are in the inemaseo-sistemas repository, taught in course 7."
+          ]
+        }
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "Your table of functions and the decision to pay",
+      "sub": "Copy it into a project file and fill it in. The agent can build the draft; you check the price on the site.",
+      "blocos": [
+        {
+          "rot": "ferramentas.md: function, source, limit",
+          "icone": "lista",
+          "conteudo": "| function | free source | honest limit | paid (if you need it) |\n|---|---|---|---|\n| site performance | Search Console (weekly export) | your site only; 16 months | — |\n| AI citation (official) | Bing Webmaster: AI Performance (CSV) | no clicks; no API | paid AI monitor |\n| technical audit | auditoria.sh / local crawler | no JS at scale | Screaming Frog |\n| AI bots | server log | check the IP, user-agent can be spoofed | — |\n| backlinks | Common Crawl (domain) + Search Console (Links) | no page or anchor; delay | DataForSEO / Ahrefs |\n| keyword | autocomplete, Trends, Search Console | no exact volume | DataForSEO / Semrush |\n| competitor SERP | — | scraping Google violates the terms | DataForSEO / Apify |"
+        },
+        {
+          "rot": "decisao-pago.md (template)",
+          "icone": "arquivo",
+          "conteudo": "# Decisão: <ferramenta paga>\nData: <AAAA-MM-DD>\nDecisão que o dado destrava: <ex.: escolher entre 3 temas com volume parecido>\nO grátis já tentado e o limite que travou: <...>\nPreço conferido no site em <data>: <valor e plano>\nChave: no .env (fora do repo), usada só para <finalidade>\nReavaliar em: <data>\nResultado: <pagou? valeu? o que mudou>"
+        }
+      ],
+      "saida": {
+        "selo": "simulacao",
+        "abas": [
+          {
+            "rot": "Example decision",
+            "html": "<p><b>Situation</b>: a coffee shop with three topics for the month and no queries for them in Search Console yet.</p><ul><li><b>Free tried</b>: autocomplete and Trends show similar relative interest in all three.</li><li><b>Limit</b>: without exact volume, you can't break the tie.</li><li><b>Decision</b>: a one-off volume query on a paid provider, with the key in the .env and authorization for that purpose; reassess the following month.</li></ul>"
+          },
+          {
+            "rot": "When NOT to pay",
+            "html": "<ul><li>To \"see if it shows up in AIs\": the official citation is in Bing AI Performance, for free.</li><li>To audit your own site: a local crawler does the job.</li><li>To \"rank fast\": no tool delivers a ranking position.</li></ul>"
+          }
+        ]
+      }
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Practice: your tool map",
+      "sub": "Use the functions you really need on your site.",
+      "exercicios": [
+        {
+          "id": "e1",
+          "titulo": "E1 · Table of functions",
+          "min": "30 min",
+          "texto": "Copy ferramentas.md and keep only the functions you use. For each one, confirm that the free source works on your site (open the panel, run the script, download the CSV).",
+          "pronto": "each row of the table has a free source you tested or a justified dash, and the limit written in your own words."
+        },
+        {
+          "id": "e2",
+          "titulo": "E2 · A paid decision",
+          "min": "20 min",
+          "texto": "Pick the function where the free option blocks you the most and fill in decisao-pago.md, checking the price on the vendor's site.",
+          "pronto": "the file has the decision the data unlocks, the price with the date you checked it, and the date to reassess, or the written conclusion that it is not worth paying right now."
+        }
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Test what you learned",
+      "sub": "The explanation appears after your answer.",
+      "perguntas": [
+        {
+          "p": "What does not exist for free from any source?",
+          "opcoes": [
+            "Your site's real queries.",
+            "Exact search volume for a keyword.",
+            "The AI bots that read your site.",
+            "The official Copilot citations."
+          ],
+          "certa": 1,
+          "explica": "Search Console, log, and Bing AI Performance are free. Exact volume comes from paid modeling and collection; Trends gives only relative interest.",
+          "ref": "diagrama",
+          "cert": true
+        },
+        {
+          "p": "open-seo is MIT. Can you use it without paying anything?",
+          "opcoes": [
+            "Yes, it is open.",
+            "No: the data comes from DataForSEO, which requires a paid key.",
+            "Yes, in Docker.",
+            "Only on Cloudflare."
+          ],
+          "certa": 1,
+          "explica": "Open source is not free data. open-seo is an interface, MCP and skills on top of DataForSEO.",
+          "ref": "passos"
+        },
+        {
+          "p": "Why not use a scraping bot to scrape Google at scale?",
+          "opcoes": [
+            "Because it is slow.",
+            "Because it violates Google's terms of service, and the risk falls on whoever runs it.",
+            "Because Google has no SERP.",
+            "Because it is prohibited by LGPD."
+          ],
+          "certa": 1,
+          "explica": "Ready-made bots that scrape Google work, but the terms violation falls on the operator. For SERP data, use a paid provider that takes that on, or stick to your own data.",
+          "ref": "passos"
+        },
+        {
+          "p": "Where does the key for a paid provider you decided to use go?",
+          "opcoes": [
+            "In the README.",
+            "In AGENTS.md, so the agent can find it.",
+            "In .env, outside the repository, used only for the authorized purpose.",
+            "In the script's code."
+          ],
+          "certa": 2,
+          "explica": "A secret stays outside the repo, and authorization covers one purpose. Lesson 8 shows what happens when the agent finds a key.",
+          "ref": "codigo"
+        }
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "To take with you",
+      "itens": [
+        {
+          "t": "Free first",
+          "texto": "Search Console, Bing Webmaster, logs, a local crawler and Common Crawl cover your site."
+        },
+        {
+          "t": "Honest limit",
+          "texto": "Exact volume, competitor SERP and full backlinks are paid."
+        },
+        {
+          "t": "Open is not free",
+          "texto": "open-seo is MIT, but the data comes from DataForSEO."
+        },
+        {
+          "t": "2026 yardstick",
+          "texto": "Share of voice from a paid tool is not an official score; the official citations are in Bing AI Performance."
+        }
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "Going further",
+      "links": [
+        {
+          "t": "inemaSEO systems: open tools for your site",
+          "href": "https://github.com/inematds/inemaseo-sistemas",
+          "icone": "terminal"
+        },
+        {
+          "t": "Course 7: Systems, build your own open Semrush",
+          "href": "https://inematds.github.io/formacao-inemaseo-sistemas-v72/en/",
+          "icone": "camadas"
+        },
+        {
+          "t": "open-seo (MIT, on top of DataForSEO)",
+          "href": "https://github.com/every-app/open-seo",
+          "icone": "robo"
+        },
+        {
+          "t": "Firecrawl: pricing",
+          "href": "https://www.firecrawl.dev/pricing",
+          "icone": "nuvem"
+        },
+        {
+          "t": "Apify: pricing",
+          "href": "https://apify.com/pricing",
+          "icone": "nuvem"
+        }
+      ]
+    }
+  ]
+}
