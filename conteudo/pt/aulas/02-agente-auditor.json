@@ -1,0 +1,126 @@
+{
+  "slug": "agente-auditor",
+  "num": 2,
+  "menu": "Auditor",
+  "titulo": "Agente auditor: o raio-x, o claude-seo e a lista com evidência",
+  "titulo_curto": "Agente auditor",
+  "minutos": 18,
+  "lead": "O primeiro agente que vale montar é o que só lê. Ele roda o raio-x, roda o claude-seo e devolve uma lista de problemas, cada um com a linha que prova. Não corrige nada: quem decide o que mexer é você, e a régua de 2026 filtra o que é moda.",
+  "objetivo": "rodar o raio-x só de leitura e o claude-seo, e fazer o agente listar problemas com evidência, sem alterar nada.",
+  "competencias": ["rodar-auditoria-so-leitura", "pedir-achado-com-evidencia", "filtrar-recomendacao-pela-regua"],
+  "aprende": [
+    {"t": "O raio-x em texto: auditoria.sh, só leitura"},
+    {"t": "O claude-seo: o que é grátis e o que é pago"},
+    {"t": "O pedido certo: achado, evidência, nenhuma alteração"},
+    {"t": "Passar cada recomendação pela régua de 2026"}
+  ],
+  "hero_alt": "Inspetora predial com prancheta e lanterna examina o quadro de luz de uma casa e anota o que encontra.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "Do raio-x à lista que você decide",
+      "sub": "Clique em cada bloco.",
+      "nos": [
+        {"icone": "terminal", "titulo": "Raio-x", "sub": "auditoria.sh, só leitura",
+         "detalhe": "Um script de curl que olha o site como o buscador: redirecionamentos, robots.txt, sitemaps e, por página, status, título, canônico, hreflang, robots, JSON-LD e links internos no HTML. Não escreve nada no site."},
+        {"icone": "robo", "titulo": "claude-seo", "sub": "skill do Claude Code",
+         "detalhe": "Coleção aberta (MIT) de comandos /seo para o Claude Code: auditoria completa, técnica, conteúdo, schema, sitemap, hreflang e GEO. O núcleo é grátis; a extensão DataForSEO é paga."},
+        {"icone": "lista", "titulo": "Lista com evidência", "sub": "o agente lê e aponta", "forte": true,
+         "itens": [{"icone": "check", "t": "achado"}, {"icone": "arquivo", "t": "linha copiada que prova"}, {"icone": "alvo", "t": "correção proposta"}],
+         "detalhe": "Cada achado vem com a linha exata da saída. Achado sem evidência não entra: é o agente opinando."},
+        {"icone": "escudo", "titulo": "Régua de 2026", "sub": "fundamento ou moda?",
+         "detalhe": "Ferramentas de SEO por IA ainda recomendam llms.txt como alavanca e FAQ como vitrine. A régua separa: llms.txt é opcional e barato; o rich result de FAQ acabou em 07/05/2026."},
+        {"icone": "usuario", "titulo": "Você decide", "sub": "corrigir, ignorar ou investigar",
+         "detalhe": "O agente não sabe o contexto do site. Uma anotação que parece erro pode ser escolha sua. A decisão de mexer fica com você, e a correção vira tarefa com portão."}
+      ],
+      "legenda": "O auditor só lê. Quem escreve no site passa por portão."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "Como montar o auditor",
+      "sub": "Clique em cada passo.",
+      "passos": [
+        {"titulo": "Raio-x em arquivo", "sub": "auditoria.sh",
+         "texto": ["Rode o auditoria.sh do método com a home e as páginas que importam, e salve a saída num arquivo. É a evidência que o agente vai ler.", "O script só faz pedidos de leitura (curl). Pode rodar em qualquer site público, inclusive o do concorrente."]},
+        {"titulo": "claude-seo", "sub": "núcleo grátis",
+         "texto": ["O claude-seo pede Python 3.10 ou mais e o Claude Code. Os comandos /seo audit, /seo technical e /seo geo rodam sem pagar nada além da sua assinatura.", "A extensão DataForSEO (volume de busca, SERP, backlinks) exige conta paga: o README fala em recarga mínima de US$ 50 e US$ 1 de teste (README de 06/03/2026; confira no site)."],
+         "exemplo": {"rot": "Instale lendo antes", "texto": "Prefira clonar e ler o install.sh antes de rodar. Script baixado direto para o bash roda sem você ver o que faz."}},
+        {"titulo": "O pedido", "sub": "achado + evidência",
+         "texto": ["Peça uma tabela: achado, linha de evidência copiada do arquivo, gravidade e correção proposta. E diga o que ele não pode fazer: alterar arquivo, rodar comando que escreva, chamar API.", "Achado sem linha de evidência é descartado, como na trava da aula 3."]},
+        {"titulo": "A régua", "sub": "o que é moda",
+         "texto": ["O módulo de GEO do claude-seo trata llms.txt como padrão emergente, e a referência de schema dele sobre FAQ é de 2023. Marque esses itens como [régua] e decida pelo que vale em 2026.", "Bloquear robô de treino não bloqueia robô de busca: robots.txt se decide por finalidade (curso 1, aula 6)."]}
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "O raio-x, o claude-seo e o pedido ao agente",
+      "sub": "Troque o endereço pelo seu site.",
+      "blocos": [
+        {"rot": "Raio-x só de leitura (auditoria.sh)", "icone": "terminal",
+         "conteudo": "git clone https://github.com/inematds/inemaseo-metodo.git\ncd inemaseo-metodo\ntools/auditoria.sh https://www.seusite.com /pagina-1/ /pagina-2/ > auditoria.txt"},
+        {"rot": "claude-seo (instalação manual e comandos)", "icone": "robo",
+         "conteudo": "git clone https://github.com/AgriciDaniel/claude-seo.git\ncd claude-seo\nless install.sh        # leia antes de rodar\n./install.sh\n\nclaude                 # abre o Claude Code\n/seo audit https://www.seusite.com\n/seo technical https://www.seusite.com\n/seo geo https://www.seusite.com"},
+        {"rot": "Pedido ao agente auditor", "icone": "chat",
+         "conteudo": "Leia auditoria.txt (e o relatório do /seo audit, se houver).\nDevolva uma tabela com até 10 achados: achado | linha de evidência copiada do arquivo | gravidade (alta/média/baixa) | correção proposta.\nRegras:\n- Achado sem linha de evidência não entra.\n- Não altere nenhum arquivo, não rode comando que escreva, não chame API.\n- Marque [régua] toda recomendação sobre llms.txt, FAQ ou \"otimizar para IA\".\n- Robôs no robots.txt: separe busca, ação do usuário e treino."}
+      ],
+      "saida": {
+        "selo": "real",
+        "abas": [
+          {"rot": "Saída capturada (19/10/2026)", "html": "<pre>$ tools/auditoria.sh https://www.inema.club\n== Redirecionamentos\n  http://www.inema.club/ -&gt; 308 https://www.inema.club/\n  https://inema.club/ -&gt; 308 https://www.inema.club/\n  https://www.inema.club/ -&gt; 200\n== robots.txt\n  User-Agent: *\n  Allow: /\n\n  User-Agent: OAI-SearchBot\n  User-Agent: Claude-SearchBot\n  User-Agent: ClaudeBot\n  User-Agent: PerplexityBot\n  User-Agent: Googlebot\n  User-Agent: Bingbot\n  Allow: /\n\n  Host: https://www.inema.club\n  Sitemap: https://www.inema.club/sitemap.xml\n  Sitemap: https://www.inema.club/courses-sitemap.xml\n== Sitemaps\n  https://www.inema.club/sitemap.xml: 83 URLs, 60 anotações hreflang\n  https://www.inema.club/courses-sitemap.xml: 100 URLs, 0 anotações hreflang\n== llms.txt: 200\n== Páginas\n-- /  [200]\n   title:     Aprender Inteligência Artificial na prática | INEMA.club\n   canonical: https://www.inema.club/\n   hreflang:  hrefLang=\"en\" hrefLang=\"es\" hrefLang=\"pt-BR\" hrefLang=\"x-default\"\n   links internos no HTML: 27</pre><p>Trecho: o bloco de JSON-LD foi omitido.</p>"},
+          {"rot": "O que o agente deve apontar", "html": "<ul><li><b>Redirecionamento</b>: http e sem www vão para um endereço só (308). Nada a fazer.</li><li><b>robots.txt</b>: ClaudeBot está no mesmo grupo dos robôs de busca, mas é robô de <b>treino</b>. Decidir por finalidade.</li><li><b>courses-sitemap</b>: 0 anotações hreflang. O agente aponta; você sabe o contexto (as fichas são só em português e a versão traduzida é outro site).</li><li><b>llms.txt 200</b>: [régua] opcional e barato, não é alavanca de citação.</li></ul>"}
+        ]
+      }
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Prática: o primeiro auditor",
+      "sub": "Use o seu site. Se não tiver um, use um site público que você conheça bem.",
+      "exercicios": [
+        {"id": "e1", "titulo": "E1 · Raio-x em arquivo", "min": "20 min",
+         "texto": "Rode o auditoria.sh com a home e mais 3 páginas importantes e salve em auditoria.txt. Se tiver o Claude Code, rode também /seo technical na home.",
+         "pronto": "auditoria.txt existe com as 4 páginas, cada uma com status, title, canonical e a contagem de links internos."},
+        {"id": "e2", "titulo": "E2 · A lista com evidência", "min": "30 min",
+         "texto": "Passe o pedido do auditor ao agente. Confira cada linha de evidência no arquivo e escreva, ao lado de cada achado, a sua decisão: corrigir, ignorar (com o porquê) ou [régua].",
+         "pronto": "você tem 5 achados, cada um com uma linha que existe de fato no auditoria.txt e a sua decisão, e o git status do projeto mostra que o agente não alterou nada."}
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Teste o que aprendeu",
+      "sub": "A explicação aparece depois da sua resposta.",
+      "perguntas": [
+        {"p": "O agente auditor apontou um problema, mas não copiou nenhuma linha da saída. O que fazer?",
+         "opcoes": ["Aceitar: o agente conhece SEO.", "Descartar o achado ou pedir a evidência.", "Corrigir no site para garantir.", "Rodar o /seo audit de novo até ele concordar."],
+         "certa": 1, "explica": "Achado sem evidência é opinião. O pedido exige a linha copiada da saída; sem ela, o achado não entra na lista.", "ref": "diagrama", "cert": true},
+        {"p": "O que do claude-seo exige conta paga?",
+         "opcoes": ["O /seo audit.", "O /seo technical.", "A extensão DataForSEO (volume, SERP, backlinks).", "A instalação."],
+         "certa": 2, "explica": "O núcleo roda com o Claude Code e Python. Dado de mercado (volume exato, SERP, backlinks) vem da DataForSEO, que é paga. A aula 7 mostra quando isso se paga.", "ref": "passos"},
+        {"p": "Na saída real, ClaudeBot aparece no grupo com OAI-SearchBot e Claude-SearchBot. Qual é o achado?",
+         "opcoes": ["Nenhum: todos são robôs de IA.", "ClaudeBot é robô de treino; a decisão de liberar deve ser por finalidade.", "É preciso bloquear todos.", "Falta o llms.txt."],
+         "certa": 1, "explica": "Busca, ação do usuário e treino são finalidades diferentes. Liberar ou bloquear treino é uma decisão separada, que não afeta a busca.", "ref": "codigo"},
+        {"p": "O módulo de GEO sugere criar llms.txt para aparecer mais nas IAs. Como tratar?",
+         "opcoes": ["Prioridade alta: é o padrão novo.", "Marcar [régua]: é opcional e barato, sem prova de ganho de citação.", "Ignorar o claude-seo inteiro.", "Pedir ao agente que publique na hora."],
+         "certa": 1, "explica": "Um estudo do Ahrefs (137 mil domínios, 15/06/2026) viu que 97% dos arquivos não recebem nenhuma requisição. Pode ter, mas não como alavanca.", "ref": "passos"}
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "Para levar",
+      "itens": [
+        {"t": "Só leitura", "texto": "O auditor lê e aponta. Escrever no site passa por portão."},
+        {"t": "Evidência", "texto": "Cada achado com a linha que prova; sem linha, não entra."},
+        {"t": "Grátis primeiro", "texto": "auditoria.sh e o núcleo do claude-seo. DataForSEO é opcional e pago."},
+        {"t": "Régua de 2026", "texto": "llms.txt opcional; rich result de FAQ encerrado em 07/05/2026; robots por finalidade."}
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "Para ir além",
+      "links": [
+        {"t": "auditoria.sh no método inemaSEO", "href": "https://github.com/inematds/inemaseo-metodo/blob/main/tools/auditoria.sh", "icone": "terminal"},
+        {"t": "claude-seo (repositório original, MIT)", "href": "https://github.com/AgriciDaniel/claude-seo", "icone": "robo"},
+        {"t": "Guia do claude-seo em português (INEMA)", "href": "https://inematds.github.io/claude-seo/guia/", "icone": "lupa"}
+      ]
+    }
+  ]
+}

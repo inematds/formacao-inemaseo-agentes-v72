@@ -1,0 +1,123 @@
+{
+  "slug": "meta-verificavel",
+  "num": 5,
+  "menu": "Meta",
+  "titulo": "Meta verificável em loop e o portão antes do push",
+  "titulo_curto": "Meta e portão",
+  "minutos": 17,
+  "lead": "\"Deixe a página boa\" não é meta: o agente decide sozinho que terminou. Meta verificável é um comando com a saída esperada, e uma trava que impede cumprir por atalho. O agente roda em loop até passar. Depois, o que nenhum comando prova (dado próprio, voz, utilidade) fica para o portão humano, antes do push.",
+  "objetivo": "escrever a meta do agente como comando → saída esperada, com trava contra atalho, e só fazer push depois do portão humano.",
+  "competencias": ["escrever-criterio-verificavel", "travar-contra-atalho", "separar-maquina-de-portao"],
+  "aprende": [
+    {"t": "A escala de 0 a 4: de meta vaga a meta protegida"},
+    {"t": "Função, regressão e limite: as três camadas do pronto"},
+    {"t": "O que o comando prova e o que só você prova"},
+    {"t": "O loop até passar e a parada no portão"}
+  ],
+  "hero_alt": "Piloto e copiloto numa cabine de avião pequeno conferem juntos a lista de verificação antes da decolagem.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "Da meta vaga ao push com portão",
+      "sub": "Clique em cada bloco.",
+      "volta": "falhou? o agente corrige e roda os comandos de novo",
+      "nos": [
+        {"icone": "x", "titulo": "Meta vaga", "sub": "nível 0 e 1",
+         "detalhe": "\"Melhorar a página\", \"revisada e limpa\". O agente se autoaprova. Reescreva até virar comando."},
+        {"icone": "terminal", "titulo": "Comando e saída", "sub": "nível 2",
+         "detalhe": "\"O build passa com 0 falhas.\" Já dá para checar, mas é burlável: o agente pode apagar o teste que falha."},
+        {"icone": "cadeado", "titulo": "Trava", "sub": "nível 3: o mínimo", "forte": true,
+         "itens": [{"icone": "check", "t": "contagem mínima"}, {"icone": "cadeado", "t": "arquivo de teste congelado"}, {"icone": "portao", "t": "validador do conteúdo"}],
+         "detalhe": "Comando + trava que torna impossível cumprir sem fazer o trabalho: \"build sem erro e a pasta de testes intocada e um H1 só\"."},
+        {"icone": "fila", "titulo": "Loop", "sub": "roda até passar",
+         "detalhe": "O agente roda o teste rápido a cada ciclo e só para quando todos os comandos mostram a saída esperada. A prova tem de aparecer na saída, não na palavra do agente."},
+        {"icone": "portao", "titulo": "Portão 2", "sub": "nível 4: você", "forte": true,
+         "detalhe": "Dado próprio, leitura humana e teste da troca não têm comando. Você revisa. Só então o push."}
+      ],
+      "legenda": "O comando prova o que é mecânico; o portão prova o que é valor."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "Como escrever a meta",
+      "sub": "Clique em cada passo.",
+      "passos": [
+        {"titulo": "As cinco perguntas", "sub": "cada não derruba o nível",
+         "texto": ["Dá para checar com um comando? A resposta é sim ou não? É impossível cumprir sem fazer o trabalho? A prova aparece na saída? Função, regressão e limite estão cobertos?", "São as perguntas do modelo goal.md do kit Execução Longa (aberto, do INEMA)."]},
+        {"titulo": "Três camadas", "sub": "função, regressão, limite",
+         "texto": ["Função: a página faz o que devia (um H1, canônico certo, JSON-LD presente). Regressão: o resto do site não quebrou (testes e build). Limite: o agente não mexeu onde não devia.", "No portal do INEMA, a regra é rodar os testes e o build antes do push: o main já quebrou por causa de tradução."]},
+        {"titulo": "O que vai para o portão", "sub": "o checklist dividido",
+         "texto": ["Do checklist dos 16, parte é mecânica (um H1, título de 50 a 60 caracteres, links que respondem 200, JSON-LD válido) e vira comando.", "Outra parte é julgamento: dado próprio verificável, leitura humana, teste da troca. Essa vai para o portão 2, de 10 a 20 minutos por página."]},
+        {"titulo": "O loop", "sub": "/goal",
+         "texto": ["O Codex e o Claude Code têm o comando /goal: o agente trabalha até a condição aparecer cumprida na saída. No Claude Code, o avaliador só lê a conversa, então a prova tem de ser impressa.", "Pare e intervenha se houver 3 ciclos sem avanço ou se o agente reabrir item já feito."]}
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "Uma meta de nível 3 para uma página nova",
+      "sub": "Troque os caminhos pelos do seu projeto. O que está entre sinais de menor e maior é para preencher.",
+      "blocos": [
+        {"rot": "goal.md (adaptado do kit Execução Longa)", "icone": "arquivo",
+         "conteudo": "# Goal — página nova: <slug>\n\n## Resultado\nA página /<slug>/ pronta para o portão 2, sem quebrar o resto do site.\n\n## Critérios de pronto (comando → saída esperada)\n**Função**\n- [ ] grep -c '<h1' dist/<slug>/index.html → 1\n- [ ] grep -o 'rel=\"canonical\" href=\"[^\"]*\"' dist/<slug>/index.html → https://www.seusite.com/<slug>/\n- [ ] grep -c 'application/ld+json' dist/<slug>/index.html → 1 ou mais\n\n**Regressão**\n- [ ] npm test && npm run build → sem erro\n\n**Limite**\n- [ ] git diff --stat -- tests/ docs/CHECKLIST.md → vazio\n- [ ] git status --porcelain → só a página nova e as 2–3 páginas da escada de links\n\n## Portão humano (o comando não prova)\n- dado próprio com link para a evidência (checklist 2)\n- leitura humana: opinião, o que deu errado, voz do autor (checklist 9)\n- teste da troca (checklist 10)\n\n## Restrições\n- só pela assinatura; nada de API sem autorização\n- sem push: o push é meu, depois do portão"},
+        {"rot": "Pedido de loop (/goal no Claude Code)", "icone": "chat",
+         "conteudo": "/goal A saída do terminal mostra cada comando do goal.md com a saída esperada, e o goal.md tem todos os critérios marcados. Não faça push. Ao terminar, pare e me mostre o diff."}
+      ],
+      "saida": {
+        "selo": "simulacao",
+        "abas": [
+          {"rot": "Mesma meta, cinco níveis", "html": "<ul><li><b>0 vago</b>: \"melhore a página nova\".</li><li><b>1 subjetivo</b>: \"página revisada e limpa\" (o agente se aprova).</li><li><b>2 burlável</b>: \"build com 0 falhas\" (dá para apagar o teste).</li><li><b>3 protegido</b>: build sem erro <b>e</b> testes intocados <b>e</b> um H1 <b>e</b> canônico igual à URL.</li><li><b>4 independente</b>: nível 3 + você no portão 2 lendo como leitor.</li></ul>"},
+          {"rot": "Sinais de critério ruim", "html": "<ul><li>Palavras como bom, limpo, adequado, completo.</li><li>Depende do agente dizer que terminou.</li><li>Só contagem, sem checar o conteúdo.</li><li>Não diz o que não pode mudar.</li></ul>"}
+        ]
+      }
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Prática: uma página pelo loop e pelo portão",
+      "sub": "Use uma página nova (ou uma reescrita) do seu site.",
+      "exercicios": [
+        {"id": "e1", "titulo": "E1 · O goal.md", "min": "30 min",
+         "texto": "Escreva o goal.md da página com pelo menos um critério de função, um de regressão e um de limite, e passe as cinco perguntas em cada um.",
+         "pronto": "cada critério tem um comando e a saída esperada, há pelo menos uma trava (arquivo congelado ou contagem com conteúdo) e a seção de portão humano lista o que o comando não prova."},
+        {"id": "e2", "titulo": "E2 · Loop e portão", "min": "40 min",
+         "texto": "Rode o agente com o pedido de loop. Quando ele parar, leia a página como leitor, decida e só então faça o push você mesmo.",
+         "pronto": "a conversa mostra cada comando com a saída esperada, o goal.md tem a sua aprovação do portão 2 com data, e o push saiu depois dela."}
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Teste o que aprendeu",
+      "sub": "A explicação aparece depois da sua resposta.",
+      "perguntas": [
+        {"p": "\"O build passa com 0 falhas\" é uma meta de que nível?",
+         "opcoes": ["Nível 0: vaga.", "Nível 2: verificável, mas burlável.", "Nível 3: protegida.", "Nível 4: independente."],
+         "certa": 1, "explica": "Dá para checar, mas o agente pode cumprir apagando o teste que falha. A trava (pasta de testes intocada) leva ao nível 3.", "ref": "diagrama", "cert": true},
+        {"p": "Qual destes itens do checklist NÃO vira comando e fica para o portão humano?",
+         "opcoes": ["Um H1 só.", "Links que respondem 200.", "Dado próprio verificável e leitura humana.", "JSON-LD presente."],
+         "certa": 2, "explica": "Os mecânicos viram comando. Dado próprio, voz do autor e teste da troca exigem julgamento: são do portão 2.", "ref": "passos"},
+        {"p": "Por que a prova tem de aparecer impressa na saída quando se usa /goal no Claude Code?",
+         "opcoes": ["Para gastar menos.", "Porque o avaliador só lê a conversa.", "Porque o Google lê a conversa.", "Não precisa aparecer."],
+         "certa": 1, "explica": "Se o comando passou mas a saída não foi mostrada, o avaliador não tem como saber. A meta escrita pede a saída na conversa.", "ref": "passos"},
+        {"p": "O critério de limite \"git diff --stat -- tests/ → vazio\" protege contra o quê?",
+         "opcoes": ["Contra página lenta.", "Contra o agente cumprir a meta mexendo nos testes.", "Contra canônico errado.", "Contra robô de IA."],
+         "certa": 1, "explica": "É a trava típica do nível 3: o atalho mais comum para \"0 falhas\" é alterar ou apagar o teste.", "ref": "codigo"}
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "Para levar",
+      "itens": [
+        {"t": "Comando e saída", "texto": "Meta que o agente não consegue aprovar sozinho."},
+        {"t": "Trava", "texto": "Nível 3 no mínimo: impossível cumprir sem fazer o trabalho."},
+        {"t": "Portão antes do push", "texto": "O que é julgamento (dado próprio, voz, utilidade) é seu."},
+        {"t": "Régua de 2026", "texto": "Resposta direta no topo é clareza para o leitor, não fator de IA: não transforme em meta o que não tem fonte."}
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "Para ir além",
+      "links": [
+        {"t": "Kit Execução Longa: goal.md e regras de parada", "href": "https://inematds.github.io/execucao-longa/guia/", "icone": "relogio"},
+        {"t": "Checklist de qualidade do inemaSEO", "href": "https://github.com/inematds/inemaseo-metodo/blob/main/docs/CHECKLIST.md", "icone": "check"}
+      ]
+    }
+  ]
+}

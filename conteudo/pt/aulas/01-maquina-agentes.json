@@ -1,0 +1,129 @@
+{
+  "slug": "maquina-agentes",
+  "num": 1,
+  "menu": "Máquina",
+  "titulo": "A máquina com agentes: quem faz o quê e onde você decide",
+  "titulo_curto": "A máquina com agentes",
+  "minutos": 15,
+  "lead": "Agente de IA é bom no repetitivo: pesquisar, rascunhar, conferir, avisar, relatar. É ruim em decidir o que vale publicar. A máquina do método inemaSEO separa as duas coisas: os agentes trabalham em linha, e dois portões param tudo até você aprovar.",
+  "objetivo": "montar a linha pesquisador → observador com dois portões humanos e um AGENTS.md que diz o que o agente nunca faz sozinho.",
+  "competencias": ["desenhar-linha-de-agentes", "definir-portoes-humanos", "escrever-agents-md"],
+  "aprende": [
+    {"t": "As sete funções da máquina, do pesquisador ao observador"},
+    {"t": "Onde ficam os dois portões e quanto tempo eles custam"},
+    {"t": "Por que tudo roda pela assinatura, e não por API"},
+    {"t": "O AGENTS.md: as regras que o agente lê antes de começar"}
+  ],
+  "hero_alt": "Numa pequena gráfica, folhas passam por estações de trabalho e uma pessoa confere uma folha contra a luz antes de liberar.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "A linha de agentes e os dois portões",
+      "sub": "Clique em cada bloco.",
+      "volta": "o observador devolve o que subiu e o que travou ao portão 1",
+      "nos": [
+        {"icone": "usuario", "titulo": "Você", "sub": "escolhe o tema do mês",
+         "detalhe": "A máquina começa com uma decisão humana: o tema. O agente não escolhe o que o site vai falar; ele trabalha dentro do tema que você deu."},
+        {"icone": "lupa", "titulo": "Pesquisa", "sub": "pesquisador e oportunidade",
+         "itens": [{"icone": "lista", "t": "palavras-chave com score"}, {"icone": "alvo", "t": "5 a 10 GO com a URL e o dado próprio"}],
+         "detalhe": "O pesquisador junta autocomplete, Trends, Search Console e o que aparece na busca, e pontua. O agente de oportunidade escolhe de 5 a 10 termos GO e diz qual página e qual ativo real dão o dado próprio."},
+        {"icone": "portao", "titulo": "Portão 1", "sub": "você aprova a lista", "forte": true,
+         "detalhe": "Nada é escrito antes de você aprovar a lista. É aqui que se corta o termo sem dado próprio, o que canibaliza outra página e o que só serve para volume."},
+        {"icone": "caneta", "titulo": "Produção", "sub": "briefing, redator e QA",
+         "itens": [{"icone": "texto", "t": "briefing com links e escada"}, {"icone": "arquivo", "t": "rascunho que lê o ativo real"}, {"icone": "check", "t": "QA com o checklist dos 16"}],
+         "detalhe": "O briefing define intenção, lacunas, dado próprio obrigatório e links internos. O redator lê o repositório ou a transcrição do ativo real. O QA passa o checklist e a escada de links."},
+        {"icone": "portao", "titulo": "Portão 2", "sub": "você revisa cada página", "forte": true,
+         "detalhe": "De 10 a 20 minutos por página. Você lê como leitor, confere o dado próprio e decide. Sem este portão, um erro do agente vai para o ar em lote."},
+        {"icone": "enviar", "titulo": "Publicação", "sub": "publicador e observador",
+         "itens": [{"icone": "git", "t": "commit, push e aviso aos buscadores"}, {"icone": "grafico", "t": "export semanal: subiu ou travou"}],
+         "detalhe": "O publicador faz commit, push, avisa os buscadores e confere a página no ar. O observador lê o export semanal e devolve o resultado ao portão 1, que decide o próximo mês."}
+      ],
+      "legenda": "Os agentes fazem o volume de trabalho; as duas decisões que custam caro ficam com você."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "Como a máquina roda na prática",
+      "sub": "Clique em cada passo.",
+      "passos": [
+        {"titulo": "Pela assinatura", "sub": "Claude Code ou Codex",
+         "texto": ["O método manda rodar o modelo pela assinatura (Claude Code ou Codex CLI) sempre que possível. Chamada de API paga só com autorização explícita para aquela finalidade.", "Assim o custo é previsível e nenhuma chave vira atalho para o agente gastar sozinho."]},
+        {"titulo": "Um agente, várias funções", "sub": "não precisa de sete robôs",
+         "texto": ["As sete funções podem ser o mesmo agente, com pedidos diferentes. O que importa é a ordem e os portões, não quantos programas rodam.", "Comece com uma função só (o auditor, na aula 2) e acrescente as outras quando a anterior estiver confiável."]},
+        {"titulo": "O portão é parada de verdade", "sub": "o agente espera",
+         "texto": ["Portão não é \"o agente avisa e segue\". O agente para, entrega o que fez e só continua depois do seu sim.", "No INEMA, os rascunhos dos pilares 2 e 3 ficaram parados no portão 2 (cerca de 3.150 e 2.450 palavras) e só foram publicados em 24/09, depois da revisão."],
+         "exemplo": {"rot": "Regra que funciona", "texto": "Tudo que sai do site (push, aviso a buscador, e-mail) ou que gasta dinheiro passa por um portão."}},
+        {"titulo": "O AGENTS.md", "sub": "regras escritas, lidas sempre",
+         "texto": ["Claude Code e Codex leem um arquivo de instruções na raiz do projeto antes de trabalhar (o Claude Code lê o CLAUDE.md; o Codex, o AGENTS.md). Escreva ali o que o agente faz, o que ele nunca faz sozinho e como trabalha em lote.", "Cada falha corrigida vira uma regra nova nesse arquivo. A aula 8 mostra as falhas reais que viraram regra."]}
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "A máquina e o AGENTS.md do seu projeto de SEO",
+      "sub": "Copie a máquina para o README do projeto e o AGENTS.md para a raiz. Troque o que está entre os sinais de menor e maior.",
+      "blocos": [
+        {"rot": "A máquina (docs/METODO.md do inemaSEO)", "icone": "camadas",
+         "conteudo": "Humano escolhe o tema do mês\n ├─ Pesquisador   → lista de palavras-chave com score (autocomplete, Trends, Search Console, SERP)\n ├─ Oportunidade  → 5–10 GO com a URL e o ativo real que dá o dado próprio\n │   GATE 1: humano aprova a lista\n ├─ Briefing      → intenção, lacunas do top 10, dado próprio obrigatório, links internos, escada\n ├─ Redator       → rascunho que lê o repositório/a transcrição do ativo real\n ├─ QA            → checklist (docs/CHECKLIST.md) + testes + escada de links\n │   GATE 2: humano revisa (10–20 min por página)\n ├─ Publicador    → commit + push, aviso aos buscadores, checagem pós-deploy\n └─ Observador    → export semanal, o que subiu, o que travou → volta ao GATE 1"},
+        {"rot": "AGENTS.md (modelo; no Claude Code, o mesmo texto vai no CLAUDE.md)", "icone": "arquivo",
+         "conteudo": "# AGENTS.md — SEO de <seusite.com>\n\n## O que você faz\n- Pesquisa, briefing, rascunho, QA (docs/CHECKLIST.md) e relatório semanal.\n- Tudo pela assinatura (Claude Code ou Codex). Nada de API sem autorização.\n\n## O que você nunca faz sozinho (pare e pergunte)\n- Chamar API (Search Console, Bing, IndexNow, modelos) sem autorização escrita para aquela finalidade.\n- Commit + push de página nova: só depois do PORTÃO 2 (eu reviso cada página).\n- Apagar página, arquivo ou URL que já foi indexada.\n- Afirmar que algo não existe sem conferir (ex.: Search Console: olhe o TXT do DNS antes).\n\n## Como você trabalha\n- Lote: dry-run primeiro; marcador para não duplicar; pule repositório com alteração não commitada.\n- Texto a partir de fonte: só fatos da fonte. Item que falha na trava é descartado, não consertado.\n- Outra sessão pode mexer no mesmo repo: commite só os seus arquivos; git pull --rebase --autostash antes do push.\n- Segredo fica no .env (que está no .gitignore). Aqui vai só o NOME da variável.\n- Falha corrigida vira uma linha em FALHAS.md: data | o que quebrou | menor correção | prompt ou infra."}
+      ],
+      "saida": {
+        "selo": "simulacao",
+        "abas": [
+          {"rot": "Quem decide o quê", "html": "<ul><li><b>Você</b>: tema do mês, portão 1 (lista), portão 2 (cada página), qualquer gasto ou API.</li><li><b>Agente</b>: pesquisa, pontuação, briefing, rascunho, checklist, commit preparado, export e relatório.</li><li><b>Script</b>: o que precisa ser igual sempre (auditoria, trava, aviso só com URL 200, link de volta com marcador).</li></ul>"},
+          {"rot": "Ordem de montagem", "html": "<ol><li>Auditor (aula 2)</li><li>Extração com trava (aula 3)</li><li>Lote seguro (aula 4)</li><li>Meta verificável e portão (aula 5)</li><li>Observador: relatório semanal (aula 6)</li></ol><p>Uma função de cada vez, só depois de a anterior ficar confiável.</p>"}
+        ]
+      }
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Prática: a sua máquina no papel",
+      "sub": "Use o seu site ou um site de teste.",
+      "exercicios": [
+        {"id": "e1", "titulo": "E1 · O AGENTS.md do projeto", "min": "30 min",
+         "texto": "Crie a pasta do projeto de SEO, copie o modelo de AGENTS.md (ou CLAUDE.md) e adapte ao seu site. Abra o Claude Code ou o Codex na pasta e pergunte: \"quais ações você não pode fazer sem me perguntar?\".",
+         "pronto": "o arquivo está na raiz do projeto e o agente responde citando pelo menos as regras de API, de push e de apagar."},
+        {"id": "e2", "titulo": "E2 · Uma volta no papel", "min": "25 min",
+         "texto": "Escolha um tema do mês e escreva, para cada função da máquina, o que ela entrega e onde o resultado fica (arquivo, pasta, planilha).",
+         "pronto": "você tem as sete funções com a entrega de cada uma, e os dois portões marcados com quem aprova e em que arquivo a aprovação fica registrada."}
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Teste o que aprendeu",
+      "sub": "A explicação aparece depois da sua resposta.",
+      "perguntas": [
+        {"p": "Onde ficam os dois portões humanos da máquina?",
+         "opcoes": ["No começo e no fim do mês.", "Depois da lista de oportunidades e depois do QA, antes de publicar.", "Só antes do push.", "Depois do relatório semanal."],
+         "certa": 1, "explica": "Portão 1: você aprova a lista antes de qualquer texto. Portão 2: você revisa cada página antes de publicar. O erro comum é deixar só o portão do push e descobrir tarde que o tema era ruim.", "ref": "diagrama", "cert": true},
+        {"p": "O agente achou uma chave de API no projeto. Pode usar para avisar os buscadores?",
+         "opcoes": ["Pode, a chave está ali para isso.", "Só se a API for grátis.", "Não: API só com autorização explícita para aquela finalidade.", "Pode, desde que registre no FALHAS.md."],
+         "certa": 2, "explica": "Ter a chave não é permissão. O método roda pela assinatura e só chama API paga com autorização para aquela finalidade. A aula 8 simula essa conversa.", "ref": "passos"},
+        {"p": "Quanto tempo o método prevê para o portão 2?",
+         "opcoes": ["Nenhum: o QA do agente basta.", "De 10 a 20 minutos por página.", "Uma hora por lote.", "Só uma amostra de 1 em 10."],
+         "certa": 1, "explica": "O QA automático confere o checklist, mas a leitura humana (opinião, dado próprio, soa como o autor) é o que o agente não garante.", "ref": "diagrama"},
+        {"p": "Para que serve o AGENTS.md (ou CLAUDE.md) na raiz do projeto?",
+         "opcoes": ["Para o Google ler as regras do site.", "Para o agente ler, antes de trabalhar, o que faz e o que nunca faz sozinho.", "Para guardar as chaves de API.", "Para listar as páginas do sitemap."],
+         "certa": 1, "explica": "É o arquivo de instruções que o agente lê ao abrir o projeto. Chave de API nunca vai nele: só o nome da variável.", "ref": "codigo"}
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "Para levar",
+      "itens": [
+        {"t": "Linha com portões", "texto": "Agentes em sequência; você aprova a lista e cada página."},
+        {"t": "Pela assinatura", "texto": "Claude Code ou Codex. API só com autorização para aquela finalidade."},
+        {"t": "Regras escritas", "texto": "AGENTS.md na raiz: o que faz, o que nunca faz sozinho, como trabalha."},
+        {"t": "Régua de 2026", "texto": "O Google avalia o valor da página, não a ferramenta. Agente que só aumenta volume sem dado próprio produz conteúdo escalado."}
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "Para ir além",
+      "links": [
+        {"t": "Método inemaSEO: a máquina com agentes", "href": "https://github.com/inematds/inemaseo-metodo/blob/main/docs/METODO.md", "icone": "camadas"},
+        {"t": "Checklist de qualidade (16 itens)", "href": "https://github.com/inematds/inemaseo-metodo/blob/main/docs/CHECKLIST.md", "icone": "check"},
+        {"t": "Google: conteúdo gerado com IA (inglês)", "href": "https://developers.google.com/search/docs/fundamentals/using-gen-ai-content", "icone": "robo"}
+      ]
+    }
+  ]
+}

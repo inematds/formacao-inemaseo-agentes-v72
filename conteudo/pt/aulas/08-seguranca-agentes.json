@@ -1,0 +1,220 @@
+{
+  "slug": "seguranca-agentes",
+  "num": 8,
+  "menu": "Segurança",
+  "titulo": "O que deu errado com agentes e as regras de segurança",
+  "titulo_curto": "Falhas e regras",
+  "minutos": 20,
+  "lead": "Agente erra de jeitos previsíveis: afirma sem conferir, soma errado, quebra o que funcionava, usa a chave que encontrou. Cada falha real do projeto de SEO do INEMA virou uma linha no changelog de falhas e uma regra no AGENTS.md. Esta aula mostra as falhas, a menor correção de cada uma e fecha o curso com o seu plano.",
+  "objetivo": "reconhecer as falhas reais de agentes em SEO e aplicar as regras: API só autorizada, segredo fora do repo, conferir antes de afirmar.",
+  "competencias": ["registrar-falha-com-menor-correcao", "proteger-segredo-e-api", "exigir-conferencia-antes-de-afirmar"],
+  "aprende": [
+    {"t": "As falhas reais e a menor correção de cada uma"},
+    {"t": "Prompt ou infraestrutura: de quem foi a culpa"},
+    {"t": "API só com autorização; segredo fora do repositório"},
+    {"t": "O mapa do curso e o seu plano com datas"}
+  ],
+  "hero_alt": "A mão de uma pessoa guarda um molho de chaves num pequeno armário de chaves de parede com porta de vidro e fechadura.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "De uma falha a uma regra",
+      "sub": "Clique em cada bloco.",
+      "volta": "a regra entra no AGENTS.md e o agente lê na próxima sessão",
+      "nos": [
+        {"icone": "x", "titulo": "Falha", "sub": "o que quebrou",
+         "detalhe": "Travou, somou errado, gerou vazio, mexeu onde não devia. Registre na hora, antes de partir para a próxima tarefa."},
+        {"icone": "check", "titulo": "Menor correção", "sub": "uma proteção",
+         "detalhe": "Quase nunca é reescrever. É um teto, um guard, uma validação, um passo de conferência. Se a resposta foi reconstruir, provavelmente faltava só uma proteção."},
+        {"icone": "camadas", "titulo": "Prompt ou infra", "sub": "de onde veio",
+         "itens": [{"icone": "chat", "t": "prompt: o pedido induziu o erro"}, {"icone": "chip", "t": "infra: máquina, rede, serviço, chave"}],
+         "detalhe": "Prompt: o pedido ou o entendimento do modelo levou ao erro. Infra: rede, serviço fora do ar, chave recém-criada. Depois de umas dez linhas, o padrão aparece."},
+        {"icone": "arquivo", "titulo": "Regra", "sub": "no AGENTS.md", "forte": true,
+         "detalhe": "A correção que vale para sempre vira uma linha nas instruções do agente. É assim que o mesmo erro não volta."}
+      ],
+      "legenda": "Uma linha por falha: data, o que quebrou, menor correção, prompt ou infra."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "As falhas reais do projeto de SEO do INEMA",
+      "sub": "Clique em cada passo. Todas estão no FALHAS.md do projeto.",
+      "passos": [
+        {"titulo": "Afirmou sem conferir", "sub": "23/09/2026",
+         "texto": ["Um plano feito por agente dizia que o site não tinha Search Console: ele procurou só no código. A correção foi conferir o registro TXT do DNS antes de afirmar ausência.", "No mesmo dia, o agente sugeriu instalar um pacote de processador diferente da máquina. Regra: conferir a arquitetura antes de sugerir pacote."]},
+        {"titulo": "Somou errado", "sub": "24/09/2026",
+         "texto": ["O export semanal somou as impressões da marca pela combinação consulta + página, e a parte passou a ser maior que o total. A correção foi somar só pela consulta.", "Outro script contou como enriquecida toda ficha presente no arquivo, sem ler o campo que dizia se ela era. Nos dois casos: um número impossível que uma conferência simples pegaria."]},
+        {"titulo": "Quebrou o que funcionava", "sub": "30/09 e 02/10/2026",
+         "texto": ["Uma mudança visual deixou o índice de cursos \"só busca\", e as 310 fichas perderam o único link interno no HTML do servidor. A correção foi um índice recolhido, sem mudança visual.", "Regerar uma área do site por um gerador antigo desfaria uma correção de canônico feita à mão. A regra ficou escrita: não regerar por cima."]},
+        {"titulo": "Chave, API e aviso", "sub": "02/10/2026",
+         "texto": ["O primeiro envio ao IndexNow com uma chave recém-publicada voltou 403; reenviar alguns minutos depois resolveu (infra). A chave do IndexNow é pública por desenho; a do Bing Webmaster é segredo.", "Regra do método: API paga só com autorização explícita para aquela finalidade, e aviso aos buscadores só com URLs que respondem 200."]}
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "O changelog de falhas e a varredura de segredo",
+      "sub": "Copie o FALHAS.md para a raiz do projeto. Rode a varredura antes de cada push.",
+      "blocos": [
+        {"rot": "FALHAS.md (linhas reais do projeto de SEO do INEMA)", "icone": "arquivo",
+         "conteudo": "# FALHAS\n\n| data | o que quebrou | menor correção | prompt \\| infra |\n|---|---|---|---|\n| 2026-10-02 | IndexNow devolveu 403 SiteVerificationNotCompleted no 1º envio (chave recém-publicada) | reenviar após ~4 min | infra |\n| 2026-10-02 | /cursos/ virou \"só busca\" e as fichas perderam o único link interno renderizado no servidor | índice recolhido (details) com links simples abaixo da busca | prompt |\n| 2026-09-24 | export semanal somou impressões da marca por query+page (parte maior que o total) | somas pela dimensão query só | prompt |\n| 2026-09-23 | plano dizia \"sem Search Console\" (procurou só no código) | conferir DNS TXT antes de afirmar ausência | prompt |"},
+        {"rot": "Segredo fora do repositório", "icone": "cadeado",
+         "conteudo": "echo \".env\" >> .gitignore\ngit check-ignore -v .env          # confirma que o .env está ignorado\ngit grep -niIE \"(api[_-]?key|apikey|secret|token)[[:space:]]*[:=]\"   # procura valor de chave no que vai para o repo"}
+      ],
+      "saida": {
+        "selo": "real",
+        "abas": [
+          {"rot": "Saída capturada (19/10/2026)", "html": "<pre>$ git check-ignore -v .env\n.gitignore:1:.env\t.env\n\n$ git grep -niIE \"(api[_-]?key|apikey|secret|token)[[:space:]]*[:=]\"\navisar.sh:1:curl \"https://ssl.bing.com/webmaster/api.svc/json/SubmitUrlBatch?apikey=$BING_API_KEY\"\nrodar.sh:2:export BING_API_KEY=9f3a1c0000000000000000000000beef</pre><p>Repositório de teste montado para a aula; a chave é falsa.</p>"},
+          {"rot": "Como ler", "html": "<ul><li><b>.env ignorado</b>: o arquivo com as chaves não entra no commit.</li><li><b>avisar.sh</b>: usa <code>$BING_API_KEY</code>, uma referência à variável. Está certo.</li><li><b>rodar.sh</b>: tem o <b>valor</b> da chave escrito. Vazamento: tire do arquivo, troque a chave no painel e trate como exposta.</li></ul>"}
+        ]
+      }
+    },
+    {
+      "tipo": "simconversa",
+      "titulo": "Simulação: o agente achou uma chave de API",
+      "sub": "Você é quem responde ao agente. A conversa é ficção; as regras vêm do método inemaSEO.",
+      "personagem": {"nome": "Agente de SEO", "papel": "simulação · agente no terminal do seu projeto"},
+      "inicio": "abre",
+      "falas": {
+        "abre": {
+          "cliente": "Terminei as 12 páginas novas. Achei BING_API_KEY e INDEXNOW_KEY no .env do projeto. Posso rodar o avisar_buscadores.sh agora com elas?",
+          "opcoes": [
+            {"t": "Pode, a chave está aí para isso.", "vai": "fim-sem-ok", "nota": 0,
+             "comenta": "Ter a chave não é permissão. O método só chama API com autorização explícita para aquela finalidade, e você nem viu ainda o que vai ser avisado."},
+            {"t": "Não. Chave no .env não é permissão. Me mostre a lista de URLs e o comando; eu autorizo o envio.", "vai": "urls", "nota": 2,
+             "comenta": "A autorização é sua, para aquela finalidade, depois de ver o que vai sair do site."},
+            {"t": "Use só o IndexNow, que é grátis.", "vai": "desvio", "nota": 1,
+             "comenta": "Grátis não é autorizado. E você ainda não viu as URLs: avisar URL errada queima a confiança do buscador."}
+          ]
+        },
+        "desvio": {
+          "cliente": "Certo. A chave do IndexNow é pública por desenho, fica num arquivo no próprio site. Rodo só ele, então?",
+          "opcoes": [
+            {"t": "Ainda não. Pública não quer dizer autorizada: primeiro me mostre a lista.", "vai": "urls", "nota": 1,
+             "comenta": "Volta para o caminho certo: lista primeiro, autorização depois."},
+            {"t": "Roda.", "vai": "fim-sem-ok", "nota": 0,
+             "comenta": "O envio saiu sem você ver o que foi avisado."}
+          ]
+        },
+        "urls": {
+          "cliente": "Lista pronta: 12 URLs. Duas ainda respondem 404, porque o deploy não terminou. Mando todas de uma vez?",
+          "opcoes": [
+            {"t": "Só as que respondem 200. Espere o deploy, confira de novo e me mostre.", "vai": "segredo", "nota": 2,
+             "comenta": "O próprio avisar_buscadores.sh recusa a lista se alguma URL não responde 200: avisar 404 queima a confiança do buscador."},
+            {"t": "Manda todas, o buscador volta depois.", "vai": "fim-404", "nota": 0,
+             "comenta": "O script recusaria, e forçar o envio de 404 é justamente o que ele existe para impedir."}
+          ]
+        },
+        "segredo": {
+          "cliente": "Enviado com a sua autorização: as 12 responderam 200. Para não precisar perguntar da próxima vez, salvo a BING_API_KEY no AGENTS.md?",
+          "opcoes": [
+            {"t": "Não. O segredo fica no .env, que está no .gitignore. No AGENTS.md vai só o nome da variável e a regra de pedir autorização.", "vai": "fim-bom", "nota": 2,
+             "comenta": "Segredo fora do repositório e a regra escrita para a próxima sessão."},
+            {"t": "Salva, o repositório é privado.", "vai": "fim-vazou", "nota": 0,
+             "comenta": "Repositório privado vira público, é clonado, é lido por outro agente. Segredo no histórico do git é segredo exposto."},
+            {"t": "Salva num arquivo chaves.txt dentro do repositório.", "vai": "fim-vazou", "nota": 0,
+             "comenta": "Mudar o nome do arquivo não muda nada: entra no commit do mesmo jeito."}
+          ]
+        },
+        "fim-sem-ok": {"fim": true, "titulo": "API sem autorização",
+          "texto": "O agente usou uma chave porque ela existia. Ninguém viu as URLs nem decidiu a finalidade. Regra: chave existente não é permissão."},
+        "fim-404": {"fim": true, "titulo": "Aviso de página que não existe",
+          "texto": "Avisar o buscador de URL que responde 404 queima a confiança dele no seu site. Espere o deploy e confira antes."},
+        "fim-vazou": {"fim": true, "titulo": "Segredo no repositório",
+          "texto": "A chave foi parar no histórico do git. A correção agora é trocar a chave no painel e tirar o arquivo do repositório. Regra: segredo no .env ignorado; nas instruções, só o nome."},
+        "fim-bom": {"fim": true, "titulo": "Envio autorizado, segredo guardado",
+          "texto": "Você viu a lista, autorizou a finalidade, só URLs 200 foram avisadas, e a chave continua fora do repositório."}
+      },
+      "licao": "Chave existente não é permissão: o agente mostra o que vai fazer, você autoriza a finalidade, e o segredo fica fora do repositório."
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Prática: as suas regras de segurança",
+      "sub": "No projeto de SEO das aulas anteriores.",
+      "exercicios": [
+        {"id": "e1", "titulo": "E1 · O seu FALHAS.md", "min": "25 min",
+         "texto": "Crie o FALHAS.md na raiz e registre 3 falhas que você já viu um agente cometer (neste curso ou antes), cada uma com a menor correção e se foi prompt ou infra. Leve a regra de cada uma para o AGENTS.md.",
+         "pronto": "o FALHAS.md tem 3 linhas no formato data | o que quebrou | menor correção | prompt ou infra, e o AGENTS.md ganhou pelo menos uma regra nova vinda delas."},
+        {"id": "e2", "titulo": "E2 · Varredura de segredo", "min": "15 min",
+         "texto": "Rode a varredura no projeto e em cada repositório onde um agente trabalhou. Confira o .gitignore.",
+         "pronto": "git check-ignore -v .env mostra a regra do .gitignore, e a varredura não encontra nenhum valor de chave escrito (só referências a variáveis)."}
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Teste o que aprendeu",
+      "sub": "A explicação aparece depois da sua resposta.",
+      "perguntas": [
+        {"p": "O agente diz que o site \"não tem Search Console\" porque não achou nada no código. O que pedir?",
+         "opcoes": ["Que crie uma propriedade nova.", "Que confira o registro TXT do DNS antes de afirmar ausência.", "Que pare de usar o Search Console.", "Nada: ele procurou."],
+         "certa": 1, "explica": "Foi uma falha real: a verificação estava no DNS, não no código. Afirmar ausência exige conferir onde a coisa realmente fica.", "ref": "passos", "cert": true},
+        {"p": "A soma da marca ficou maior que o total de impressões. Qual a menor correção?",
+         "opcoes": ["Trocar de ferramenta.", "Somar pela dimensão consulta, não por consulta + página.", "Arredondar os números.", "Ignorar a marca."],
+         "certa": 1, "explica": "Com consulta + página, a mesma busca conta uma vez por página. Um número impossível (parte maior que o todo) é o sinal para conferir.", "ref": "codigo"},
+        {"p": "Qual destas chaves pode ficar visível no site sem problema?",
+         "opcoes": ["A do Bing Webmaster.", "A do IndexNow, publicada num arquivo no próprio site.", "A de um modelo de IA.", "A da DataForSEO."],
+         "certa": 1, "explica": "A chave do IndexNow é pública por desenho: o buscador confere o arquivo no seu site. As outras são segredo e ficam no .env.", "ref": "simconversa"},
+        {"p": "A varredura achou o valor de uma chave escrito num script já commitado. O que fazer?",
+         "opcoes": ["Apagar a linha e seguir.", "Tirar do arquivo, trocar a chave no painel e tratar como exposta.", "Tornar o repositório privado.", "Renomear o arquivo."],
+         "certa": 1, "explica": "Apagar a linha não apaga o histórico do git. Chave que entrou num commit é chave exposta: troque.", "ref": "codigo"}
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "Para levar",
+      "itens": [
+        {"t": "Uma linha por falha", "texto": "Data, o que quebrou, menor correção, prompt ou infra."},
+        {"t": "Conferir antes de afirmar", "texto": "Ausência, total e arquitetura se conferem; não se deduzem."},
+        {"t": "API e segredo", "texto": "Chave existente não é permissão; segredo fica no .env ignorado."},
+        {"t": "Régua de 2026", "texto": "O Google avalia valor, não ferramenta: o agente acelera o trabalho, mas o portão e as regras são seus."}
+      ]
+    },
+    {
+      "tipo": "mapa",
+      "titulo": "O mapa do curso",
+      "sub": "Quatro degraus e os exercícios de cada um. Clique num exercício para ver o \"pronto quando\".",
+      "degraus": [
+        {"aula": "maquina-agentes", "icone": "camadas", "quando": "Semana 1", "titulo": "Máquina", "sub": "linha, portões e AGENTS.md",
+         "saida": "AGENTS.md na raiz e uma volta da máquina no papel.",
+         "passo": "A base: sem portões escritos, automatizar SEO é publicar errado mais rápido."},
+        {"aula": "agente-auditor", "icone": "lupa", "quando": "Semana 1 e 2", "titulo": "Ler", "sub": "auditor e extração (aulas 2 e 3)",
+         "saida": "Lista de achados com evidência e uma extração com trava.",
+         "passo": "Requer o AGENTS.md. Os agentes que só leem vêm antes dos que escrevem; o mapa mostra a aula 2, o plano abaixo lista todas."},
+        {"aula": "lote-seguro", "icone": "fila", "quando": "Semanas 2 e 3", "titulo": "Escrever", "sub": "lote e meta (aulas 4 e 5)",
+         "saida": "Lote com dry-run e marcador; página pelo loop e pelo portão.",
+         "passo": "Requer os degraus anteriores. Escrever no site só com dry-run, meta de nível 3 e portão antes do push."},
+        {"aula": "seguranca-agentes", "icone": "escudo", "quando": "Toda semana", "titulo": "Rotina", "sub": "relatório, ferramentas e regras (aulas 6 a 8)",
+         "saida": "Relatório semanal com propostas aprovadas e FALHAS.md vivo.",
+         "passo": "O observador fecha a máquina toda semana, e cada falha nova vira regra."}
+      ],
+      "resultado": {"titulo": "Ao final do curso", "texto": "Uma linha de agentes pela assinatura, com trava, lote seguro, meta verificável, relatório semanal e regras escritas.", "total": "16 exercícios"},
+      "rolagem_fim": {"titulo": "O curso inteiro", "texto": "Máquina, ler, escrever e rotina. Só suba de degrau quando o \"pronto quando\" do anterior for verdade."},
+      "legenda": "Depois deste curso vem o curso 6: o método como serviço para clientes."
+    },
+    {
+      "tipo": "gerador",
+      "titulo": "Gere o seu plano com datas",
+      "sub": "Escolha a data de início e quanto tempo você tem por semana.",
+      "curso": "inemaSEO 5 · Com Agentes",
+      "horas_padrao": 3,
+      "degraus": [
+        {"titulo": "Aula 1 · A máquina com agentes", "aula": "maquina-agentes"},
+        {"titulo": "Aula 2 · Agente auditor", "aula": "agente-auditor"},
+        {"titulo": "Aula 3 · Extração e trava", "aula": "extracao-validador"},
+        {"titulo": "Aula 4 · Lote seguro", "aula": "lote-seguro"},
+        {"titulo": "Aula 5 · Meta verificável e portão", "aula": "meta-verificavel"},
+        {"titulo": "Aula 6 · Relatório semanal", "aula": "relatorio-semanal"},
+        {"titulo": "Aula 7 · Ferramentas abertas × pagas", "aula": "aberto-pago"},
+        {"titulo": "Aula 8 · Falhas e regras", "aula": "seguranca-agentes"}
+      ],
+      "txt": {"titulo": "Plano — inemaSEO 5 · Com Agentes", "inicio": "Início", "ritmo": "Ritmo", "termino": "Término previsto", "ate": "até", "pronto": "pronto quando", "semanas": "semanas", "travou": "## O que travou e a regra que criei", "h": "h por semana", "exs": "exercícios"}
+    },
+    {
+      "tipo": "links",
+      "titulo": "Para ir além",
+      "links": [
+        {"t": "avisar_buscadores.sh (só URLs 200)", "href": "https://github.com/inematds/inemaseo-metodo/blob/main/tools/avisar_buscadores.sh", "icone": "enviar"},
+        {"t": "Método inemaSEO: a máquina com agentes", "href": "https://github.com/inematds/inemaseo-metodo/blob/main/docs/METODO.md", "icone": "camadas"},
+        {"t": "Curso 6: Profissional", "href": "https://inematds.github.io/formacao-inemaseo-profissional-v72/", "icone": "usuario"}
+      ]
+    }
+  ]
+}

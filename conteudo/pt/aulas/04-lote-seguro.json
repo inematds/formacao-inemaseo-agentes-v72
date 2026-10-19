@@ -1,0 +1,155 @@
+{
+  "slug": "lote-seguro",
+  "num": 4,
+  "menu": "Lote",
+  "titulo": "Operações em lote seguras: dry-run, marcador e repositório sujo",
+  "titulo_curto": "Lote seguro",
+  "minutos": 17,
+  "lead": "Pôr um link de volta em quarenta repositórios, trocar um rodapé em cem páginas, corrigir um canônico em todo o site: é aqui que o agente economiza horas e é aqui que um erro se espalha. Três proteções resolvem quase tudo: mostrar antes de fazer, não duplicar e não mexer no que outra pessoa está mexendo.",
+  "objetivo": "rodar uma operação em vários repositórios com dry-run, marcador contra duplicar e pulo de repo sujo, conferindo por amostra.",
+  "competencias": ["rodar-dry-run", "usar-marcador-idempotente", "conferir-por-amostra"],
+  "aprende": [
+    {"t": "Dry-run por padrão: ver o que faria antes de fazer"},
+    {"t": "Marcador: rodar duas vezes não duplica"},
+    {"t": "Pular o repositório com trabalho não salvo"},
+    {"t": "Conferir no ar por amostra depois do push"}
+  ],
+  "hero_alt": "Funcionária organiza maços de folhas em escaninhos de madeira, com uma caixa separada de lado sobre a mesa.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "O caminho de um lote seguro",
+      "sub": "Clique em cada bloco.",
+      "nos": [
+        {"icone": "lista", "titulo": "Mapa", "sub": "mapa.json",
+         "detalhe": "Uma lista do que vai mudar e onde: repositório, destino do link, rótulo. O agente monta; você lê. É o escopo do lote por escrito."},
+        {"icone": "lupa", "titulo": "Dry-run", "sub": "o padrão", "forte": true,
+         "detalhe": "Sem opção nenhuma, o script só diz o que faria em cada repositório: DRY (entraria), PULA (com o motivo) ou OK (já tinha). Nada é gravado."},
+        {"icone": "usuario", "titulo": "Revisão", "sub": "você lê a lista",
+         "detalhe": "Confira os PULA e os arquivos de destino. Repositório pulado por árvore suja é de outra sessão: não force."},
+        {"icone": "caneta", "titulo": "Aplicar", "sub": "--apply e --commit",
+         "itens": [{"icone": "arquivo", "t": "--apply grava o bloco"}, {"icone": "git", "t": "--commit também commita e faz push"}],
+         "detalhe": "--apply grava no arquivo; --commit também commita e faz push. Push é publicação: passe pelo portão antes de usar --commit."},
+        {"icone": "check", "titulo": "Amostra no ar", "sub": "confere depois",
+         "detalhe": "Abra algumas páginas publicadas e confirme o bloco no HTML. No INEMA, o lote de 05/10 foi conferido no GitHub Pages por amostra: 8 de 8."}
+      ],
+      "legenda": "Três proteções: dry-run, marcador e pulo de repositório sujo."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "As proteções, uma por uma",
+      "sub": "Clique em cada passo.",
+      "passos": [
+        {"titulo": "Dry-run", "sub": "mostrar antes",
+         "texto": ["O padrão do script é não gravar. Gravar exige pedir: --apply. Assim um erro no mapa aparece na lista, não no site.", "Peça a mesma coisa a qualquer agente: primeiro a lista do que ele faria, depois a execução."]},
+        {"titulo": "Marcador", "sub": "não duplica",
+         "texto": ["O bloco gravado vai entre dois comentários com o marcador link-de-volta:v1. Antes de gravar, o script procura o marcador: se já existe, responde \"OK: já tinha\".", "É o que deixa rodar de novo depois de uma falha sem criar dois links na mesma página."]},
+        {"titulo": "Repositório sujo", "sub": "pula e avisa",
+         "texto": ["Se o repositório tem alteração não commitada, o script pula. Quase sempre é outra sessão (sua ou de outro agente) trabalhando nele.", "Pula também o repositório fora da branch esperada e o que não tem HTML. No INEMA, repositórios pulados por árvore suja ficaram para a rodada seguinte."]},
+        {"titulo": "Onde o link vai", "sub": "o arquivo certo",
+         "texto": ["Se o index.html é só um redirecionamento (meta refresh), o link vai na página de destino. Se o HTML é gerado por script, o link vai no gerador, senão some no próximo build.", "No INEMA: 35 de 40 repositórios em 24/09, mais 25 em 02/10 e mais 21 em 05/10."]}
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "O link de volta em lote",
+      "sub": "Troque os caminhos e os destinos pelos seus.",
+      "blocos": [
+        {"rot": "mapa.json", "icone": "arquivo",
+         "conteudo": "[{\"repo\": \"repos/curso-pao\", \"destino\": \"https://www.seusite.com/cursos/pao/\", \"rotulo\": \"Ficha completa\"},\n {\"repo\": \"repos/curso-cafe\", \"destino\": \"https://www.seusite.com/cursos/cafe/\", \"rotulo\": \"Ficha completa\"},\n {\"repo\": \"repos/curso-queijo\", \"destino\": \"https://www.seusite.com/cursos/queijo/\", \"rotulo\": \"Ficha completa\"},\n {\"repo\": \"repos/curso-vinho\", \"destino\": \"https://www.seusite.com/cursos/vinho/\", \"rotulo\": \"Ficha completa\"}]"},
+        {"rot": "Dry-run, aplicar e (depois do portão) commitar", "icone": "terminal",
+         "conteudo": "python3 tools/link_de_volta.py mapa.json             # dry-run: só mostra\npython3 tools/link_de_volta.py mapa.json --apply     # grava, sem commit\npython3 tools/link_de_volta.py mapa.json --apply --commit   # grava, commita e faz push"},
+        {"rot": "Pedido ao agente", "icone": "chat",
+         "conteudo": "Monte o mapa.json com os repositórios da lista e rode o link_de_volta.py SEM opções (dry-run).\nMe mostre a saída inteira e pare.\nNão use --apply nem --commit até eu responder \"aplica\".\nRepositório com PULA: não force, não faça stash, não commite por ele. Só me diga qual é."}
+      ],
+      "saida": {
+        "selo": "real",
+        "abas": [
+          {"rot": "Saída capturada (19/10/2026)", "html": "<pre>$ python3 tools/link_de_volta.py mapa.json\nrepos/curso-pao: DRY: entraria em index.html\nrepos/curso-cafe: PULA: alterações não commitadas\nrepos/curso-queijo: OK: já tinha\nrepos/curso-vinho: DRY: entraria em landing.html\n\n$ python3 tools/link_de_volta.py mapa.json --apply\nrepos/curso-pao: APLICADO em index.html\nrepos/curso-cafe: PULA: alterações não commitadas\nrepos/curso-queijo: OK: já tinha\nrepos/curso-vinho: APLICADO em landing.html</pre><p>Quatro repositórios de teste montados para a aula.</p>"},
+          {"rot": "Como ler", "html": "<ul><li><b>curso-pao</b>: limpo, recebe o bloco no index.html.</li><li><b>curso-cafe</b>: tem alteração não salva; pulado nas duas rodadas.</li><li><b>curso-queijo</b>: o marcador já estava lá; nada muda.</li><li><b>curso-vinho</b>: o index.html é só um redirecionamento, então o bloco vai na landing.html.</li></ul><p>Depois do --apply sem --commit, curso-pao e curso-vinho ficam com alteração não commitada: rodar de novo sem commitar faz o script pular os dois. Commite ou descarte antes da próxima rodada.</p>"}
+        ]
+      }
+    },
+    {
+      "tipo": "simfila",
+      "titulo": "Veja o lote com interrupção e retomada",
+      "sub": "Rode, interrompa no meio e rode de novo. O que já foi feito não é refeito.",
+      "tarefas": [
+        "curso-pao: link de volta no index.html",
+        "curso-vinho: link de volta na landing.html",
+        "curso-cafe: link de volta no index.html",
+        "curso-queijo: link de volta no index.html",
+        "curso-mel: link de volta no index.html"
+      ],
+      "falha": 2,
+      "rot": {
+        "entrada": "a fazer/",
+        "rodando": "aplicando/",
+        "feito": "feito (com marcador)/",
+        "falhou": "pulado/",
+        "rodar": "Rodar o lote",
+        "parar": "Interromper (Ctrl+C)",
+        "zerar": "Recomeçar"
+      },
+      "msg": {
+        "inicio": "5 repositórios no lote. Clique em \"Rodar o lote\".",
+        "rodando": "Aplicando um repositório por vez. O bloco entra com o marcador link-de-volta:v1.",
+        "parou": "Interrompido. O repositório do meio ficou em aplicando/. Rode de novo para ver a retomada.",
+        "retoma": "Retomada: o que estava em aplicando/ voltou para a fila. O que já tem o marcador responde \"OK: já tinha\" e não é refeito.",
+        "fim": "Lote completo: todos com o marcador.",
+        "fimfalha": "Lote completo, com um repositório pulado: alterações não commitadas. É de outra sessão; você resolve com quem está mexendo nele."
+      },
+      "legenda": "Simulação ilustrativa no navegador: nada é gravado de verdade. O pulo é proposital, para mostrar o repositório sujo."
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Prática: um lote de verdade, com rede",
+      "sub": "Use 3 ou mais repositórios seus (ou crie repositórios de teste com um index.html simples).",
+      "exercicios": [
+        {"id": "e1", "titulo": "E1 · O dry-run", "min": "25 min",
+         "texto": "Peça ao agente o mapa.json e o dry-run, com o pedido acima. Deixe de propósito um repositório com uma alteração não commitada.",
+         "pronto": "a saída mostra pelo menos um DRY e um PULA com o motivo, e o git status dos repositórios não mudou."},
+        {"id": "e2", "titulo": "E2 · Aplicar e conferir", "min": "25 min",
+         "texto": "Responda \"aplica\", rode com --apply, confira o diff de cada repositório, commite (ou use --commit) e rode o dry-run de novo.",
+         "pronto": "a segunda rodada responde \"OK: já tinha\" nos repositórios aplicados, e você abriu pelo menos 2 páginas publicadas e viu o link no HTML."}
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Teste o que aprendeu",
+      "sub": "A explicação aparece depois da sua resposta.",
+      "perguntas": [
+        {"p": "O que o link_de_volta.py faz quando você roda sem nenhuma opção?",
+         "opcoes": ["Grava em todos os repositórios.", "Mostra o que faria em cada um, sem gravar nada.", "Commita e faz push.", "Apaga os links antigos."],
+         "certa": 1, "explica": "Dry-run é o padrão. Gravar exige --apply; publicar exige --commit. O erro comum é inverter: script que grava por padrão e pede opção para simular.", "ref": "diagrama", "cert": true},
+        {"p": "Um repositório aparece como \"PULA: alterações não commitadas\". O que fazer?",
+         "opcoes": ["Fazer stash e rodar de novo.", "Commitar tudo o que está lá.", "Deixar para depois: provavelmente é outra sessão mexendo nele.", "Apagar as alterações."],
+         "certa": 2, "explica": "Alteração não salva é trabalho de alguém. Forçar mistura o seu commit com o dela. No INEMA, os pulados ficaram para a rodada seguinte.", "ref": "passos"},
+        {"p": "Para que serve o marcador link-de-volta:v1?",
+         "opcoes": ["Para o Google contar o link.", "Para rodar de novo sem duplicar o bloco.", "Para esconder o link.", "Para o script achar o rodapé."],
+         "certa": 1, "explica": "Antes de gravar, o script procura o marcador. Se já existe, responde \"OK: já tinha\". É isso que torna a retomada segura.", "ref": "simfila"},
+        {"p": "O index.html de um curso é só um redirecionamento. Onde o link deve entrar?",
+         "opcoes": ["No index.html mesmo.", "Na página de destino do redirecionamento.", "No README.", "Em lugar nenhum."],
+         "certa": 1, "explica": "O buscador segue o redirecionamento e lê o destino. Um link no arquivo de redirecionamento não é visto. Se o HTML é gerado, o link vai no gerador.", "ref": "codigo"}
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "Para levar",
+      "itens": [
+        {"t": "Dry-run por padrão", "texto": "Ver a lista antes; gravar só com --apply."},
+        {"t": "Marcador", "texto": "Rodar duas vezes não duplica; a retomada fica segura."},
+        {"t": "Sujo é de outro", "texto": "Repositório com alteração não salva é pulado, não forçado."},
+        {"t": "Push é publicação", "texto": "--commit faz push: passe pelo portão antes e confira por amostra depois."}
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "Para ir além",
+      "links": [
+        {"t": "link_de_volta.py no método inemaSEO", "href": "https://github.com/inematds/inemaseo-metodo/blob/main/tools/link_de_volta.py", "icone": "terminal"},
+        {"t": "Método inemaSEO, etapa 8: autoridade que você já tem", "href": "https://github.com/inematds/inemaseo-metodo/blob/main/docs/METODO.md", "icone": "camadas"}
+      ]
+    }
+  ]
+}

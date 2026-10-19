@@ -1,0 +1,125 @@
+{
+  "slug": "extracao-validador",
+  "num": 3,
+  "menu": "Extração",
+  "titulo": "Extração pela assinatura e a trava que descarta",
+  "titulo_curto": "Extração e trava",
+  "minutos": 18,
+  "lead": "Ficha de catálogo, corpo de notícia, resumo de página: o agente escreve a partir de uma fonte, em lote. O risco é ele enfeitar e inventar. Aqui você chama o modelo pela assinatura, em modo só de leitura, lê o primeiro JSON da resposta e passa tudo por uma trava que descarta o item inventado.",
+  "objetivo": "chamar o Codex ou o Claude pela assinatura para extrair de uma fonte e descartar, sem consertar, o item que falha na trava.",
+  "competencias": ["chamar-modelo-pela-assinatura", "ler-primeiro-json", "descartar-item-reprovado"],
+  "aprende": [
+    {"t": "A chamada do Codex em modo só de leitura, sem API"},
+    {"t": "Por que ler só o primeiro JSON da resposta"},
+    {"t": "A trava: título, palavras e números na fonte"},
+    {"t": "Descartar não é perder: é o que mantém o lote limpo"}
+  ],
+  "hero_alt": "Técnica de controle de qualidade separa amostras em duas bandejas de aço, comparando cada uma com uma ficha de referência.",
+  "secoes": [
+    {
+      "tipo": "diagrama",
+      "titulo": "Da fonte ao item que pode ir ao ar",
+      "sub": "Clique em cada bloco.",
+      "nos": [
+        {"icone": "arquivo", "titulo": "Fonte", "sub": "a página real",
+         "detalhe": "O texto da página do item, salvo num arquivo. Se a fonte exige login ou tem pouco texto, o item não tem de onde tirar fato e fica de fora."},
+        {"icone": "terminal", "titulo": "Modelo pela assinatura", "sub": "codex exec, só leitura",
+         "detalhe": "O Codex roda sem permissão de escrita (sandbox read-only), numa sessão que não fica guardada (ephemeral), e grava só a última mensagem num arquivo. Nenhuma chave de API envolvida."},
+        {"icone": "chip", "titulo": "Primeiro JSON", "sub": "lê um objeto só",
+         "detalhe": "Às vezes o modelo devolve o JSON duas vezes ou com texto em volta. Ler só o primeiro objeto completo evita que o lote quebre por causa de uma resposta."},
+        {"icone": "portao", "titulo": "Trava", "sub": "três conferências", "forte": true,
+         "itens": [{"icone": "check", "t": "título existe na fonte"}, {"icone": "check", "t": "frase reusa as palavras da fonte"}, {"icone": "check", "t": "todo número aparece na fonte"}],
+         "detalhe": "O validar_extracao.mjs confere cada item. Item reprovado é descartado, não corrigido à mão para passar."},
+        {"icone": "check", "titulo": "Passa ou descarta", "sub": "lote limpo", "forte": true,
+         "detalhe": "Ficha com 3 ou mais módulos válidos vira enriquecida. A que não chega a isso fica de fora ou com noindex até a fonte ter texto."}
+      ],
+      "legenda": "O modelo pode reescrever e organizar; a trava garante que ele não criou fatos."
+    },
+    {
+      "tipo": "passos",
+      "titulo": "Como o INEMA faz em lote",
+      "sub": "Clique em cada passo.",
+      "passos": [
+        {"titulo": "A chamada", "sub": "codex exec",
+         "texto": ["O gerador de textos de notícias do INEMA chama o Codex com o pedido pela entrada padrão, sandbox só de leitura, sessão efêmera e saída num arquivo. Feche a entrada depois de mandar o pedido: sem isso o processo fica esperando.", "No Claude Code, o mesmo pedido roda na pasta do projeto, com o AGENTS.md proibindo escrita fora da pasta de saída."]},
+        {"titulo": "O primeiro JSON", "sub": "uma falha real",
+         "texto": ["Em 02/10/2026, respostas do Codex com o JSON duplicado quebraram a leitura do lote. A menor correção foi ler só o primeiro objeto completo (a função primeiroJson).", "Não foi trocar de modelo nem reescrever o gerador: uma proteção de dez linhas."]},
+        {"titulo": "Descartar", "sub": "não consertar",
+         "texto": ["Das 159 notícias, 113 ganharam corpo de texto. As 46 sem texto ficaram assim porque a fonte exige login (25), tem pouco texto (18) ou deu 404 (1), e ficam com noindex, fora do sitemap.", "Ninguém escreveu o que faltava à mão: melhor uma página a menos do que uma página com fato inventado."]},
+        {"titulo": "Da API à assinatura", "sub": "custo previsível",
+         "texto": ["A primeira rodada de fichas usou API autorizada: 40 fichas extraídas e validadas por US$ 0,031. Os lotes seguintes passaram para o Codex pela assinatura.", "A trava é a mesma nos dois caminhos; o que muda é quem paga a chamada."]}
+      ]
+    },
+    {
+      "tipo": "codigo",
+      "titulo": "A chamada, o primeiro JSON e a trava no lote",
+      "sub": "pedido.txt = prompt extrativo (curso 2, aula 5) + o texto da fonte. valida-ficha.mjs é um modelo que usa a biblioteca do validar_extracao.mjs.",
+      "blocos": [
+        {"rot": "Chamar o Codex pela assinatura (só leitura)", "icone": "terminal",
+         "conteudo": "codex exec --skip-git-repo-check --ephemeral --sandbox read-only -C \"$PWD\" -o saida.txt - < pedido.txt\nnode valida-ficha.mjs fonte.txt saida.txt"},
+        {"rot": "valida-ficha.mjs (modelo)", "icone": "arquivo",
+         "conteudo": "// passa cada item da ficha pela trava (usa validar_extracao.mjs como biblioteca)\nimport fs from 'node:fs'\nimport { apoiada, numerosNaFonte, tituloNaFonte } from './validar_extracao.mjs'\nconst [fonteArq, fichaArq] = process.argv.slice(2)\nconst fonte = fs.readFileSync(fonteArq, 'utf8')\nconst ficha = JSON.parse(fs.readFileSync(fichaArq, 'utf8'))\nlet validos = 0\nfor (const m of ficha.estrutura || []) {\n  const ok = tituloNaFonte(m.titulo, fonte) && numerosNaFonte(m.detalhe || '', fonte)\n  console.log(`${ok ? '✓' : '✗ descarta'}  módulo: ${m.titulo}`)\n  if (ok) validos++\n}\nfor (const campo of ['aprende', 'publico', 'constroi']) {\n  for (const f of ficha[campo] || []) {\n    const ok = apoiada(f, fonte) && numerosNaFonte(f, fonte)\n    console.log(`${ok ? '✓' : '✗ descarta'}  ${campo}: ${f}`)\n  }\n}\nconsole.log(validos >= 3 ? `ficha enriquecida (${validos} módulos válidos)` : `não publica como enriquecida (${validos} módulos válidos)`)"},
+        {"rot": "primeiroJson (do gerador de textos do INEMA)", "icone": "chip",
+         "conteudo": "function primeiroJson(txt) {\n  const ini = txt.indexOf('{')\n  let prof = 0, str = false, esc = false\n  for (let i = ini; i < txt.length; i++) {\n    const c = txt[i]\n    if (str) { if (esc) esc = false; else if (c === '\\\\') esc = true; else if (c === '\"') str = false; continue }\n    if (c === '\"') str = true\n    else if (c === '{') prof++\n    else if (c === '}' && --prof === 0) return JSON.parse(txt.slice(ini, i + 1))\n  }\n  throw new Error('JSON incompleto')\n}"}
+      ],
+      "saida": {
+        "selo": "real",
+        "abas": [
+          {"rot": "Pedido extrativo (19/10/2026)", "html": "<pre>$ node valida-ficha.mjs fonte.txt saida.txt\n✓  módulo: Módulo 1: Preparar o barro\n✓  módulo: Módulo 2: Centralizar no torno\n✓  módulo: Módulo 3: Abrir e levantar a peça\n✓  módulo: Módulo 4: Acabamento e secagem\n✓  aprende: Amassar, tirar o ar e pesar as bolas de argila.\n✓  publico: quem nunca sentou num torno e quer fazer as primeiras peças utilitárias.\n✓  constroi: copos e tigelas simples, prontos para esmaltar.\nficha enriquecida (4 módulos válidos)</pre><p>Trecho. A fonte era a página de exemplo de um curso de cerâmica de torno, com 4 módulos e \"8 encontros de 3 horas\".</p>"},
+          {"rot": "Pedido \"atraente\" (19/10/2026)", "html": "<pre>$ node valida-ficha.mjs fonte.txt saida-livre.txt\n✗ descarta  módulo: Módulo 1 — Prepare o barro para suas primeiras peças\n✗ descarta  módulo: Módulo 2 — Encontre o centro no torno\n✗ descarta  módulo: Módulo 3 — Dê forma ao seu primeiro copo\n✗ descarta  módulo: Módulo 4 — Cuide do acabamento e da secagem\n✓  aprende: Posicionar mãos e corpo para centralizar o barro no torno.\n✗ descarta  constroi: Seu primeiro copo modelado no torno.\nnão publica como enriquecida (0 módulos válidos)</pre><p>Trecho. Mesma fonte, mas o pedido foi \"escreva a ementa de forma atraente\". O modelo reescreveu todos os títulos e, no módulo 4, somou \"totalizando 24 horas\": o número não está na fonte.</p>"}
+        ]
+      }
+    },
+    {
+      "tipo": "pratica",
+      "titulo": "Prática: uma extração com trava",
+      "sub": "Escolha um item do seu site que tem página própria com texto.",
+      "exercicios": [
+        {"id": "e1", "titulo": "E1 · Extrair pela assinatura", "min": "30 min",
+         "texto": "Salve o texto da página em fonte.txt, monte o pedido.txt com o prompt extrativo e rode a chamada do Codex (ou o mesmo pedido no Claude Code). Repita com um pedido livre, \"de forma atraente\", para comparar.",
+         "pronto": "você tem saida.txt e saida-livre.txt, as duas em JSON, e nenhuma chave de API foi usada."},
+        {"id": "e2", "titulo": "E2 · Rodar a trava", "min": "20 min",
+         "texto": "Copie o validar_extracao.mjs e o valida-ficha.mjs para a pasta e rode nas duas saídas. Anote o que foi descartado e por quê.",
+         "pronto": "uma anotação lista cada item descartado com o motivo (título, palavras ou número fora da fonte), e só a ficha com 3 ou mais módulos válidos está marcada para publicar."}
+      ]
+    },
+    {
+      "tipo": "quiz",
+      "titulo": "Teste o que aprendeu",
+      "sub": "A explicação aparece depois da sua resposta.",
+      "perguntas": [
+        {"p": "Para que serve a opção de sandbox só de leitura na chamada do Codex?",
+         "opcoes": ["Para a resposta sair mais rápido.", "Para o agente não escrever nem apagar nada enquanto extrai.", "Para usar a API em vez da assinatura.", "Para guardar o histórico da sessão."],
+         "certa": 1, "explica": "Extrair é só ler. Sem permissão de escrita, um erro do modelo não vira arquivo alterado. A saída vai só para o arquivo indicado.", "ref": "diagrama", "cert": true},
+        {"p": "No pedido \"atraente\", o modelo escreveu \"totalizando 24 horas\". A fonte dizia 8 encontros de 3 horas. O que a trava faz?",
+         "opcoes": ["Aceita, porque a conta está certa.", "Descarta, porque o número 24 não aparece na fonte.", "Corrige para 8.", "Publica com aviso."],
+         "certa": 1, "explica": "A trava confere se o número está na fonte, não se a conta fecha. Item com número fora da fonte é descartado; consertar à mão abre a porta para o próximo erro passar.", "ref": "codigo"},
+        {"p": "Respostas do modelo vieram com o JSON duplicado e o lote quebrou. Qual foi a menor correção?",
+         "opcoes": ["Trocar de modelo.", "Ler só o primeiro objeto JSON completo da resposta.", "Rodar sem validação.", "Reescrever o gerador inteiro."],
+         "certa": 1, "explica": "Uma proteção de poucas linhas (primeiroJson) resolveu. A regra do changelog de falhas é procurar a menor correção antes de reconstruir.", "ref": "passos"},
+        {"p": "46 notícias ficaram sem corpo de texto porque a fonte exigia login, tinha pouco texto ou deu 404. O que foi feito com elas?",
+         "opcoes": ["O agente escreveu um texto genérico.", "Ficaram com noindex e fora do sitemap até ter texto.", "Foram apagadas.", "Foram publicadas só com o título."],
+         "certa": 1, "explica": "Sem fonte não há fato. A página fica fora do índice em vez de ganhar texto inventado ou ficar rasa.", "ref": "passos"}
+      ]
+    },
+    {
+      "tipo": "resumo",
+      "titulo": "Para levar",
+      "itens": [
+        {"t": "Assinatura, só leitura", "texto": "codex exec com sandbox read-only, sessão efêmera e saída num arquivo."},
+        {"t": "Primeiro JSON", "texto": "Uma resposta torta não pode derrubar o lote inteiro."},
+        {"t": "Descarta, não conserta", "texto": "Título, palavras e números conferidos na fonte; o reprovado sai."},
+        {"t": "Régua de 2026", "texto": "Conteúdo não-commodity vem do dado próprio da página real, não de um texto mais \"atraente\"."}
+      ]
+    },
+    {
+      "tipo": "links",
+      "titulo": "Para ir além",
+      "links": [
+        {"t": "validar_extracao.mjs (trava anti-invenção)", "href": "https://github.com/inematds/inemaseo-metodo/blob/main/tools/validar_extracao.mjs", "icone": "portao"},
+        {"t": "Prompt de ficha extrativa", "href": "https://github.com/inematds/inemaseo-metodo/blob/main/templates/prompt-ficha-extrativa.md", "icone": "chat"},
+        {"t": "Curso 2, aula 5: fichas com dado real", "href": "https://inematds.github.io/formacao-inemaseo-conteudo-v72/aulas/fichas-dado-real/", "icone": "arquivo"}
+      ]
+    }
+  ]
+}
