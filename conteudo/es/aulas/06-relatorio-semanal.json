@@ -124,7 +124,7 @@
         {
           "rot": "Export semanal sin marca (público, método inemaSEO)",
           "icone": "terminal",
-          "conteudo": "export GSC_SITES=\"sc-domain:seusite.com\"\nexport GSC_MARCA=\"seusite|seu nombre|error común de tipeo\"\nexport GSC_QUOTA_PROJ=\"<tu proyecto en Google Cloud>\"\npython3 tools/gsc_semanal.py --dias 7 --saida dados/gsc"
+          "conteudo": "export GSC_SITES=\"sc-domain:tusitio.com\"\nexport GSC_MARCA=\"tusitio|tu nombre|error común de tipeo\"\nexport GSC_QUOTA_PROJ=\"<tu proyecto en Google Cloud>\"\npython3 tools/gsc_semanal.py --dias 7 --saida dados/gsc"
         },
         {
           "rot": "Programación (modelo de crontab: martes a las 9 h)",

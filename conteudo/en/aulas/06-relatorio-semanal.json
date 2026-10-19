@@ -124,7 +124,7 @@
         {
           "rot": "Weekly non-branded export (public, inemaSEO method)",
           "icone": "terminal",
-          "conteudo": "export GSC_SITES=\"sc-domain:seusite.com\"\nexport GSC_MARCA=\"seusite|seu nome|erro comum de digitação\"\nexport GSC_QUOTA_PROJ=\"<seu projeto no Google Cloud>\"\npython3 tools/gsc_semanal.py --dias 7 --saida dados/gsc"
+          "conteudo": "export GSC_SITES=\"sc-domain:yoursite.com\"\nexport GSC_MARCA=\"yoursite|your name|common typo\"\nexport GSC_QUOTA_PROJ=\"<your Google Cloud project>\"\npython3 tools/gsc_semanal.py --dias 7 --saida dados/gsc"
         },
         {
           "rot": "Schedule (crontab template: Tuesday at 9 a.m.)",

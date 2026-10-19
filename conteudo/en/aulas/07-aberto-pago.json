@@ -137,7 +137,7 @@
         {
           "rot": "decisao-pago.md (template)",
           "icone": "arquivo",
-          "conteudo": "# Decisão: <ferramenta paga>\nData: <AAAA-MM-DD>\nDecisão que o dado destrava: <ex.: escolher entre 3 temas com volume parecido>\nO grátis já tentado e o limite que travou: <...>\nPreço conferido no site em <data>: <valor e plano>\nChave: no .env (fora do repo), usada só para <finalidade>\nReavaliar em: <data>\nResultado: <pagou? valeu? o que mudou>"
+          "conteudo": "# Decision: <paid tool>\nDate: <YYYY-MM-DD>\nDecision that the data unlocks: <e.g.: choose between 3 topics with similar volume>\nFree options already tried and the limit that blocked it: <...>\nPrice checked on the site on <date>: <amount and plan>\nKey: in .env (outside the repo), used only for <purpose>\nReassess on: <date>\nResult: <did you pay? was it worth it? what changed>"
         }
       ],
       "saida": {
